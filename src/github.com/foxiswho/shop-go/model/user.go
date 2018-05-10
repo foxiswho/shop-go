@@ -6,43 +6,71 @@ import (
 	"github.com/foxiswho/shop-go/model/orm"
 	"github.com/foxiswho/shop-go/module/auth"
 	"github.com/foxiswho/shop-go/module/log"
+newdb "github.com/foxiswho/shop-go/module/db"
+	"fmt"
 )
+
+type User2 struct {
+	Id        uint64    `json:"id,omitempty"`
+	Nickname  string    `form:"nickname" json:"nickname,omitempty"`
+	Password  string    `form:"password" json:"-"`
+	Gender    int64     `json:"gender,omitempty"`
+	Birthday  time.Time `json:"birthday,omitempty"`
+	CreatedTime time.Time `gorm:"column:created_time" json:"created_time"`
+	UpdatedTime time.Time `gorm:"column:updated_time" json:"updated_time"`
+}
 
 func (u *User) TraceGetUserById(id uint64) *User {
 	if s := u.Trace(); s != nil {
 		defer s.Finish()
 	}
 
-	user := User{}
-	var count int64
-	db := DB().Where("id = ?", id)
-	if err := Cache(db).First(&user).Count(&count).Error; err != nil {
-		log.Debugf("GetUserById error: %v", err)
-		return nil
-	}
-
-	return &user
+	user := new(User2)
+	//var count int64
+	//db := DB().Where("id = ?", id)
+	//if err := Cache(db).First(&user).Count(&count).Error; err != nil {
+	//	log.Debugf("GetUserById error: %v", err)
+	//	return nil
+	//}
+	ok,err := newdb.DB().Engine.Where("nickname = ?", "admin").Get(user)
+	fmt.Println("GetUserByNicknamePwd err:",err)
+	fmt.Println("GetUserByNicknamePwd :",ok,user)
+	return &User{}
 }
 
 func (u *User) GetUserById(id uint64) *User {
 	user := User{}
-	var count int64
-	db := DB().Where("id = ?", id)
-	if err := Cache(db).First(&user).Count(&count).Error; err != nil {
+	//var count int64
+	//db := DB().Where("id = ?", id)
+	//if err := Cache(db).First(&user).Count(&count).Error; err != nil {
+	//	log.Debugf("GetUserById error: %v", err)
+	//	return nil
+	//}
+
+	if _,err := newdb.DB().Engine.Id(id).Get(&user); err != nil {
 		log.Debugf("GetUserById error: %v", err)
 		return nil
 	}
-
+	log.Debugf("GetUserById USER:", user)
+	fmt.Println("GetUserById USER:", user)
 	return &user
 }
 
 func (u *User) GetUserByNicknamePwd(nickname string, pwd string) *User {
-	user := User{}
-	if err := DB().Where("nickname = ? AND password = ?", nickname, pwd).First(&user).Error; err != nil {
+	user := &User{}
+	//if err := DB().Where("nickname = ? AND password = ?", nickname, pwd).First(&user).Error; err != nil {
+	//	log.Debugf("GetUserByNicknamePwd error: %v", err)
+	//	return nil
+	//}
+	ok,err := newdb.DB().Engine.Where("nickname = ?", nickname).Get(user)
+	fmt.Println("GetUserByNicknamePwd :",ok,user)
+	if err != nil {
+		fmt.Println("GetUserByNicknamePwd error:",err)
 		log.Debugf("GetUserByNicknamePwd error: %v", err)
 		return nil
 	}
-	return &user
+	fmt.Println("GetUserByNicknamePwd :",user)
+	return user
 }
 
 func (u *User) AddUserWithNicknamePwd(nickname string, pwd string) *User {
@@ -106,8 +134,14 @@ func (u *User) UniqueId() interface{} {
 // GetById will populate a user object from a database model with
 // a matching id.
 func (u *User) GetById(id interface{}) error {
-	if err := DB().Where("id = ?", id).First(&u).Error; err != nil {
+	//newdb.DB().Engine.Id(id).Get(&u)
+	if _,err := newdb.DB().Engine.Id(id).Get(&u); err != nil {
 		return err
 	}
+	//if err := DB().Where("id = ?", id).First(&u).Error; err != nil {
+	//	return err
+	//}
+	log.Debugf("GetUserById USER:", u)
+	fmt.Println("GetUserById USER:", u)
 	return nil
 }

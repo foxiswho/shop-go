@@ -8,6 +8,7 @@ import (
 	"github.com/foxiswho/shop-go/model"
 	"github.com/foxiswho/shop-go/module/auth"
 	"github.com/foxiswho/shop-go/module/log"
+	"fmt"
 )
 
 type LoginForm struct {
@@ -56,15 +57,17 @@ func LoginPostHandler(c *Context) error {
 
 	a := c.Auth()
 	if a.User.IsAuthenticated() {
+		fmt.Println("已经验证过了")
 		c.Redirect(http.StatusMovedPermanently, redirect)
 		return nil
 	}
 
 	var form LoginForm
 	if err := c.Bind(&form); err == nil {
+		fmt.Println("form",form)
 		var User model.User
 		u := User.GetUserByNicknamePwd(form.Nickname, form.Password)
-
+		fmt.Println("db=>u",u)
 		if u != nil {
 			session := c.Session()
 			err := auth.AuthenticateSession(session, u)

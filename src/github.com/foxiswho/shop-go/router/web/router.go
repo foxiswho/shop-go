@@ -10,11 +10,12 @@ import (
 	"github.com/foxiswho/shop-go/assets"
 	. "github.com/foxiswho/shop-go/conf"
 	"github.com/foxiswho/shop-go/middleware/opentracing"
-	"github.com/foxiswho/shop-go/model"
 	"github.com/foxiswho/shop-go/module/auth"
 	"github.com/foxiswho/shop-go/module/cache"
 	"github.com/foxiswho/shop-go/module/render"
 	"github.com/foxiswho/shop-go/module/session"
+	//sauth "github.com/foxiswho/shop-go/service/user/auth123"
+	"github.com/foxiswho/shop-go/model"
 )
 
 //---------
@@ -84,7 +85,7 @@ func Routers() *echo.Echo {
 
 	// Auth
 	e.Use(auth.New(model.GenerateAnonymousUser))
-
+	//e.Use(auth.New(sauth.GenerateAnonymousUser))
 	// Routers
 	e.GET("/", handler(HomeHandler))
 	e.GET("/login", handler(LoginHandler))
