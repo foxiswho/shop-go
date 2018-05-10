@@ -1,0 +1,12 @@
+
+!.gitignore
+/.idea
+/node_modules/*
+.DS_Store
+/pkg
+/src/github.com/*
+/src/golang*
+/src/qin*
+/src/blog*
+!/src/github.com/foxiswho/
+!/src/echo-demo/
