@@ -15,10 +15,10 @@ import (
 	"github.com/foxiswho/shop-go/middleware/session"
 
 	. "github.com/foxiswho/shop-go/conf"
-	"github.com/foxiswho/shop-go/model"
 	"github.com/foxiswho/shop-go/module/auth"
 	"github.com/foxiswho/shop-go/module/log"
 	MT "github.com/foxiswho/shop-go/template"
+	sauth "github.com/foxiswho/shop-go/service/user/auth"
 )
 
 func Render() echo.MiddlewareFunc {
@@ -83,7 +83,8 @@ func getCommonContext(c echo.Context) map[string]interface{} {
 
 	// 公共模板数据
 	commonDatas := make(map[string]interface{})
-	commonDatas["_user"] = a.User.(*model.User)
+	//commonDatas["_user"] = a.User.(*model.User)
+	commonDatas["_user"] = a.User.(*sauth.User)
 
 	// 配置
 	commonDatas["_conf"] = Conf

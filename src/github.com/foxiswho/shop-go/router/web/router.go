@@ -14,8 +14,7 @@ import (
 	"github.com/foxiswho/shop-go/module/cache"
 	"github.com/foxiswho/shop-go/module/render"
 	"github.com/foxiswho/shop-go/module/session"
-	//sauth "github.com/foxiswho/shop-go/service/user/auth123"
-	"github.com/foxiswho/shop-go/model"
+	sauth "github.com/foxiswho/shop-go/service/user/auth"
 )
 
 //---------
@@ -84,8 +83,8 @@ func Routers() *echo.Echo {
 	e.Use(cache.Cache())
 
 	// Auth
-	e.Use(auth.New(model.GenerateAnonymousUser))
-	//e.Use(auth.New(sauth.GenerateAnonymousUser))
+	//e.Use(auth.New(model.GenerateAnonymousUser))
+	e.Use(auth.New(sauth.GenerateAnonymousUser))
 	// Routers
 	e.GET("/", handler(HomeHandler))
 	e.GET("/login", handler(LoginHandler))

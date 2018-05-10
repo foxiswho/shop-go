@@ -1,15 +1,14 @@
 package web
 
 import (
-	"fmt"
 	"net/http"
-
 	"github.com/opentracing/opentracing-go"
-
-	"github.com/foxiswho/shop-go/model"
+	"fmt"
+	//"github.com/foxiswho/shop-go/model"
 	"github.com/foxiswho/shop-go/model/orm"
 	"github.com/foxiswho/shop-go/module/log"
 	. "github.com/foxiswho/shop-go/conf"
+	sauth "github.com/foxiswho/shop-go/service/user/auth"
 )
 
 func HomeHandler(c *Context) error {
@@ -35,10 +34,9 @@ func HomeHandler(c *Context) error {
 		log.Debugf("opentracing span nil")
 	}
 
-	User := model.User{
-		Model: orm.Model{Context: c},
-		Id:    1,
-	}
+	User:=new(sauth.User)
+	User.Model=orm.Model{Context: c}
+	User.Id=1
 	User.TraceGetUserById(1)
 
 	c.Set("tmpl", "web/home")
