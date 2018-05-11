@@ -2,7 +2,7 @@ package web
 
 import ()
 
-func JWTTesterHandler(c *Context) error {
+func JWTTesterHandler(c *BaseContext) error {
 	c.Set("tmpl", "web/jwt_tester")
 	c.Set("data", map[string]interface{}{
 		"title": "JWT 接口测试",

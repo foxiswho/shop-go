@@ -7,7 +7,7 @@ import (
 	"fmt"
 )
 
-func UserHandler(c *Context) error {
+func UserHandler(c *BaseContext) error {
 	idStr := c.Param("id")
 	id, err := strconv.ParseUint(idStr, 10, 64)
 	if err != nil {

@@ -11,7 +11,7 @@ import (
 	sauth "github.com/foxiswho/shop-go/service/user_service/auth"
 )
 
-func HomeHandler(c *Context) error {
+func HomeHandler(c *BaseContext) error {
 	// OpenTracing层级监控示例，API层通过中间件已支持
 	span := c.OpenTracingSpan()
 	if span != nil {

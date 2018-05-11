@@ -16,7 +16,7 @@ type LoginForm struct {
 	Password string `form:"password" binding:"required"`
 }
 
-func LoginHandler(c *Context) error {
+func LoginHandler(c *BaseContext) error {
 	redirect := c.QueryParam(auth.RedirectParam)
 
 	a := c.Auth()
@@ -39,7 +39,7 @@ func LoginHandler(c *Context) error {
 	return nil
 }
 
-func LoginPostHandler(c *Context) error {
+func LoginPostHandler(c *BaseContext) error {
 	loginURL := c.Request().RequestURI
 
 	if !captcha.VerifyString(c.FormValue("captchaId"), c.FormValue("captchaSolution")) {
@@ -93,7 +93,7 @@ func LoginPostHandler(c *Context) error {
 	}
 }
 
-func LogoutHandler(c *Context) error {
+func LogoutHandler(c *BaseContext) error {
 	session := c.Session()
 	a := c.Auth()
 	auth.Logout(session, a.User)
@@ -108,7 +108,7 @@ func LogoutHandler(c *Context) error {
 	return nil
 }
 
-func RegisterHandler(c *Context) error {
+func RegisterHandler(c *BaseContext) error {
 	redirect := c.QueryParam(auth.RedirectParam)
 
 	a := c.Auth()
@@ -130,7 +130,7 @@ func RegisterHandler(c *Context) error {
 	return nil
 }
 
-func RegisterPostHandler(c *Context) error {
+func RegisterPostHandler(c *BaseContext) error {
 	redirect := c.QueryParam(auth.RedirectParam)
 	if redirect == "" {
 		redirect = "/"

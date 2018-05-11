@@ -11,27 +11,27 @@ import (
 	ot "github.com/foxiswho/shop-go/middleware/opentracing"
 )
 
-type Context struct {
+type BaseContext struct {
 	echo.Context
 }
 
-func NewContext() echo.MiddlewareFunc {
+func NewBaseContext() echo.MiddlewareFunc {
 	return func(h echo.HandlerFunc) echo.HandlerFunc {
 		return func(c echo.Context) error {
-			ctx := &Context{c}
+			ctx := &BaseContext{c}
 			return h(ctx)
 		}
 	}
 }
 
-func (ctx *Context) Session() session.Session {
+func (ctx *BaseContext) Session() session.Session {
 	return session.Default(ctx)
 }
 
-func (ctx *Context) Auth() auth.Auth {
+func (ctx *BaseContext) Auth() auth.Auth {
 	return auth.Default(ctx)
 }
 
-func (ctx *Context) OpenTracingSpan() opentracing.Span {
+func (ctx *BaseContext) OpenTracingSpan() opentracing.Span {
 	return ot.Default(ctx)
 }

@@ -25,7 +25,7 @@ func Routers() *echo.Echo {
 	e := echo.New()
 
 	// Context自定义
-	e.Use(NewContext())
+	e.Use(NewBaseContext())
 	// Customization
 	if Conf.ReleaseMode {
 		e.Debug = false
@@ -111,7 +111,7 @@ func Routers() *echo.Echo {
 }
 
 type (
-	HandlerFunc func(*Context) error
+	HandlerFunc func(*BaseContext) error
 )
 
 /**
@@ -119,7 +119,7 @@ type (
  */
 func handler(h HandlerFunc) echo.HandlerFunc {
 	return func(c echo.Context) error {
-		ctx := c.(*Context)
+		ctx := c.(*BaseContext)
 		return h(ctx)
 	}
 }
