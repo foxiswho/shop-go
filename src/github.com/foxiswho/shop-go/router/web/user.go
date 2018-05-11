@@ -3,7 +3,8 @@ package web
 import (
 	"strconv"
 
-	"github.com/foxiswho/shop-go/model"
+	"github.com/foxiswho/shop-go/service/user"
+	"fmt"
 )
 
 func UserHandler(c *Context) error {
@@ -12,10 +13,10 @@ func UserHandler(c *Context) error {
 	if err != nil {
 		panic(err)
 	}
-
-	var User model.User
-	u := User.GetUserById(id)
-
+	fmt.Println("idStr=>",idStr)
+	fmt.Println("id=>",id)
+	u := user.GetUserById(id)
+	fmt.Println("UserHandler",u)
 	c.Set("tmpl", "web/user")
 	c.Set("data", map[string]interface{}{
 		"title": "User",

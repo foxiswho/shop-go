@@ -10,21 +10,21 @@ import (
 
 	"github.com/foxiswho/shop-go/middleware/session"
 
-	"github.com/foxiswho/shop-go/model"
 	"github.com/foxiswho/shop-go/module/cache"
 	"github.com/foxiswho/shop-go/module/log"
+	"github.com/foxiswho/shop-go/service/user/auth"
+	userService "github.com/foxiswho/shop-go/service/user"
 )
 
 func ApiHandler(c *Context) error {
 	idStr := c.QueryParam("id")
 	id, err := strconv.ParseUint(idStr, 10, 64)
 
-	u := &model.User{}
+	u := &auth.User{}
 	if err != nil {
 		log.Debugf("Render Error: %v", err)
 	} else {
-		var User model.User
-		u = User.GetUserById(id)
+		u = userService.GetUserById(id)
 	}
 
 	// 缓存测试

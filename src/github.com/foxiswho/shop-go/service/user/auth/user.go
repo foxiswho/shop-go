@@ -10,72 +10,6 @@ import (
 	"fmt"
 )
 
-func (u *User) TraceGetUserById(id uint64) *User {
-	if s := u.Trace(); s != nil {
-		defer s.Finish()
-	}
-
-	user := new(User)
-	//var count int64
-	//db := DB().Where("id = ?", id)
-	//if err := Cache(db).First(&user).Count(&count).Error; err != nil {
-	//	log.Debugf("GetUserById error: %v", err)
-	//	return nil
-	//}
-	ok, err := newdb.DB().Engine.Where("nickname = ?", "admin").Get(user)
-	fmt.Println("TraceGetUserById err:", err)
-	fmt.Println("TraceGetUserById :", ok, user)
-	return user
-}
-
-func (u *User) GetUserById(id uint64) *User {
-	user := new(User)
-	//var count int64
-	//db := DB().Where("id = ?", id)
-	//if err := Cache(db).First(&user).Count(&count).Error; err != nil {
-	//	log.Debugf("GetUserById error: %v", err)
-	//	return nil
-	//}
-
-	if _, err := newdb.DB().Engine.Id(id).Get(&user); err != nil {
-		log.Debugf("GetUserById error: %v", err)
-		return nil
-	}
-	log.Debugf("GetUserById USER:", user)
-	fmt.Println("GetUserById USER:", user)
-	return user
-}
-
-func (u *User) GetUserByNicknamePwd(nickname string, pwd string) *User {
-	user := &User{}
-	//if err := DB().Where("nickname = ? AND password = ?", nickname, pwd).First(&user).Error; err != nil {
-	//	log.Debugf("GetUserByNicknamePwd error: %v", err)
-	//	return nil
-	//}
-	ok, err := newdb.DB().Engine.Where("nickname = ?", nickname).Get(user)
-	fmt.Println("GetUserByNicknamePwd :", ok, user)
-	if err != nil {
-		fmt.Println("GetUserByNicknamePwd error:", err)
-		log.Debugf("GetUserByNicknamePwd error: %v", err)
-		return nil
-	}
-	if user.Password != pwd {
-		fmt.Println("user.Password != pwd", user.Password, pwd)
-		log.Debugf("user.Password error: %v", pwd)
-		return nil
-	}
-	fmt.Println("GetUserByNicknamePwd xxxxxxx:", user)
-	return user
-}
-
-func (u *User) AddUserWithNicknamePwd(nickname string, pwd string) *User {
-	user := User{Nickname: nickname, Password: pwd, Birthday: time.Now()}
-	if _,err:=newdb.DB().Engine.Insert(&user); err != nil {
-		return nil
-	}
-	return &user
-}
-
 type User struct {
 	orm.Model `gorm:"-" xorm:"-"`
 
@@ -129,9 +63,9 @@ func (u *User) GetById(id interface{}) error {
 	_, err := newdb.DB().Engine.Id(id).Get(u)
 	fmt.Println("GetById=>")
 	fmt.Println("GetById=>")
-	fmt.Println("GetById=>id",id)
-	fmt.Println("GetById=>u",u)
-	fmt.Println("GetById=>",err)
+	fmt.Println("GetById=>id", id)
+	fmt.Println("GetById=>u", u)
+	fmt.Println("GetById=>", err)
 	//fmt.Println("GetById=>newu",newu)
 	// u = newu
 	//fmt.Println("GetById=>newu",u)
@@ -144,4 +78,22 @@ func (u *User) GetById(id interface{}) error {
 	log.Debugf("GetUserById USER:", u)
 	fmt.Println("GetUserById USER:", u)
 	return nil
+}
+
+func (u *User) TraceGetUserById(id uint64) *User {
+	if s := u.Trace(); s != nil {
+		defer s.Finish()
+	}
+
+	user := new(User)
+	//var count int64
+	//db := DB().Where("id = ?", id)
+	//if err := Cache(db).First(&user).Count(&count).Error; err != nil {
+	//	log.Debugf("GetUserById error: %v", err)
+	//	return nil
+	//}
+	ok, err := newdb.DB().Engine.Where("nickname = ?", "admin").Get(user)
+	fmt.Println("TraceGetUserById err:", err)
+	fmt.Println("TraceGetUserById :", ok, user)
+	return user
 }

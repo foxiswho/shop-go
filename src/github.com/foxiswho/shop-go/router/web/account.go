@@ -5,10 +5,10 @@ import (
 
 	"github.com/dchest/captcha"
 
-	"github.com/foxiswho/shop-go/model"
 	"github.com/foxiswho/shop-go/module/auth"
 	"github.com/foxiswho/shop-go/module/log"
 	"fmt"
+	userService "github.com/foxiswho/shop-go/service/user"
 )
 
 type LoginForm struct {
@@ -65,8 +65,7 @@ func LoginPostHandler(c *Context) error {
 	var form LoginForm
 	if err := c.Bind(&form); err == nil {
 		fmt.Println("form",form)
-		var User model.User
-		u := User.GetUserByNicknamePwd(form.Nickname, form.Password)
+		u := userService.GetUserByNicknamePwd(form.Nickname, form.Password)
 		fmt.Println("db=>u")
 		fmt.Println("db=>u")
 		fmt.Println("db=>u")
@@ -145,8 +144,7 @@ func RegisterPostHandler(c *Context) error {
 
 	var form LoginForm
 	if err := c.Bind(&form); err == nil {
-		var User model.User
-		u := User.AddUserWithNicknamePwd(form.Nickname, form.Password)
+		u := userService.AddUserWithNicknamePwd(form.Nickname, form.Password)
 		if u != nil {
 			session := c.Session()
 			err := auth.AuthenticateSession(session, u)

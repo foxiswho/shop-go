@@ -9,7 +9,7 @@ import (
 	"github.com/labstack/echo"
 	// "github.com/jinzhu/gorm"
 
-	"github.com/foxiswho/shop-go/model"
+	userService "github.com/foxiswho/shop-go/service/user"
 )
 
 func UserHandler(c echo.Context) error {
@@ -21,9 +21,7 @@ func UserHandler(c echo.Context) error {
 	if err != nil {
 		panic(err)
 	}
-
-	var User model.User
-	u := User.GetUserById(id)
+	u := userService.GetUserById(id)
 
 	c.JSON(http.StatusOK, map[string]interface{}{
 		"title":  "User",
