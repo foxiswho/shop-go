@@ -97,6 +97,7 @@ func AuthenticateSession(s session.Session, user User) error {
 	fmt.Println("user_service.Login()=>")
 	fmt.Println("user_service.Login()=>")
 	fmt.Println("user_service.Login()=>",user)
+	fmt.Println("user_service.Login()=>s",s)
 	return UpdateUser(s, user)
 }
 
@@ -137,6 +138,7 @@ func LoginRequired() echo.MiddlewareFunc {
 // UpdateUser updates the User object stored in the session. This is useful incase a change
 // is made to the user_service model that needs to persist across requests.
 func UpdateUser(s session.Session, user User) error {
+	fmt.Println("UpdateUser",SessionKey, user.UniqueId())
 	s.Set(SessionKey, user.UniqueId())
 	s.Save()
 	return nil
