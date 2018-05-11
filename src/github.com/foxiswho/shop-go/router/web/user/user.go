@@ -1,13 +1,14 @@
-package web
+package user
 
 import (
 	"strconv"
 
 	"github.com/foxiswho/shop-go/service/user_service"
+	"github.com/foxiswho/shop-go/router/web"
 	"fmt"
 )
 
-func UserHandler(c *BaseContext) error {
+func UserHandler(c *web.BaseContext) error {
 	idStr := c.Param("id")
 	id, err := strconv.ParseUint(idStr, 10, 64)
 	if err != nil {

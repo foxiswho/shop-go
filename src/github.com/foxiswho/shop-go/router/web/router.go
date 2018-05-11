@@ -15,6 +15,9 @@ import (
 	"github.com/foxiswho/shop-go/module/render"
 	"github.com/foxiswho/shop-go/module/session"
 	sauth "github.com/foxiswho/shop-go/service/user_service/auth"
+	web_user "github.com/foxiswho/shop-go/router/web/user"
+	web_index "github.com/foxiswho/shop-go/router/web/index"
+	web_test "github.com/foxiswho/shop-go/router/web/test"
 )
 
 //---------
@@ -85,26 +88,26 @@ func Routers() *echo.Echo {
 	//e.Use(auth.New(model.GenerateAnonymousUser))
 	e.Use(auth.New(sauth.GenerateAnonymousUser))
 	// Routers
-	e.GET("/", handler(HomeHandler))
-	e.GET("/login", handler(LoginHandler))
-	e.GET("/register", handler(RegisterHandler))
-	e.GET("/logout", handler(LogoutHandler))
-	e.POST("/login", handler(LoginPostHandler))
-	e.POST("/register", handler(RegisterPostHandler))
+	e.GET("/", handler(web_index.HomeHandler))
+	e.GET("/login", handler(web_user.LoginHandler))
+	e.GET("/register", handler(web_user.RegisterHandler))
+	e.GET("/logout", handler(web_user.LogoutHandler))
+	e.POST("/login", handler(web_user.LoginPostHandler))
+	e.POST("/register", handler(web_user.RegisterPostHandler))
 
-	e.GET("/jwt/tester", handler(JWTTesterHandler))
-	e.GET("/ws", handler(WsHandler))
+	e.GET("/jwt/tester", handler(web_test.JWTTesterHandler))
+	e.GET("/ws", handler(web_test.WsHandler))
 
 	user := e.Group("/user_service")
 	user.Use(auth.LoginRequired())
 	{
-		user.GET("/:id", handler(UserHandler))
+		user.GET("/:id", handler(web_user.UserHandler))
 	}
 
 	about := e.Group("/about")
 	about.Use(auth.LoginRequired())
 	{
-		about.GET("", handler(AboutHandler))
+		about.GET("", handler(web_index.AboutHandler))
 	}
 
 	return e

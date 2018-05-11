@@ -1,4 +1,4 @@
-package web
+package index
 
 import (
 	"net/http"
@@ -9,9 +9,10 @@ import (
 	"github.com/foxiswho/shop-go/module/log"
 	. "github.com/foxiswho/shop-go/conf"
 	sauth "github.com/foxiswho/shop-go/service/user_service/auth"
+	"github.com/foxiswho/shop-go/router/web"
 )
 
-func HomeHandler(c *BaseContext) error {
+func HomeHandler(c *web.BaseContext) error {
 	// OpenTracing层级监控示例，API层通过中间件已支持
 	span := c.OpenTracingSpan()
 	if span != nil {
@@ -34,9 +35,9 @@ func HomeHandler(c *BaseContext) error {
 		log.Debugf("opentracing span nil")
 	}
 
-	User:=new(sauth.User)
-	User.Model=model.Model{Context: c}
-	User.Id=1
+	User := new(sauth.User)
+	User.Model = model.Model{Context: c}
+	User.Id = 1
 	User.TraceGetUserById(1)
 
 	c.Set("tmpl", "web/home")

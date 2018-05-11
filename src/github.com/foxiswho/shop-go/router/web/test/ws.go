@@ -1,8 +1,10 @@
-package web
+package test
 
-import ()
+import (
+	"github.com/foxiswho/shop-go/router/web"
+)
 
-func WsHandler(c *BaseContext) error {
+func WsHandler(c *web.BaseContext) error {
 	c.Set("tmpl", "web/ws")
 	c.Set("data", map[string]interface{}{
 		"title": "Web Socket",
