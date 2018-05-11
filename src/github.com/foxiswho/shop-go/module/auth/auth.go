@@ -19,7 +19,7 @@ var (
 	RedirectUrl string = "/login"
 
 	// RedirectParam is the query string parameter that will be set
-	// with the page the user was trying to visit before they were
+	// with the page the user_service was trying to visit before they were
 	// intercepted.
 	RedirectParam string = "return_url"
 
@@ -28,19 +28,19 @@ var (
 )
 
 type User interface {
-	// Return whether this user is logged in or not
+	// Return whether this user_service is logged in or not
 	IsAuthenticated() bool
 
 	// Set any flags or extra data that should be available
 	Login()
 
-	// Clear any sensitive data out of the user
+	// Clear any sensitive data out of the user_service
 	Logout()
 
-	// Return the unique identifier of this user object
+	// Return the unique identifier of this user_service object
 	UniqueId() interface{}
 
-	// Populate this user object with values
+	// Populate this user_service object with values
 	GetById(id interface{}) error
 }
 
@@ -61,7 +61,7 @@ func New(newUser func() User) echo.MiddlewareFunc {
 			fmt.Println("NEW")
 			fmt.Println("NEW")
 			fmt.Println("NEW=>userId",userId)
-			fmt.Println("NEW=>user",user)
+			fmt.Println("NEW=>user_service",user)
 			if userId != nil {
 				err := user.GetById(userId)
 				if err != nil {
@@ -87,16 +87,16 @@ func Default(c echo.Context) Auth {
 	return c.Get(DefaultKey).(Auth)
 }
 
-// AuthenticateSession will mark the session and user object as authenticated. Then
-// the Login() user function will be called. This function should be called after
-// you have validated a user.
+// AuthenticateSession will mark the session and user_service object as authenticated. Then
+// the Login() user_service function will be called. This function should be called after
+// you have validated a user_service.
 func AuthenticateSession(s session.Session, user User) error {
 	user.Login()
-	fmt.Println("user.Login()=>")
-	fmt.Println("user.Login()=>")
-	fmt.Println("user.Login()=>")
-	fmt.Println("user.Login()=>")
-	fmt.Println("user.Login()=>",user)
+	fmt.Println("user_service.Login()=>")
+	fmt.Println("user_service.Login()=>")
+	fmt.Println("user_service.Login()=>")
+	fmt.Println("user_service.Login()=>")
+	fmt.Println("user_service.Login()=>",user)
 	return UpdateUser(s, user)
 }
 
@@ -106,15 +106,15 @@ func (a Auth) LogoutTest(s session.Session) {
 	s.Save()
 }
 
-// Logout will clear out the session and call the Logout() user function.
+// Logout will clear out the session and call the Logout() user_service function.
 func Logout(s session.Session, user User) {
 	user.Logout()
 	s.Delete(SessionKey)
 	s.Save()
 }
 
-// LoginRequired verifies that the current user is authenticated. Any routes that
-// require a login should have this handler placed in the flow. If the user is not
+// LoginRequired verifies that the current user_service is authenticated. Any routes that
+// require a login should have this handler placed in the flow. If the user_service is not
 // authenticated, they will be redirected to /login with the "next" get parameter
 // set to the attempted URL.
 func LoginRequired() echo.MiddlewareFunc {
@@ -135,7 +135,7 @@ func LoginRequired() echo.MiddlewareFunc {
 }
 
 // UpdateUser updates the User object stored in the session. This is useful incase a change
-// is made to the user model that needs to persist across requests.
+// is made to the user_service model that needs to persist across requests.
 func UpdateUser(s session.Session, user User) error {
 	s.Set(SessionKey, user.UniqueId())
 	s.Save()

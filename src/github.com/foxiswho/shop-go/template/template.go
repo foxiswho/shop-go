@@ -8,7 +8,7 @@
 // template/layout/www/index.html
 // template/layout/www/login.html
 // template/layout/www/register.html
-// template/layout/www/user.html
+// template/layout/www/user_service.html
 // template/layout.tmpl
 // template/pongo2/base.html
 // template/pongo2/web/about.html
@@ -17,7 +17,7 @@
 // template/pongo2/web/jwt_tester.html
 // template/pongo2/web/login.html
 // template/pongo2/web/register.html
-// template/pongo2/web/user.html
+// template/pongo2/web/user_service.html
 // template/pongo2/web/ws.html
 // DO NOT EDIT!
 
@@ -251,7 +251,7 @@ var _templateLayoutWwwUserHtml = []byte("\x1f\x8b\x08\x00\x00\x00\x00\x00\x00\xf
 func templateLayoutWwwUserHtmlBytes() ([]byte, error) {
 	return bindataRead(
 		_templateLayoutWwwUserHtml,
-		"template/layout/www/user.html",
+		"template/layout/www/user_service.html",
 	)
 }
 
@@ -261,7 +261,7 @@ func templateLayoutWwwUserHtml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "template/layout/www/user.html", size: 313, mode: os.FileMode(493), modTime: time.Unix(1526006671, 0)}
+	info := bindataFileInfo{name: "template/layout/www/user_service.html", size: 313, mode: os.FileMode(493), modTime: time.Unix(1526006671, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -431,7 +431,7 @@ var _templatePongo2WebUserHtml = []byte("\x1f\x8b\x08\x00\x00\x00\x00\x00\x00\xf
 func templatePongo2WebUserHtmlBytes() ([]byte, error) {
 	return bindataRead(
 		_templatePongo2WebUserHtml,
-		"template/pongo2/web/user.html",
+		"template/pongo2/web/user_service.html",
 	)
 }
 
@@ -441,7 +441,7 @@ func templatePongo2WebUserHtml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "template/pongo2/web/user.html", size: 342, mode: os.FileMode(493), modTime: time.Unix(1526006671, 0)}
+	info := bindataFileInfo{name: "template/pongo2/web/user_service.html", size: 342, mode: os.FileMode(493), modTime: time.Unix(1526006671, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -526,7 +526,7 @@ var _bindata = map[string]func() (*asset, error){
 	"template/layout/www/index.html": templateLayoutWwwIndexHtml,
 	"template/layout/www/login.html": templateLayoutWwwLoginHtml,
 	"template/layout/www/register.html": templateLayoutWwwRegisterHtml,
-	"template/layout/www/user.html": templateLayoutWwwUserHtml,
+	"template/layout/www/user_service.html": templateLayoutWwwUserHtml,
 	"template/layout.tmpl": templateLayoutTmpl,
 	"template/pongo2/base.html": templatePongo2BaseHtml,
 	"template/pongo2/web/about.html": templatePongo2WebAboutHtml,
@@ -535,7 +535,7 @@ var _bindata = map[string]func() (*asset, error){
 	"template/pongo2/web/jwt_tester.html": templatePongo2WebJwt_testerHtml,
 	"template/pongo2/web/login.html": templatePongo2WebLoginHtml,
 	"template/pongo2/web/register.html": templatePongo2WebRegisterHtml,
-	"template/pongo2/web/user.html": templatePongo2WebUserHtml,
+	"template/pongo2/web/user_service.html": templatePongo2WebUserHtml,
 	"template/pongo2/web/ws.html": templatePongo2WebWsHtml,
 }
 
@@ -592,7 +592,7 @@ var _bintree = &bintree{nil, map[string]*bintree{
 				"index.html": &bintree{templateLayoutWwwIndexHtml, map[string]*bintree{}},
 				"login.html": &bintree{templateLayoutWwwLoginHtml, map[string]*bintree{}},
 				"register.html": &bintree{templateLayoutWwwRegisterHtml, map[string]*bintree{}},
-				"user.html": &bintree{templateLayoutWwwUserHtml, map[string]*bintree{}},
+				"user_service.html": &bintree{templateLayoutWwwUserHtml, map[string]*bintree{}},
 			}},
 		}},
 		"layout.tmpl": &bintree{templateLayoutTmpl, map[string]*bintree{}},
@@ -605,7 +605,7 @@ var _bintree = &bintree{nil, map[string]*bintree{
 				"jwt_tester.html": &bintree{templatePongo2WebJwt_testerHtml, map[string]*bintree{}},
 				"login.html": &bintree{templatePongo2WebLoginHtml, map[string]*bintree{}},
 				"register.html": &bintree{templatePongo2WebRegisterHtml, map[string]*bintree{}},
-				"user.html": &bintree{templatePongo2WebUserHtml, map[string]*bintree{}},
+				"user_service.html": &bintree{templatePongo2WebUserHtml, map[string]*bintree{}},
 				"ws.html": &bintree{templatePongo2WebWsHtml, map[string]*bintree{}},
 			}},
 		}},

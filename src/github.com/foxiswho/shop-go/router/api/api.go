@@ -12,8 +12,8 @@ import (
 
 	"github.com/foxiswho/shop-go/module/cache"
 	"github.com/foxiswho/shop-go/module/log"
-	"github.com/foxiswho/shop-go/service/user/auth"
-	userService "github.com/foxiswho/shop-go/service/user"
+	"github.com/foxiswho/shop-go/service/user_service/auth"
+	userService "github.com/foxiswho/shop-go/service/user_service"
 )
 
 func ApiHandler(c *Context) error {

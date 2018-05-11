@@ -1078,7 +1078,7 @@ var wrongStringTests = []wrongStringTest{
 }
 
 // If people misuse the ,string modifier, the error message should be
-// helpful, telling the user that they're doing it wrong.
+// helpful, telling the user_service that they're doing it wrong.
 func TestErrorMessageFromMisusedString(t *testing.T) {
 	for n, tt := range wrongStringTests {
 		r := strings.NewReader(tt.in)
@@ -1802,7 +1802,7 @@ var decodeTypeErrorTests = []struct {
 	dest interface{}
 	src  string
 }{
-	{new(string), `{"user": "name"}`}, // issue 4628.
+	{new(string), `{"user_service": "name"}`}, // issue 4628.
 	{new(error), `{}`},                // issue 4222
 	{new(error), `[]`},
 	{new(error), `""`},

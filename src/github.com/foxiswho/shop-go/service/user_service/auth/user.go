@@ -1,47 +1,41 @@
 package auth
 
 import (
-	"time"
 	"github.com/foxiswho/shop-go/module/auth"
 	"github.com/foxiswho/shop-go/module/log"
-	newdb "github.com/foxiswho/shop-go/module/db"
+	"github.com/foxiswho/shop-go/module/db"
 	"fmt"
 	"github.com/foxiswho/shop-go/module/model"
+	"github.com/foxiswho/shop-go/models"
 )
 
 type User struct {
-	model.Model `gorm:"-" xorm:"-"`
+	models.User `xorm:"extends"`
 
-	Id        uint64    `json:"id,omitempty" xorm:"pk autoincr"`
-	Nickname  string    `form:"nickname" json:"nickname,omitempty"`
-	Password  string    `form:"password" json:"-"`
-	Gender    int64     `json:"gender,omitempty"`
-	Birthday  time.Time `json:"birthday,omitempty"`
-	CreatedAt time.Time `gorm:"column:created_time" json:"created_time,omitempty" xorm:"'created_time'" `
-	UpdatedAt time.Time `gorm:"column:updated_time" json:"updated_time,omitempty" xorm:"'updated_time'"`
+	model.Model `gorm:"-" xorm:"-"`
 
 	authenticated bool `form:"-" db:"-" json:"-" xorm:"-"`
 }
 
-// GetAnonymousUser should generate an anonymous user model
+// GetAnonymousUser should generate an anonymous user_service model
 // for all sessions. This should be an unauthenticated 0 value struct.
 func GenerateAnonymousUser() auth.User {
 	return &User{}
 }
 
-// Login will preform any actions that are required to make a user model
+// Login will preform any actions that are required to make a user_service model
 // officially authenticated.
 func (u *User) Login() {
 	// Update last login time
-	// Add to logged-in user's list
+	// Add to logged-in user_service's list
 	// etc ...
 	u.authenticated = true
 }
 
 // Logout will preform any actions that are required to completely
-// logout a user.
+// logout a user_service.
 func (u *User) Logout() {
-	// Remove from logged-in user's list
+	// Remove from logged-in user_service's list
 	// etc ...
 	u.authenticated = false
 }
@@ -54,12 +48,12 @@ func (u *User) UniqueId() interface{} {
 	return u.Id
 }
 
-// GetById will populate a user object from a database model with
+// GetById will populate a user_service object from a database model with
 // a matching id.
 func (u *User) GetById(id interface{}) error {
 	//newu:=new(User)
 	//newdb.DB().Engine.Id(id).Get(&u)
-	_, err := newdb.DB().Engine.Id(id).Get(u)
+	_, err := db.DB().Engine.Id(id).Get(u)
 	fmt.Println("GetById=>")
 	fmt.Println("GetById=>")
 	fmt.Println("GetById=>id", id)
@@ -87,11 +81,11 @@ func (u *User) TraceGetUserById(id uint64) *User {
 	user := new(User)
 	//var count int64
 	//db := DB().Where("id = ?", id)
-	//if err := Cache(db).First(&user).Count(&count).Error; err != nil {
+	//if err := Cache(db).First(&user_service).Count(&count).Error; err != nil {
 	//	log.Debugf("GetUserById error: %v", err)
 	//	return nil
 	//}
-	ok, err := newdb.DB().Engine.Where("nickname = ?", "admin").Get(user)
+	ok, err := db.DB().Engine.Where("nickname = ?", "admin").Get(user)
 	fmt.Println("TraceGetUserById err:", err)
 	fmt.Println("TraceGetUserById :", ok, user)
 	return user

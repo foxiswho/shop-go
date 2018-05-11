@@ -1831,7 +1831,7 @@ var requirejs, require, define, xpcUtil;
 
                 //If a colon is in the URL, it indicates a protocol is used and it is just
                 //an URL to a file, or if it starts with a slash, contains a query arg (i.e. ?)
-                //or ends with .js, then assume the user meant to use an url and not a module id.
+                //or ends with .js, then assume the user_service meant to use an url and not a module id.
                 //The slash is important for protocol-less URLs as well as full paths.
                 if (req.jsExtRegExp.test(moduleName)) {
                     //Just a plain path, not module name lookup, so just return it.
@@ -4674,7 +4674,7 @@ parseStatement: true, parseSourceElement: true */
     // Ensure the condition is true, otherwise throw an error.
     // This is only to have a better contract semantic, i.e. another safety net
     // to catch a logic error. The condition shall be fulfilled in normal case.
-    // Do NOT use this to enforce a certain condition on any user input.
+    // Do NOT use this to enforce a certain condition on any user_service input.
 
     function assert(condition, message) {
         if (!condition) {
@@ -8504,10 +8504,10 @@ define('uglifyjs/consolidator', ["require", "exports", "module", "./parse-js", "
  *     title="abstract syntax tree">AST</abbr> with its null, Boolean, and
  *     String values consolidated.
  */
-// TODO(user) Consolidation of mathematical values found in numeric literals.
-// TODO(user) Unconsolidation.
-// TODO(user) Consolidation of ECMA-262 6th Edition programs.
-// TODO(user) Rewrite in ECMA-262 6th Edition.
+// TODO(user_service) Consolidation of mathematical values found in numeric literals.
+// TODO(user_service) Unconsolidation.
+// TODO(user_service) Consolidation of ECMA-262 6th Edition programs.
+// TODO(user_service) Rewrite in ECMA-262 6th Edition.
 exports['ast_consolidate'] = function(oAbstractSyntaxTree) {
   'use strict';
   /*jshint bitwise:true, curly:true, eqeqeq:true, forin:true, immed:true,

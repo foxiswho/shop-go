@@ -8,7 +8,7 @@ import (
 	"github.com/foxiswho/shop-go/module/auth"
 	"github.com/foxiswho/shop-go/module/log"
 	"fmt"
-	userService "github.com/foxiswho/shop-go/service/user"
+	userService "github.com/foxiswho/shop-go/service/user_service"
 )
 
 type LoginForm struct {
@@ -154,10 +154,10 @@ func RegisterPostHandler(c *Context) error {
 			c.Redirect(http.StatusMovedPermanently, redirect)
 			return nil
 		} else {
-			log.Debugf("Register user add error")
+			log.Debugf("Register user_service add error")
 
 			s := c.Session()
-			s.AddFlash("Register user add error", "_error")
+			s.AddFlash("Register user_service add error", "_error")
 
 			// registerURL := c.Request().URI()
 			// c.Redirect(http.StatusMovedPermanently, registerURL)

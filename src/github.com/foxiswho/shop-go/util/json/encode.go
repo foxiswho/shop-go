@@ -968,7 +968,7 @@ func (e *encodeState) string(s string, escapeHTML bool) int {
 				// This encodes bytes < 0x20 except for \t, \n and \r.
 				// If escapeHTML is set, it also escapes <, >, and &
 				// because they can lead to security holes when
-				// user-controlled strings are rendered into JSON
+				// user_service-controlled strings are rendered into JSON
 				// and served to some browsers.
 				e.WriteString(`\u00`)
 				e.WriteByte(hex[b>>4])
@@ -1045,7 +1045,7 @@ func (e *encodeState) stringBytes(s []byte, escapeHTML bool) int {
 				// This encodes bytes < 0x20 except for \t, \n and \r.
 				// If escapeHTML is set, it also escapes <, >, and &
 				// because they can lead to security holes when
-				// user-controlled strings are rendered into JSON
+				// user_service-controlled strings are rendered into JSON
 				// and served to some browsers.
 				e.WriteString(`\u00`)
 				e.WriteByte(hex[b>>4])

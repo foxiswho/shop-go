@@ -8,7 +8,7 @@ import (
 	"github.com/foxiswho/shop-go/module/model"
 	"github.com/foxiswho/shop-go/module/log"
 	. "github.com/foxiswho/shop-go/conf"
-	sauth "github.com/foxiswho/shop-go/service/user/auth"
+	sauth "github.com/foxiswho/shop-go/service/user_service/auth"
 )
 
 func HomeHandler(c *Context) error {

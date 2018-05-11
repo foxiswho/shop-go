@@ -8,7 +8,7 @@ import (
 	"github.com/foxiswho/shop-go/module/cache"
 	"github.com/foxiswho/shop-go/module/render"
 	"github.com/foxiswho/shop-go/module/session"
-	authService "github.com/foxiswho/shop-go/service/user/auth"
+	authService "github.com/foxiswho/shop-go/service/user_service/auth"
 )
 
 func Routers() *echo.Echo {

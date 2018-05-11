@@ -14,7 +14,7 @@ import (
 	"github.com/foxiswho/shop-go/module/cache"
 	"github.com/foxiswho/shop-go/module/render"
 	"github.com/foxiswho/shop-go/module/session"
-	sauth "github.com/foxiswho/shop-go/service/user/auth"
+	sauth "github.com/foxiswho/shop-go/service/user_service/auth"
 )
 
 //---------
@@ -96,7 +96,7 @@ func Routers() *echo.Echo {
 	e.GET("/jwt/tester", handler(JWTTesterHandler))
 	e.GET("/ws", handler(WsHandler))
 
-	user := e.Group("/user")
+	user := e.Group("/user_service")
 	user.Use(auth.LoginRequired())
 	{
 		user.GET("/:id", handler(UserHandler))

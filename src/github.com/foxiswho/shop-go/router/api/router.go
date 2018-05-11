@@ -59,7 +59,7 @@ func Routers() *echo.Echo {
 	e.Use(cache.Cache())
 
 	// e.Use(ec.SiteCache(ec.NewMemcachedStore([]string{conf.MEMCACHED_SERVER}, time.Hour), time.Minute))
-	// e.GET("/user/:id", ec.CachePage(ec.NewMemcachedStore([]string{conf.MEMCACHED_SERVER}, time.Hour), time.Minute, UserHandler))
+	// e.GET("/user_service/:id", ec.CachePage(ec.NewMemcachedStore([]string{conf.MEMCACHED_SERVER}, time.Hour), time.Minute, UserHandler))
 
 	// Routers
 	e.GET("/login", UserLoginHandler)
@@ -79,7 +79,7 @@ func Routers() *echo.Echo {
 	r.GET("/", handler(ApiHandler))
 
 	// curl http://echo.api.localhost:8080/restricted/user -H "Authorization: Bearer XXX"
-	r.GET("/user", UserHandler)
+	r.GET("/user_service", UserHandler)
 
 	//post := r.Group("/post")
 	//{

@@ -9,7 +9,7 @@ import (
 	"github.com/labstack/echo"
 	// "github.com/jinzhu/gorm"
 
-	userService "github.com/foxiswho/shop-go/service/user"
+	userService "github.com/foxiswho/shop-go/service/user_service"
 )
 
 func UserHandler(c echo.Context) error {
@@ -25,7 +25,7 @@ func UserHandler(c echo.Context) error {
 
 	c.JSON(http.StatusOK, map[string]interface{}{
 		"title":  "User",
-		"user":   u,
+		"user_service":   u,
 		"claims": claims,
 	})
 
@@ -40,7 +40,7 @@ func UserLoginHandler(c echo.Context) error {
 	}
 
 	c.JSON(200, map[string]interface{}{
-		"URI":   "api user login",
+		"URI":   "api user_service login",
 		"token": t,
 	})
 
@@ -49,7 +49,7 @@ func UserLoginHandler(c echo.Context) error {
 
 func UserRegisterHandler(c echo.Context) error {
 
-	c.JSON(200, map[string]interface{}{"URI": "api user regist"})
+	c.JSON(200, map[string]interface{}{"URI": "api user_service regist"})
 
 	return nil
 }

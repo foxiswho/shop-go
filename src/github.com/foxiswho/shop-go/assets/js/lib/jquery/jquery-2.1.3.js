@@ -1523,7 +1523,7 @@ getText = Sizzle.getText = function( elem ) {
 
 Expr = Sizzle.selectors = {
 
-	// Can be adjusted by the user
+	// Can be adjusted by the user_service
 	cacheLength: 50,
 
 	createPseudo: markFunction,
@@ -1759,7 +1759,7 @@ Expr = Sizzle.selectors = {
 				fn = Expr.pseudos[ pseudo ] || Expr.setFilters[ pseudo.toLowerCase() ] ||
 					Sizzle.error( "unsupported pseudo: " + pseudo );
 
-			// The user may use createPseudo to indicate that
+			// The user_service may use createPseudo to indicate that
 			// arguments are needed to create the filter function
 			// just as Sizzle does
 			if ( fn[ expando ] ) {
@@ -3452,7 +3452,7 @@ jQuery.ready.promise = function( obj ) {
 	return readyList.promise( obj );
 };
 
-// Kick off the DOM ready check even if the user does not
+// Kick off the DOM ready check even if the user_service does not
 jQuery.ready.promise();
 
 
@@ -3710,9 +3710,9 @@ var data_user = new Data();
 //	1. Enforce API surface and semantic compatibility with 1.9.x branch
 //	2. Improve the module's maintainability by reducing the storage
 //		paths to a single mechanism.
-//	3. Use the same single mechanism to support "private" and "user" data.
-//	4. _Never_ expose "private" data to user code (TODO: Drop _data, _removeData)
-//	5. Avoid exposing implementation details on user objects (eg. expando properties)
+//	3. Use the same single mechanism to support "private" and "user_service" data.
+//	4. _Never_ expose "private" data to user_service code (TODO: Drop _data, _removeData)
+//	5. Avoid exposing implementation details on user_service objects (eg. expando properties)
 //	6. Provide a clear path for implementation upgrade to WeakMap in 2014
 
 var rbrace = /^(?:\{[\w\W]*\}|\[[\w\W]*\])$/,
@@ -5001,7 +5001,7 @@ function cloneCopyEvent( src, dest ) {
 		}
 	}
 
-	// 2. Copy user data
+	// 2. Copy user_service data
 	if ( data_user.hasData( src ) ) {
 		udataOld = data_user.access( src );
 		udataCur = jQuery.extend( {}, udataOld );
@@ -5190,7 +5190,7 @@ jQuery.extend({
 					}
 				}
 			}
-			// Discard any remaining `user` data
+			// Discard any remaining `user_service` data
 			delete data_user.cache[ elem[ data_user.expando ] ];
 		}
 	}
