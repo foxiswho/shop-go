@@ -2,16 +2,15 @@ package auth
 
 import (
 	"time"
-
-	"github.com/foxiswho/shop-go/model/orm"
 	"github.com/foxiswho/shop-go/module/auth"
 	"github.com/foxiswho/shop-go/module/log"
 	newdb "github.com/foxiswho/shop-go/module/db"
 	"fmt"
+	"github.com/foxiswho/shop-go/module/model"
 )
 
 type User struct {
-	orm.Model `gorm:"-" xorm:"-"`
+	model.Model `gorm:"-" xorm:"-"`
 
 	Id        uint64    `json:"id,omitempty" xorm:"pk autoincr"`
 	Nickname  string    `form:"nickname" json:"nickname,omitempty"`

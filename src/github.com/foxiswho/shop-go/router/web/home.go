@@ -5,7 +5,7 @@ import (
 	"github.com/opentracing/opentracing-go"
 	"fmt"
 	//"github.com/foxiswho/shop-go/model"
-	"github.com/foxiswho/shop-go/model/orm"
+	"github.com/foxiswho/shop-go/module/model"
 	"github.com/foxiswho/shop-go/module/log"
 	. "github.com/foxiswho/shop-go/conf"
 	sauth "github.com/foxiswho/shop-go/service/user/auth"
@@ -35,7 +35,7 @@ func HomeHandler(c *Context) error {
 	}
 
 	User:=new(sauth.User)
-	User.Model=orm.Model{Context: c}
+	User.Model=model.Model{Context: c}
 	User.Id=1
 	User.TraceGetUserById(1)
 

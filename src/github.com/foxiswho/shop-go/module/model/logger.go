@@ -1,4 +1,4 @@
-package orm
+package model
 
 import (
 	"github.com/foxiswho/shop-go/module/log"
