@@ -54,7 +54,14 @@ func New(newUser func() User) echo.MiddlewareFunc {
 			s := session.Default(c)
 			userId := s.Get(SessionKey)
 			user := newUser()
-
+			fmt.Println("NEW")
+			fmt.Println("NEW")
+			fmt.Println("NEW")
+			fmt.Println("NEW")
+			fmt.Println("NEW")
+			fmt.Println("NEW")
+			fmt.Println("NEW=>userId",userId)
+			fmt.Println("NEW=>user",user)
 			if userId != nil {
 				err := user.GetById(userId)
 				if err != nil {
@@ -68,7 +75,7 @@ func New(newUser func() User) echo.MiddlewareFunc {
 
 			auth := Auth{user}
 			c.Set(DefaultKey, auth)
-
+			fmt.Println("DefaultKey",DefaultKey,auth);
 			return next(c)
 		}
 	}
@@ -85,6 +92,11 @@ func Default(c echo.Context) Auth {
 // you have validated a user.
 func AuthenticateSession(s session.Session, user User) error {
 	user.Login()
+	fmt.Println("user.Login()=>")
+	fmt.Println("user.Login()=>")
+	fmt.Println("user.Login()=>")
+	fmt.Println("user.Login()=>")
+	fmt.Println("user.Login()=>",user)
 	return UpdateUser(s, user)
 }
 
@@ -109,6 +121,7 @@ func LoginRequired() echo.MiddlewareFunc {
 	return func(next echo.HandlerFunc) echo.HandlerFunc {
 		return func(c echo.Context) error {
 			a := Default(c)
+			fmt.Println("LoginRequired=>",a.User)
 			if a.User.IsAuthenticated() == false {
 				uri := c.Request().RequestURI
 				path := fmt.Sprintf("%s?%s=%s", RedirectUrl, RedirectParam, uri)

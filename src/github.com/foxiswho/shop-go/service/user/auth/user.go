@@ -79,7 +79,7 @@ func (u *User) AddUserWithNicknamePwd(nickname string, pwd string) *User {
 type User struct {
 	orm.Model `gorm:"-" xorm:"-"`
 
-	Id        uint64    `json:"id,omitempty"`
+	Id        uint64    `json:"id,omitempty" xorm:"pk autoincr"`
 	Nickname  string    `form:"nickname" json:"nickname,omitempty"`
 	Password  string    `form:"password" json:"-"`
 	Gender    int64     `json:"gender,omitempty"`
@@ -124,8 +124,18 @@ func (u *User) UniqueId() interface{} {
 // GetById will populate a user object from a database model with
 // a matching id.
 func (u *User) GetById(id interface{}) error {
+	//newu:=new(User)
 	//newdb.DB().Engine.Id(id).Get(&u)
-	if _, err := newdb.DB().Engine.Id(id).Get(&u); err != nil {
+	_, err := newdb.DB().Engine.Id(id).Get(u)
+	fmt.Println("GetById=>")
+	fmt.Println("GetById=>")
+	fmt.Println("GetById=>id",id)
+	fmt.Println("GetById=>u",u)
+	fmt.Println("GetById=>",err)
+	//fmt.Println("GetById=>newu",newu)
+	// u = newu
+	//fmt.Println("GetById=>newu",u)
+	if err != nil {
 		return err
 	}
 	//if err := DB().Where("id = ?", id).First(&u).Error; err != nil {

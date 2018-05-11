@@ -18,7 +18,6 @@ import (
 	"github.com/foxiswho/shop-go/module/auth"
 	"github.com/foxiswho/shop-go/module/log"
 	MT "github.com/foxiswho/shop-go/template"
-	sauth "github.com/foxiswho/shop-go/service/user/auth"
 )
 
 func Render() echo.MiddlewareFunc {
@@ -80,11 +79,17 @@ func getContext(c echo.Context) (tmpl string, context map[string]interface{}, er
 
 func getCommonContext(c echo.Context) map[string]interface{} {
 	a := auth.Default(c)
-
+	fmt.Println("a.User======>")
+	fmt.Println("a.User======>")
+	fmt.Println("a.User======>")
+	fmt.Println("a.User======>")
+	fmt.Println("a.User======>")
+	fmt.Println("a.User======>")
+	fmt.Println("a.User======>",a.User)
 	// 公共模板数据
 	commonDatas := make(map[string]interface{})
 	//commonDatas["_user"] = a.User.(*model.User)
-	commonDatas["_user"] = a.User.(*sauth.User)
+	commonDatas["_user"] = a.User
 
 	// 配置
 	commonDatas["_conf"] = Conf

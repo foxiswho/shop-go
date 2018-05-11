@@ -67,6 +67,11 @@ func LoginPostHandler(c *Context) error {
 		fmt.Println("form",form)
 		var User model.User
 		u := User.GetUserByNicknamePwd(form.Nickname, form.Password)
+		fmt.Println("db=>u")
+		fmt.Println("db=>u")
+		fmt.Println("db=>u")
+		fmt.Println("db=>u")
+		fmt.Println("db=>u")
 		fmt.Println("db=>u",u)
 		if u != nil {
 			session := c.Session()
