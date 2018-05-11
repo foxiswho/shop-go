@@ -1,10 +1,10 @@
 package test
 
 import (
-	"github.com/foxiswho/shop-go/router/web"
+	"github.com/foxiswho/shop-go/router/base"
 )
 
-func JWTTesterHandler(c *web.BaseContext) error {
+func JWTTesterHandler(c *base.BaseContext) error {
 	c.Set("tmpl", "web/jwt_tester")
 	c.Set("data", map[string]interface{}{
 		"title": "JWT 接口测试",

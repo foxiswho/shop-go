@@ -18,6 +18,7 @@ import (
 	web_user "github.com/foxiswho/shop-go/router/web/user"
 	web_index "github.com/foxiswho/shop-go/router/web/index"
 	web_test "github.com/foxiswho/shop-go/router/web/test"
+	"github.com/foxiswho/shop-go/router/base"
 )
 
 //---------
@@ -28,7 +29,7 @@ func Routers() *echo.Echo {
 	e := echo.New()
 
 	// Context自定义
-	e.Use(NewBaseContext())
+	e.Use(base.NewBaseContext())
 	// Customization
 	if Conf.ReleaseMode {
 		e.Debug = false
@@ -114,7 +115,7 @@ func Routers() *echo.Echo {
 }
 
 type (
-	HandlerFunc func(*BaseContext) error
+	HandlerFunc func(*base.BaseContext) error
 )
 
 /**
@@ -122,7 +123,7 @@ type (
  */
 func handler(h HandlerFunc) echo.HandlerFunc {
 	return func(c echo.Context) error {
-		ctx := c.(*BaseContext)
+		ctx := c.(*base.BaseContext)
 		return h(ctx)
 	}
 }

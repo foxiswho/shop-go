@@ -1,4 +1,4 @@
-package web
+package base
 
 import (
 	"github.com/labstack/echo"

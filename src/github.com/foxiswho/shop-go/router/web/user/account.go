@@ -9,7 +9,7 @@ import (
 	"github.com/foxiswho/shop-go/module/log"
 	"fmt"
 	userService "github.com/foxiswho/shop-go/service/user_service"
-	"github.com/foxiswho/shop-go/router/web"
+	"github.com/foxiswho/shop-go/router/base"
 )
 
 type LoginForm struct {
@@ -17,7 +17,7 @@ type LoginForm struct {
 	Password string `form:"password" binding:"required"`
 }
 
-func LoginHandler(c *web.BaseContext) error {
+func LoginHandler(c *base.BaseContext) error {
 	redirect := c.QueryParam(auth.RedirectParam)
 
 	a := c.Auth()
@@ -40,7 +40,7 @@ func LoginHandler(c *web.BaseContext) error {
 	return nil
 }
 
-func LoginPostHandler(c *web.BaseContext) error {
+func LoginPostHandler(c *base.BaseContext) error {
 	loginURL := c.Request().RequestURI
 
 	if !captcha.VerifyString(c.FormValue("captchaId"), c.FormValue("captchaSolution")) {
@@ -94,7 +94,7 @@ func LoginPostHandler(c *web.BaseContext) error {
 	}
 }
 
-func LogoutHandler(c *web.BaseContext) error {
+func LogoutHandler(c *base.BaseContext) error {
 	session := c.Session()
 	a := c.Auth()
 	auth.Logout(session, a.User)
@@ -109,7 +109,7 @@ func LogoutHandler(c *web.BaseContext) error {
 	return nil
 }
 
-func RegisterHandler(c *web.BaseContext) error {
+func RegisterHandler(c *base.BaseContext) error {
 	redirect := c.QueryParam(auth.RedirectParam)
 
 	a := c.Auth()
@@ -131,7 +131,7 @@ func RegisterHandler(c *web.BaseContext) error {
 	return nil
 }
 
-func RegisterPostHandler(c *web.BaseContext) error {
+func RegisterPostHandler(c *base.BaseContext) error {
 	redirect := c.QueryParam(auth.RedirectParam)
 	if redirect == "" {
 		redirect = "/"

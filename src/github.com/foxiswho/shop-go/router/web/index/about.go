@@ -1,10 +1,10 @@
 package index
 
 import (
-	"github.com/foxiswho/shop-go/router/web"
+	"github.com/foxiswho/shop-go/router/base"
 )
 
-func AboutHandler(c *web.BaseContext) error {
+func AboutHandler(c *base.BaseContext) error {
 	c.Set("tmpl", "web/about")
 	c.Set("data", map[string]interface{}{
 		"title": "About",
