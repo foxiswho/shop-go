@@ -26,7 +26,6 @@ func Routers() *echo.Echo {
 
 	// Context自定义
 	e.Use(NewContext())
-
 	// Customization
 	if Conf.ReleaseMode {
 		e.Debug = false

@@ -11,6 +11,10 @@ import (
 	ot "github.com/foxiswho/shop-go/middleware/opentracing"
 )
 
+type Context struct {
+	echo.Context
+}
+
 func NewContext() echo.MiddlewareFunc {
 	return func(h echo.HandlerFunc) echo.HandlerFunc {
 		return func(c echo.Context) error {
@@ -18,10 +22,6 @@ func NewContext() echo.MiddlewareFunc {
 			return h(ctx)
 		}
 	}
-}
-
-type Context struct {
-	echo.Context
 }
 
 func (ctx *Context) Session() session.Session {
