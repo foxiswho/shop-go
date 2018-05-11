@@ -81,12 +81,12 @@ func Routers() *echo.Echo {
 	// curl http://echo.api.localhost:8080/restricted/user -H "Authorization: Bearer XXX"
 	r.GET("/user", UserHandler)
 
-	post := r.Group("/post")
-	{
-		post.GET("/save", PostSaveHandler)
-		post.GET("/id/:id", PostHandler)
-		post.GET("/:userId/p/:p/s/:s", PostsHandler)
-	}
+	//post := r.Group("/post")
+	//{
+	//	post.GET("/save", PostSaveHandler)
+	//	post.GET("/id/:id", PostHandler)
+	//	post.GET("/:userId/p/:p/s/:s", PostsHandler)
+	//}
 
 	return e
 }

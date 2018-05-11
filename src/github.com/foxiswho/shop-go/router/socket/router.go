@@ -4,11 +4,11 @@ import (
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
 
-	"github.com/foxiswho/shop-go/model"
 	"github.com/foxiswho/shop-go/module/auth"
 	"github.com/foxiswho/shop-go/module/cache"
 	"github.com/foxiswho/shop-go/module/render"
 	"github.com/foxiswho/shop-go/module/session"
+	authService "github.com/foxiswho/shop-go/service/user/auth"
 )
 
 func Routers() *echo.Echo {
@@ -28,7 +28,7 @@ func Routers() *echo.Echo {
 	e.Use(cache.Cache())
 
 	// Auth
-	e.Use(auth.New(model.GenerateAnonymousUser))
+	e.Use(auth.New(authService.GenerateAnonymousUser))
 
 	e.GET("/ws", socketHandler)
 
