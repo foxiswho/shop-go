@@ -35,3 +35,4 @@ func (ctx *BaseContext) Auth() auth.Auth {
 func (ctx *BaseContext) OpenTracingSpan() opentracing.Span {
 	return ot.Default(ctx)
 }
+

@@ -89,41 +89,27 @@ func Routers() *echo.Echo {
 	//e.Use(auth.New(model.GenerateAnonymousUser))
 	e.Use(auth.New(sauth.GenerateAnonymousUser))
 	// Routers
-	e.GET("/", handler(web_index.HomeHandler))
-	e.GET("/login", handler(web_user.LoginHandler))
-	e.GET("/register", handler(web_user.RegisterHandler))
-	e.GET("/logout", handler(web_user.LogoutHandler))
-	e.POST("/login", handler(web_user.LoginPostHandler))
-	e.POST("/register", handler(web_user.RegisterPostHandler))
+	e.GET("/", base.Handler(web_index.HomeHandler))
+	e.GET("/login", base.Handler(web_user.LoginHandler))
+	e.GET("/register", base.Handler(web_user.RegisterHandler))
+	e.GET("/logout", base.Handler(web_user.LogoutHandler))
+	e.POST("/login", base.Handler(web_user.LoginPostHandler))
+	e.POST("/register", base.Handler(web_user.RegisterPostHandler))
 
-	e.GET("/jwt/tester", handler(web_test.JWTTesterHandler))
-	e.GET("/ws", handler(web_test.WsHandler))
+	e.GET("/jwt/tester", base.Handler(web_test.JWTTesterHandler))
+	e.GET("/ws", base.Handler(web_test.WsHandler))
 
 	user := e.Group("/user_service")
 	user.Use(auth.LoginRequired())
 	{
-		user.GET("/:id", handler(web_user.UserHandler))
+		user.GET("/:id", base.Handler(web_user.UserHandler))
 	}
 
 	about := e.Group("/about")
 	about.Use(auth.LoginRequired())
 	{
-		about.GET("", handler(web_index.AboutHandler))
+		about.GET("", base.Handler(web_index.AboutHandler))
 	}
 
 	return e
-}
-
-type (
-	HandlerFunc func(*base.BaseContext) error
-)
-
-/**
- * 自定义Context的Handler
- */
-func handler(h HandlerFunc) echo.HandlerFunc {
-	return func(c echo.Context) error {
-		ctx := c.(*base.BaseContext)
-		return h(ctx)
-	}
 }
