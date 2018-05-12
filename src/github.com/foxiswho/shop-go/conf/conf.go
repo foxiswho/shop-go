@@ -18,8 +18,9 @@ type config struct {
 	ReleaseMode bool   `toml:"release_mode"`
 	LogLevel    string `toml:"log_level"`
 
-	SessionStore string `toml:"session_store"`
-	CacheStore   string `toml:"cache_store"`
+	SessionStore     string `toml:"session_store"`
+	SessionSecretKey string `toml:"session_secret_key"`
+	CacheStore       string `toml:"cache_store"`
 
 	// 应用配置
 	App app

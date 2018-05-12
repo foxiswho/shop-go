@@ -8,6 +8,7 @@ keys = [
     "/release_mode",
     "/log_level",
     "/session_store",
+    "/session_secret_key",
     "/cache_store",
     "/app/name",
     "/server/graceful",

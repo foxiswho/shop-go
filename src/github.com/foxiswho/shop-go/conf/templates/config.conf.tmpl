@@ -7,6 +7,9 @@ log_level = "{{getv "/log_level"}}"
 # REDIS,FILE,COOKIE(COOKIE Default)
 session_store = "{{getv "/session_store"}}"
 
+# 32或64个英文字符
+session_secret_key = "{{getv "/session_secret_key"}}"
+
 # REDIS,MEMCACHED,IN_MEMORY(IN_MEMORY Default)
 cache_store = "{{getv "/cache_store"}}"
 
