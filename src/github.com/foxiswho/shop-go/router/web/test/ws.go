@@ -5,7 +5,7 @@ import (
 )
 
 func WsHandler(c *base.BaseContext) error {
-	c.Set("tmpl", "web/ws")
+	c.Set("tmpl", "web/test/ws")
 	c.Set("data", map[string]interface{}{
 		"title": "Web Socket",
 	})
