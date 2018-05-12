@@ -9,6 +9,7 @@ keys = [
     "/log_level",
     "/session_store",
     "/session_secret_key",
+    "/session_id_name",
     "/cache_store",
     "/app/name",
     "/server/graceful",

@@ -8,6 +8,8 @@ log_level = "DEBUG"
 session_store = "REDIS"
 # 32或64个英文字符
 session_secret_key = "qwertyuiopasdfghjklzxcvbnmqazwsx"
+# 生成的session 名字 或者 cookie 名字
+session_id_name = "SESSID"
 
 # REDIS,MEMCACHED,IN_MEMORY(IN_MEMORY Default)
 cache_store = "REDIS"

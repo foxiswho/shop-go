@@ -20,6 +20,7 @@ type config struct {
 
 	SessionStore     string `toml:"session_store"`
 	SessionSecretKey string `toml:"session_secret_key"`
+	SessionIdName    string `toml:"session_id_name"`
 	CacheStore       string `toml:"cache_store"`
 
 	// 应用配置
