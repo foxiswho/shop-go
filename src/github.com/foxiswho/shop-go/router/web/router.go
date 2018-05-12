@@ -7,7 +7,7 @@ import (
 	"github.com/foxiswho/shop-go/middleware/captcha"
 	"github.com/foxiswho/shop-go/middleware/staticbin"
 
-	assets "github.com/foxiswho/shop-go/assets"
+	"github.com/foxiswho/shop-go/assets"
 	. "github.com/foxiswho/shop-go/conf"
 	"github.com/foxiswho/shop-go/middleware/opentracing"
 	"github.com/foxiswho/shop-go/module/auth"
@@ -19,6 +19,7 @@ import (
 	web_index "github.com/foxiswho/shop-go/router/web/index"
 	web_test "github.com/foxiswho/shop-go/router/web/test"
 	"github.com/foxiswho/shop-go/router/base"
+	"github.com/foxiswho/shop-go/router/web/design"
 )
 
 //---------
@@ -96,8 +97,6 @@ func Routers() *echo.Echo {
 	e.POST("/login", base.Handler(web_user.LoginPostHandler))
 	e.POST("/register", base.Handler(web_user.RegisterPostHandler))
 
-
-
 	user := e.Group("/user_service")
 	user.Use(auth.LoginRequired())
 	{
@@ -117,6 +116,10 @@ func Routers() *echo.Echo {
 		test.GET("/cookie", base.Handler(web_test.NewCookie().IndexHandler))
 		test.GET("/session", base.Handler(web_test.NewSession().IndexHandler))
 		test.GET("/orm", base.Handler(web_test.NewOrm().IndexHandler))
+	}
+	des := e.Group("/design")
+	{
+		des.GET("/service", base.Handler(design.ServiceMakeHandler))
 	}
 	return e
 }

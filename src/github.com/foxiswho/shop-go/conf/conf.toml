@@ -41,7 +41,7 @@ dir = "template/pongo2"
 suffix = ".html"
 
 [database]
-name = "echo-web"
+name = "fox"
 user_name = "root"
 pwd  = "root"
 host = "127.0.0.1"

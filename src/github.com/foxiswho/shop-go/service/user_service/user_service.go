@@ -22,7 +22,7 @@ func GetUserByNicknamePwd(nickname string, pwd string) *auth.User {
 	//	log.Debugf("GetUserByNicknamePwd error: %v", err)
 	//	return nil
 	//}
-	ok, err := db.DB().Engine.Where("nickname = ?", nickname).Get(user)
+	ok, err := db.DB().Engine.Where("username = ?", nickname).Get(user)
 	fmt.Println("GetUserByNicknamePwd :", ok, user)
 	if err != nil {
 		fmt.Println("GetUserByNicknamePwd error:", err)
@@ -40,9 +40,9 @@ func GetUserByNicknamePwd(nickname string, pwd string) *auth.User {
 
 func AddUserWithNicknamePwd(nickname string, pwd string) *auth.User {
 	user := new(auth.User)
-	user.Nickname=nickname
+	user.Username=nickname
 	user.Password=pwd
-	user.Birthday=time.Now()
+	user.RegTime=time.Now()
 	if _,err:=db.DB().Engine.Insert(user); err != nil {
 		return nil
 	}

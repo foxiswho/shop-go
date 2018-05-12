@@ -5,21 +5,21 @@ import (
 )
 
 type User struct {
-	Id        uint64    `json:"id,omitempty" xorm:"pk autoincr"`
-	Nickname  string    `form:"nickname" json:"nickname,omitempty"`
-	Password  string    `form:"password" json:"-"`
-	Gender    int64     `json:"gender,omitempty"`
-	Birthday  time.Time `json:"birthday,omitempty"`
-	CreatedAt time.Time `gorm:"column:created_time" json:"created_time,omitempty" xorm:"'created_time' default 'CURRENT_TIMESTAMP' TIMESTAMP" `
-	UpdatedAt time.Time `gorm:"column:updated_time" json:"updated_time,omitempty" xorm:"'updated_time'"`
+	Id       int       `json:"id" xorm:"not null pk autoincr INT(11)"`
+	Mobile   string    `json:"mobile" xorm:"index CHAR(11)"`
+	Username string    `json:"username" xorm:"comment('用户名') index CHAR(30)"`
+	Mail     string    `json:"mail" xorm:"comment('邮箱') index CHAR(32)"`
+	Password string    `json:"password" xorm:"comment('密码') CHAR(32)"`
+	Salt     string    `json:"salt" xorm:"comment('干扰码') CHAR(6)"`
+	RegIp    string    `json:"reg_ip" xorm:"comment('注册IP') CHAR(15)"`
+	RegTime  time.Time `json:"reg_time" xorm:"not null default 'CURRENT_TIMESTAMP' comment('注册时间') TIMESTAMP"`
+	IsDel    int       `json:"is_del" xorm:"not null default 0 comment('状态0正常1删除') index TINYINT(1)"`
+	GroupId  int       `json:"group_id" xorm:"not null default 410 comment('用户组ID') index INT(11)"`
+	TrueName string    `json:"true_name" xorm:"comment('真实姓名') VARCHAR(32)"`
+	Name     string    `json:"name" xorm:"comment('店铺名称') VARCHAR(100)"`
 }
 
 //初始化
 func NewUser() *User {
 	return new(User)
-}
-
-//初始化列表
-func (c *User) newMakeDataArr() []User {
-	return make([]User, 0)
 }
