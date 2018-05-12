@@ -3,9 +3,9 @@ package session
 import (
 	"time"
 
-	"github.com/boj/redistore"
+	"github.com/foxiswho/shop-go/middleware/session/redistore"
 	"github.com/gorilla/sessions"
-	"github.com/garyburd/redigo/redis"
+	"github.com/gomodule/redigo/redis"
 )
 
 type RedisStore interface {
@@ -40,7 +40,6 @@ func dial(network, address, password string) (redis.Conn, error) {
 // It is recommended to use an authentication key with 32 or 64 bytes. The encryption key,
 // if set, must be either 16, 24, or 32 bytes to select AES-128, AES-192, or AES-256 modes.
 func NewRedisStore(size int, network, address, password string, keyPairs ...[]byte) (RedisStore, error) {
-
 	store, err := redistore.NewRediStoreWithPool(&redis.Pool{
 		MaxIdle:     size,
 		MaxActive:   512,
@@ -58,6 +57,7 @@ func NewRedisStore(size int, network, address, password string, keyPairs ...[]by
 	if err != nil {
 		return nil, err
 	}
+
 	return &redisStore{store}, nil
 }
 

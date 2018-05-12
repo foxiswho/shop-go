@@ -8,6 +8,8 @@ import (
 	. "github.com/foxiswho/shop-go/conf"
 )
 
+const SESSION_KEY  = "SESSID"
+
 func Session() echo.MiddlewareFunc {
 	switch Conf.SessionStore {
 	case REDIS:
@@ -15,12 +17,12 @@ func Session() echo.MiddlewareFunc {
 		if err != nil {
 			panic(err)
 		}
-		return es.New("mysession", store)
+		return es.New(SESSION_KEY, store)
 	case FILE:
 		store := es.NewFilesystemStore("", []byte("secret-key"))
-		return es.New("mysession", store)
+		return es.New(SESSION_KEY, store)
 	default:
 		store := es.NewCookieStore([]byte("secret"))
-		return es.New("mysession", store)
+		return es.New(SESSION_KEY, store)
 	}
 }
