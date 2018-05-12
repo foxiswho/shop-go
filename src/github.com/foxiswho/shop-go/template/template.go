@@ -19,6 +19,7 @@
 // template/pongo2/web/test/cache.html
 // template/pongo2/web/test/cookie.html
 // template/pongo2/web/test/jwt_tester.html
+// template/pongo2/web/test/session.html
 // template/pongo2/web/test/ws.html
 // template/pongo2/web/user.html
 // DO NOT EDIT!
@@ -389,6 +390,24 @@ func templatePongo2WebTestJwt_testerHtml() (*asset, error) {
 	return a, err
 }
 
+// templatePongo2WebTestSessionHtml reads file data from disk. It returns an error on failure.
+func templatePongo2WebTestSessionHtml() (*asset, error) {
+	path := "/Users/fox/go/mypath/src/github.com/foxiswho/shop-go/template/pongo2/web/test/session.html"
+	name := "template/pongo2/web/test/session.html"
+	bytes, err := bindataRead(path, name)
+	if err != nil {
+		return nil, err
+	}
+
+	fi, err := os.Stat(path)
+	if err != nil {
+		err = fmt.Errorf("Error reading asset info %s at %s: %v", name, path, err)
+	}
+
+	a := &asset{bytes: bytes, info: fi}
+	return a, err
+}
+
 // templatePongo2WebTestWsHtml reads file data from disk. It returns an error on failure.
 func templatePongo2WebTestWsHtml() (*asset, error) {
 	path := "/Users/fox/go/mypath/src/github.com/foxiswho/shop-go/template/pongo2/web/test/ws.html"
@@ -496,6 +515,7 @@ var _bindata = map[string]func() (*asset, error){
 	"template/pongo2/web/test/cache.html": templatePongo2WebTestCacheHtml,
 	"template/pongo2/web/test/cookie.html": templatePongo2WebTestCookieHtml,
 	"template/pongo2/web/test/jwt_tester.html": templatePongo2WebTestJwt_testerHtml,
+	"template/pongo2/web/test/session.html": templatePongo2WebTestSessionHtml,
 	"template/pongo2/web/test/ws.html": templatePongo2WebTestWsHtml,
 	"template/pongo2/web/user.html": templatePongo2WebUserHtml,
 }
@@ -569,6 +589,7 @@ var _bintree = &bintree{nil, map[string]*bintree{
 					"cache.html": &bintree{templatePongo2WebTestCacheHtml, map[string]*bintree{}},
 					"cookie.html": &bintree{templatePongo2WebTestCookieHtml, map[string]*bintree{}},
 					"jwt_tester.html": &bintree{templatePongo2WebTestJwt_testerHtml, map[string]*bintree{}},
+					"session.html": &bintree{templatePongo2WebTestSessionHtml, map[string]*bintree{}},
 					"ws.html": &bintree{templatePongo2WebTestWsHtml, map[string]*bintree{}},
 				}},
 				"user.html": &bintree{templatePongo2WebUserHtml, map[string]*bintree{}},
