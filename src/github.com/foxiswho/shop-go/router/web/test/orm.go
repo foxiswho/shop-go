@@ -23,7 +23,9 @@ func (x *Orm) IndexHandler(c *base.BaseContext) error {
 	u := user_service.GetUserByNicknamePwd("admin", "111111")
 	fmt.Println("GetUserByNicknamePwd user=>", u)
 	//添加用户
-	add := user_service.AddUserWithNicknamePwd("admin_"+str.RandSalt(), "111111")
+	name := "admin_" + str.RandSalt()
+	fmt.Println("name=>", name)
+	add := user_service.AddUserWithNicknamePwd(name, "111111")
 	fmt.Println("AddUserWithNicknamePwd user=>", add)
 	//查询
 	where := db.NewMakeQueryCondition();
