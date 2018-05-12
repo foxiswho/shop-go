@@ -7,9 +7,9 @@ dest = "./conf/conf.toml"
 keys = [
     "/release_mode",
     "/log_level",
-    "/session_store",
-    "/session_secret_key",
-    "/session_id_name",
+    "/session/session_store",
+    "/session/session_secret_key",
+    "/session/session_id_name",
     "/cache_store",
     "/app/name",
     "/server/graceful",

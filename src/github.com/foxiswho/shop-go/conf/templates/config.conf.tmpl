@@ -5,13 +5,13 @@ release_mode = {{getv "/release_mode"}}
 log_level = "{{getv "/log_level"}}"
 
 # REDIS,FILE,COOKIE(COOKIE Default)
-session_store = "{{getv "/session_store"}}"
+session_store = "{{getv "/session/session_store"}}"
 
 # 32或64个英文字符
-session_secret_key = "{{getv "/session_secret_key"}}"
+session_secret_key = "{{getv "/session/session_secret_key"}}"
 
 # 生成的session 名字 或者 cookie 名字
-session_id_name = "{{getv "/session_id_name"}}"
+session_id_name = "{{getv "/session/session_id_name"}}"
 
 # REDIS,MEMCACHED,IN_MEMORY(IN_MEMORY Default)
 cache_store = "{{getv "/cache_store"}}"
