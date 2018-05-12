@@ -9,8 +9,8 @@ import (
 	"github.com/xormplus/xorm"
 	. "github.com/foxiswho/shop-go/conf"
 	"github.com/foxiswho/shop-go/module/log"
-	"strconv"
 	"reflect"
+	"strconv"
 )
 
 //结构体
@@ -69,12 +69,10 @@ func SqlMapFile(directory, extension string) (*xorm.XmlSqlMap) {
 	return xorm.Xml(directory, extension)
 }
 
-
 //初始化
 //func Init() {
 //	DB()
 //}
-
 
 type QuerySession struct {
 	Session *xorm.Session
@@ -82,61 +80,61 @@ type QuerySession struct {
 
 var Query *QuerySession
 
-func Filter(where map[int]QueryCondition) *xorm.Session {
+func Filter(where []*QueryCondition) *xorm.Session {
 	db := DB()
 	Query = new(QuerySession)
 	if len(where) > 0 {
 		i := 1
 		for _, qc := range where {
-			condition :=qc.Condition
-			key:=qc.Field+qc.Operation
+			condition := qc.Condition
+			key := qc.Field + qc.Operation + "?"
+			fmt.Println("QuerySession", qc)
+			fmt.Println("where query key=>", key)
 			//fmt.Println(k, condition, reflect.TypeOf(condition))
 			//fmt.Println("?号个数为", strings.Count(k, "?"))
-			isEmpty := false
-			isMap := false
 			arrCount := 0
-			str := ""
 			var arr []string
 			switch condition.(type) {
 			case string:
 				//是字符时做的事情
-				isEmpty = condition == ""
-			case int:
+				if condition == "" {
+					FilterWhereAnd(db, i, key, "")
+				} else {
+					FilterWhereAnd(db, i, key, condition.(string))
+				}
+			case int, int8, int16, int32, int64:
 				//是整数时做的事情
+				FilterWhereAnd(db, i, key, condition)
+			case float32, float64:
+				//是整数时做的事情
+				FilterWhereAnd(db, i, key, condition)
 			case []string:
-				isMap = true
 				arr = condition.([]string)
 				arrCount = len(arr)
-				isEmpty = arrCount == 0
-				for j, val := range arr {
-					if j > 0 {
-						str += ","
-					}
-					str += val
-				}
-			case []int:
-				isMap = true
-				arrInt := condition.([]int)
-				arrCount = len(arrInt)
-				isEmpty = arrCount == 0
-				for j, val := range arrInt {
-					if j > 0 {
-						str += ","
-					}
-					str += strconv.Itoa(val)
-				}
-			}
-			if isEmpty {
-				FilterWhereAnd(db, i, key, "")
-			} else if !isEmpty {
-				//是数组
-				if isMap {
-					FilterWhereAnd(db, i,key, str)
+				if arrCount == 0 {
+					FilterWhereAnd(db, i, key, "")
 				} else {
-					//不是数组
-					FilterWhereAnd(db, i, key, condition)
+					str := ""
+					for j, val := range arr {
+						if j > 0 {
+							str += ","
+						}
+						str += val
+					}
+					FilterWhereAnd(db, i, qc.Field+qc.Operation+"(?)", str)
 				}
-			} else {
+
+			case []int, []int8, []int16, []int32, []int64:
+				objArrToIntArr(db, i, qc)
+			case []float32, []float64:
+				objArrToFloatArr(db, i, qc)
+			default:
+				fmt.Println("其他还没有收录")
+				fmt.Println("其他还没有收录")
+				fmt.Println("其他还没有收录")
+				fmt.Println("其他还没有收录")
+				fmt.Println("其他还没有收录")
+				fmt.Println("其他还没有收录")
 				fmt.Println("其他还没有收录")
 			}
 			i++
@@ -156,5 +154,93 @@ func FilterWhereAnd(db *Db, i int, key string, value ...interface{}) {
 		Query.Session = DB().Engine.Where(key, value...)
 	} else {
 		Query.Session = Query.Session.And(key, value...)
+	}
+}
+
+func objArrToIntArr(db *Db, i int, qc *QueryCondition) {
+	str := ""
+	arrCount := 0
+	switch qc.Condition.(type) {
+	case []int64:
+		arr := qc.Condition.([]int64)
+		arrCount = len(arr)
+		for j, val := range arr {
+			if j > 0 {
+				str += ","
+			}
+			str += strconv.FormatInt(val, 10)
+		}
+	case []int32:
+		arr := qc.Condition.([]int32)
+		arrCount = len(arr)
+		for j, val := range arr {
+			if j > 0 {
+				str += ","
+			}
+			str += strconv.FormatInt(int64(val), 10)
+		}
+	case []int16:
+		arr := qc.Condition.([]int16)
+		arrCount = len(arr)
+		for j, val := range arr {
+			if j > 0 {
+				str += ","
+			}
+			str += strconv.FormatInt(int64(val), 10)
+		}
+	case []int8:
+		arr := qc.Condition.([]int8)
+		arrCount = len(arr)
+		for j, val := range arr {
+			if j > 0 {
+				str += ","
+			}
+			str += strconv.FormatInt(int64(val), 10)
+		}
+	case []int:
+		arr := qc.Condition.([]int)
+		arrCount = len(arr)
+		for j, val := range arr {
+			if j > 0 {
+				str += ","
+			}
+			str += strconv.FormatInt(int64(val), 10)
+		}
+	}
+	if arrCount == 0 {
+		FilterWhereAnd(db, i, qc.Field+qc.Operation, "")
+	} else {
+		FilterWhereAnd(db, i, qc.Field+qc.Operation+"(?)", str)
+	}
+}
+
+func objArrToFloatArr(db *Db, i int, qc *QueryCondition) {
+	str := ""
+	arrCount := 0
+	switch qc.Condition.(type) {
+	case []float64:
+		arr := qc.Condition.([]float64)
+		arrCount = len(arr)
+		for j, val := range arr {
+			if j > 0 {
+				str += ","
+			}
+			str += strconv.FormatFloat(val, 'E', -1, 64)
+		}
+	case []float32:
+		arr := qc.Condition.([]float32)
+		arrCount = len(arr)
+		for j, val := range arr {
+			if j > 0 {
+				str += ","
+			}
+			str += strconv.FormatFloat(float64(val), 'E', -1, 64)
+		}
+
+	}
+	if arrCount == 0 {
+		FilterWhereAnd(db, i, qc.Field+qc.Operation, "")
+	} else {
+		FilterWhereAnd(db, i, qc.Field+qc.Operation+"(?)", str)
 	}
 }

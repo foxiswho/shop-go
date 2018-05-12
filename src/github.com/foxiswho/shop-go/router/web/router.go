@@ -116,6 +116,7 @@ func Routers() *echo.Echo {
 		test.GET("/cache", base.Handler(web_test.CacheHandler))
 		test.GET("/cookie", base.Handler(web_test.NewCookie().IndexHandler))
 		test.GET("/session", base.Handler(web_test.NewSession().IndexHandler))
+		test.GET("/orm", base.Handler(web_test.NewOrm().IndexHandler))
 	}
 	return e
 }

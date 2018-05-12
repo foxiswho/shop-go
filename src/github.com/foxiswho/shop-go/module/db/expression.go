@@ -7,13 +7,13 @@ type QueryCondition struct {
 	Condition interface{} //具体值
 }
 
-var expression map[int]QueryCondition
+var expression []*QueryCondition
 
-func NewMakeQueryCondition() map[int]QueryCondition {
-	return make(map[int]QueryCondition)
+func NewMakeQueryCondition() []*QueryCondition {
+	return make([]*QueryCondition, 0)
 }
 
 //添加条件
-func AddQueryCondition(field, qe string, condition interface{}) *QueryCondition {
-	return &QueryCondition{field, qe, condition}
+func AddQueryCondition(field, operation string, condition interface{}) *QueryCondition {
+	return &QueryCondition{field, operation, condition}
 }
