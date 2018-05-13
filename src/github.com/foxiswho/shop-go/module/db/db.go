@@ -45,6 +45,7 @@ func newDB() (*Db, error) {
 	db.Engine.ShowSQL(true)
 	locat, _ := time.LoadLocation("Asia/Shanghai")
 	db.Engine.TZLocation = locat
+	db.Engine.DatabaseTZ = locat
 	return db, nil
 }
 
