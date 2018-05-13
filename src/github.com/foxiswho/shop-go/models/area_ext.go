@@ -1,8 +1,8 @@
 package models
 
 type AreaExt struct {
-	ExtId           int    `json:"ext_id" xorm:"not null pk autoincr INT(11)"`
-	Id              int    `json:"id" xorm:"default 0 comment('ID') index(id) INT(11)"`
+	Id              int    `json:"id" xorm:"not null pk autoincr INT(11)"`
+	AreaId          int    `json:"area_id" xorm:"default 0 comment('ID') index(id) INT(11)"`
 	Name            string `json:"name" xorm:"default '' comment('名称') CHAR(50)"`
 	NameEn          string `json:"name_en" xorm:"default '' comment('英文名称') VARCHAR(100)"`
 	ParentId        int    `json:"parent_id" xorm:"default 0 comment('上级栏目ID') index(id) INT(11)"`

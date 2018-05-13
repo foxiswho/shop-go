@@ -9,5 +9,6 @@ go get -u github.com/jteeuwen/go-bindata/...
 
 # XORM 生成 model
 ```SHELL
-xorm reverse mysql root:root@/fox?charset=utf8 template/design/goxorm
+cd src/github.com/foxiswho/shop-go/
+xorm reverse mysql root:root@/shop_go?charset=utf8 template/design/goxorm
 ```

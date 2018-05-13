@@ -5,11 +5,11 @@ import (
 )
 
 type Log struct {
-	LogId      int       `json:"log_id" xorm:"not null pk autoincr INT(11)"`
-	Id         int       `json:"id" xorm:"not null default 0 comment('id') index INT(11)"`
+	Id         int       `json:"id" xorm:"not null pk autoincr INT(11)"`
+	FromId     int       `json:"from_id" xorm:"not null default 0 comment('id') index INT(11)"`
 	Aid        int       `json:"aid" xorm:"not null default 0 comment('管理员ID') index INT(11)"`
 	Uid        int       `json:"uid" xorm:"not null default 0 comment('用户id') index INT(11)"`
-	TimeAdd    time.Time `json:"time_add" xorm:"default 'CURRENT_TIMESTAMP' comment('创建时间') TIMESTAMP"`
+	GmtCreate  time.Time `json:"gmt_create" xorm:"default 'CURRENT_TIMESTAMP' comment('创建时间') TIMESTAMP"`
 	Mark       string    `json:"mark" xorm:"comment('标志自定义标志') CHAR(32)"`
 	Data       string    `json:"data" xorm:"comment('其他内容') TEXT"`
 	No         string    `json:"no" xorm:"comment('单号') index CHAR(50)"`
