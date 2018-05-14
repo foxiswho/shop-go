@@ -13,8 +13,8 @@ import (
 
 	. "github.com/foxiswho/shop-go/conf"
 	"github.com/foxiswho/shop-go/middleware/opentracing"
-	"github.com/foxiswho/shop-go/router/api"
-	"github.com/foxiswho/shop-go/router/socket"
+	"github.com/foxiswho/shop-go/router/example/api"
+	"github.com/foxiswho/shop-go/router/example/socket"
 	"github.com/foxiswho/shop-go/router/web"
 )
 

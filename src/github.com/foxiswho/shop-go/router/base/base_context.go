@@ -8,6 +8,7 @@ import (
 	"github.com/opentracing/opentracing-go"
 
 	"github.com/foxiswho/shop-go/module/auth"
+	"github.com/foxiswho/shop-go/util/json"
 	ot "github.com/foxiswho/shop-go/middleware/opentracing"
 	"net/http"
 )
@@ -35,6 +36,33 @@ func (ctx *BaseContext) Auth() auth.Auth {
 
 func (ctx *BaseContext) OpenTracingSpan() opentracing.Span {
 	return ot.Default(ctx)
+}
+
+/**
+ * 以接口参数或后缀返回数据
+ * JSONP、JSON/XML
+ */
+func (c *BaseContext) AutoFMT(code int, i interface{}) (err error) {
+	// JSONP
+	callback := c.QueryParam("jsonp")
+	if len(callback) > 0 {
+		c.Logger().Infof("JSONP callback func:%v", callback)
+		return c.JSONP(code, callback, i)
+	} else {
+		return c.JSON(code, i)
+	}
+}
+
+// 自定义JSON解析
+func (c *BaseContext) CustomJSON(code int, i interface{}, f string) (err error) {
+	if c.Context.Echo().Debug {
+		return c.JSONPretty(code, i, "  ")
+	}
+	b, err := json.MarshalFilter(i, f)
+	if err != nil {
+		return
+	}
+	return c.JSONBlob(code, b)
 }
 
 func (ctx *BaseContext) CookieGet(name string) (string, error) {

@@ -24,7 +24,6 @@ import:
   version: ~1.1.1
 - package: github.com/gorilla/sessions
   version: ~1.1.0
-- package: github.com/hb-go/json
 - package: github.com/labstack/echo
   version: ~3.3.5
   subpackages:

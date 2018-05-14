@@ -1,8 +1,16 @@
-package api
+package test
 
 import (
+	"github.com/foxiswho/shop-go/router/base"
 	"net/http"
 )
+
+type Json struct {
+}
+
+func NewJson() *Json {
+	return new(Json)
+}
 
 type A struct {
 	F  string `json:"f,filter:*"`
@@ -31,9 +39,10 @@ type C struct {
 	F2 string `json:"f_2,filter:b2"`
 }
 
-func JsonEncodeHandler(c *Context) error {
+func (x *Json) IndexHandler(c *base.BaseContext) error {
 	filter := c.QueryParam("filter")
 	a := A{}
 	c.CustomJSON(http.StatusOK, a, filter)
 	return nil
 }
+

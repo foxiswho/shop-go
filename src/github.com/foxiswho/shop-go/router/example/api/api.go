@@ -13,9 +13,10 @@ import (
 	"github.com/foxiswho/shop-go/module/log"
 	"github.com/foxiswho/shop-go/service/user_service/auth"
 	userService "github.com/foxiswho/shop-go/service/user_service"
+	"github.com/foxiswho/shop-go/router/base"
 )
 
-func ApiHandler(c *Context) error {
+func ApiHandler(c *base.BaseContext) error {
 	idStr := c.QueryParam("id")
 	id, err := strconv.ParseUint(idStr, 10, 64)
 

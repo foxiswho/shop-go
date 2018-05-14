@@ -1,7 +1,6 @@
 package api
 
 import (
-	// "time"
 
 	"github.com/labstack/echo"
 	mw "github.com/labstack/echo/middleware"
@@ -10,6 +9,7 @@ import (
 	"github.com/foxiswho/shop-go/middleware/opentracing"
 	"github.com/foxiswho/shop-go/module/cache"
 	"github.com/foxiswho/shop-go/module/session"
+	"github.com/foxiswho/shop-go/router/base"
 )
 
 //-----
@@ -20,7 +20,7 @@ func Routers() *echo.Echo {
 	e := echo.New()
 
 	// Context自定义
-	e.Use(NewContext())
+	e.Use(base.NewBaseContext())
 
 	// Customization
 	if Conf.ReleaseMode {
@@ -65,8 +65,6 @@ func Routers() *echo.Echo {
 	e.GET("/login", UserLoginHandler)
 	e.GET("/register", UserRegisterHandler)
 
-	// 示范github.com/hb-go/json
-	e.GET("/json/encode", handler(JsonEncodeHandler))
 
 	// JWT
 	r := e.Group("")
@@ -76,7 +74,7 @@ func Routers() *echo.Echo {
 		TokenLookup: "header:" + echo.HeaderAuthorization,
 	}))
 
-	r.GET("/", handler(ApiHandler))
+	r.GET("/", base.Handler(ApiHandler))
 
 	// curl http://echo.api.localhost:8080/restricted/user -H "Authorization: Bearer XXX"
 	r.GET("/user_service", UserHandler)
@@ -89,18 +87,4 @@ func Routers() *echo.Echo {
 	//}
 
 	return e
-}
-
-type (
-	HandlerFunc func(*Context) error
-)
-
-/**
- * 自定义Context的Handler
- */
-func handler(h HandlerFunc) echo.HandlerFunc {
-	return func(c echo.Context) error {
-		ctx := c.(*Context)
-		return h(ctx)
-	}
 }
