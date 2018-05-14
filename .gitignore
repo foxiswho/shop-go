@@ -10,4 +10,4 @@
 /src/blog*
 !/src/github.com/foxiswho/
 !/src/echo-demo/
-verdor/*
+vendor/*
