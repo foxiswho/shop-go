@@ -67,17 +67,19 @@ func Routers() *echo.Echo {
 
 
 	// JWT
-	r := e.Group("")
-	//r.Use(mw.JWTWithConfig(mw.JWTConfig{
-	//	SigningKey:  []byte("secret"),
-	//	ContextKey:  "_user",
-	//	TokenLookup: "header:" + echo.HeaderAuthorization,
-	//}))
+	r := e.Group("/jwt")
+	{
+		r.Use(mw.JWTWithConfig(mw.JWTConfig{
+			SigningKey:  []byte(Conf.SessionSecretKey),
+			ContextKey:  "_user",
+			TokenLookup: "header:" + echo.HeaderAuthorization,
+		}))
 
-	r.GET("/", base.Handler(ApiHandler))
+		r.GET("/", base.Handler(ApiHandler))
 
-	// curl http://echo.api.localhost:8080/restricted/user -H "Authorization: Bearer XXX"
-	r.GET("/user_service", UserHandler)
+		// curl http://echo.api.localhost:8080/restricted/user -H "Authorization: Bearer XXX"
+		r.GET("/user_service", UserHandler)
+	}
 
 	//post := r.Group("/post")
 	//{

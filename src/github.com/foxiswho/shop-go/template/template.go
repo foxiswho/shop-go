@@ -2,6 +2,10 @@
 // sources:
 // template/40x.tmpl
 // template/50x.tmpl
+// template/design/goxorm/config
+// template/design/goxorm/struct.go.tpl
+// template/design/make/controllers.go.tpl
+// template/design/make/service.go.tpl
 // template/include/base.html
 // template/layout/www/about.html
 // template/layout/www/home.html
@@ -11,17 +15,17 @@
 // template/layout/www/user.html
 // template/layout.tmpl
 // template/pongo2/base.html
-// template/pongo2/web/about.html
-// template/pongo2/web/home.html
+// template/pongo2/example/test/cache.html
+// template/pongo2/example/test/cookie.html
+// template/pongo2/example/test/jwt_tester.html
+// template/pongo2/example/test/orm.html
+// template/pongo2/example/test/session.html
+// template/pongo2/example/test/ws.html
+// template/pongo2/web/index/about.html
+// template/pongo2/web/index/home.html
 // template/pongo2/web/index.html
 // template/pongo2/web/login.html
 // template/pongo2/web/register.html
-// template/pongo2/web/test/cache.html
-// template/pongo2/web/test/cookie.html
-// template/pongo2/web/test/jwt_tester.html
-// template/pongo2/web/test/orm.html
-// template/pongo2/web/test/session.html
-// template/pongo2/web/test/ws.html
 // template/pongo2/web/user.html
 // DO NOT EDIT!
 
@@ -51,7 +55,7 @@ type asset struct {
 
 // template40xTmpl reads file data from disk. It returns an error on failure.
 func template40xTmpl() (*asset, error) {
-	path := "/Users/fox/go/mypath/src/github.com/foxiswho/shop-go/template/40x.tmpl"
+	path := "/Users/fox/go/mypath/shop-go/src/github.com/foxiswho/shop-go/template/40x.tmpl"
 	name := "template/40x.tmpl"
 	bytes, err := bindataRead(path, name)
 	if err != nil {
@@ -69,8 +73,80 @@ func template40xTmpl() (*asset, error) {
 
 // template50xTmpl reads file data from disk. It returns an error on failure.
 func template50xTmpl() (*asset, error) {
-	path := "/Users/fox/go/mypath/src/github.com/foxiswho/shop-go/template/50x.tmpl"
+	path := "/Users/fox/go/mypath/shop-go/src/github.com/foxiswho/shop-go/template/50x.tmpl"
 	name := "template/50x.tmpl"
+	bytes, err := bindataRead(path, name)
+	if err != nil {
+		return nil, err
+	}
+
+	fi, err := os.Stat(path)
+	if err != nil {
+		err = fmt.Errorf("Error reading asset info %s at %s: %v", name, path, err)
+	}
+
+	a := &asset{bytes: bytes, info: fi}
+	return a, err
+}
+
+// templateDesignGoxormConfig reads file data from disk. It returns an error on failure.
+func templateDesignGoxormConfig() (*asset, error) {
+	path := "/Users/fox/go/mypath/shop-go/src/github.com/foxiswho/shop-go/template/design/goxorm/config"
+	name := "template/design/goxorm/config"
+	bytes, err := bindataRead(path, name)
+	if err != nil {
+		return nil, err
+	}
+
+	fi, err := os.Stat(path)
+	if err != nil {
+		err = fmt.Errorf("Error reading asset info %s at %s: %v", name, path, err)
+	}
+
+	a := &asset{bytes: bytes, info: fi}
+	return a, err
+}
+
+// templateDesignGoxormStructGoTpl reads file data from disk. It returns an error on failure.
+func templateDesignGoxormStructGoTpl() (*asset, error) {
+	path := "/Users/fox/go/mypath/shop-go/src/github.com/foxiswho/shop-go/template/design/goxorm/struct.go.tpl"
+	name := "template/design/goxorm/struct.go.tpl"
+	bytes, err := bindataRead(path, name)
+	if err != nil {
+		return nil, err
+	}
+
+	fi, err := os.Stat(path)
+	if err != nil {
+		err = fmt.Errorf("Error reading asset info %s at %s: %v", name, path, err)
+	}
+
+	a := &asset{bytes: bytes, info: fi}
+	return a, err
+}
+
+// templateDesignMakeControllersGoTpl reads file data from disk. It returns an error on failure.
+func templateDesignMakeControllersGoTpl() (*asset, error) {
+	path := "/Users/fox/go/mypath/shop-go/src/github.com/foxiswho/shop-go/template/design/make/controllers.go.tpl"
+	name := "template/design/make/controllers.go.tpl"
+	bytes, err := bindataRead(path, name)
+	if err != nil {
+		return nil, err
+	}
+
+	fi, err := os.Stat(path)
+	if err != nil {
+		err = fmt.Errorf("Error reading asset info %s at %s: %v", name, path, err)
+	}
+
+	a := &asset{bytes: bytes, info: fi}
+	return a, err
+}
+
+// templateDesignMakeServiceGoTpl reads file data from disk. It returns an error on failure.
+func templateDesignMakeServiceGoTpl() (*asset, error) {
+	path := "/Users/fox/go/mypath/shop-go/src/github.com/foxiswho/shop-go/template/design/make/service.go.tpl"
+	name := "template/design/make/service.go.tpl"
 	bytes, err := bindataRead(path, name)
 	if err != nil {
 		return nil, err
@@ -87,7 +163,7 @@ func template50xTmpl() (*asset, error) {
 
 // templateIncludeBaseHtml reads file data from disk. It returns an error on failure.
 func templateIncludeBaseHtml() (*asset, error) {
-	path := "/Users/fox/go/mypath/src/github.com/foxiswho/shop-go/template/include/base.html"
+	path := "/Users/fox/go/mypath/shop-go/src/github.com/foxiswho/shop-go/template/include/base.html"
 	name := "template/include/base.html"
 	bytes, err := bindataRead(path, name)
 	if err != nil {
@@ -105,7 +181,7 @@ func templateIncludeBaseHtml() (*asset, error) {
 
 // templateLayoutWwwAboutHtml reads file data from disk. It returns an error on failure.
 func templateLayoutWwwAboutHtml() (*asset, error) {
-	path := "/Users/fox/go/mypath/src/github.com/foxiswho/shop-go/template/layout/www/about.html"
+	path := "/Users/fox/go/mypath/shop-go/src/github.com/foxiswho/shop-go/template/layout/www/about.html"
 	name := "template/layout/www/about.html"
 	bytes, err := bindataRead(path, name)
 	if err != nil {
@@ -123,7 +199,7 @@ func templateLayoutWwwAboutHtml() (*asset, error) {
 
 // templateLayoutWwwHomeHtml reads file data from disk. It returns an error on failure.
 func templateLayoutWwwHomeHtml() (*asset, error) {
-	path := "/Users/fox/go/mypath/src/github.com/foxiswho/shop-go/template/layout/www/home.html"
+	path := "/Users/fox/go/mypath/shop-go/src/github.com/foxiswho/shop-go/template/layout/www/home.html"
 	name := "template/layout/www/home.html"
 	bytes, err := bindataRead(path, name)
 	if err != nil {
@@ -141,7 +217,7 @@ func templateLayoutWwwHomeHtml() (*asset, error) {
 
 // templateLayoutWwwIndexHtml reads file data from disk. It returns an error on failure.
 func templateLayoutWwwIndexHtml() (*asset, error) {
-	path := "/Users/fox/go/mypath/src/github.com/foxiswho/shop-go/template/layout/www/index.html"
+	path := "/Users/fox/go/mypath/shop-go/src/github.com/foxiswho/shop-go/template/layout/www/index.html"
 	name := "template/layout/www/index.html"
 	bytes, err := bindataRead(path, name)
 	if err != nil {
@@ -159,7 +235,7 @@ func templateLayoutWwwIndexHtml() (*asset, error) {
 
 // templateLayoutWwwLoginHtml reads file data from disk. It returns an error on failure.
 func templateLayoutWwwLoginHtml() (*asset, error) {
-	path := "/Users/fox/go/mypath/src/github.com/foxiswho/shop-go/template/layout/www/login.html"
+	path := "/Users/fox/go/mypath/shop-go/src/github.com/foxiswho/shop-go/template/layout/www/login.html"
 	name := "template/layout/www/login.html"
 	bytes, err := bindataRead(path, name)
 	if err != nil {
@@ -177,7 +253,7 @@ func templateLayoutWwwLoginHtml() (*asset, error) {
 
 // templateLayoutWwwRegisterHtml reads file data from disk. It returns an error on failure.
 func templateLayoutWwwRegisterHtml() (*asset, error) {
-	path := "/Users/fox/go/mypath/src/github.com/foxiswho/shop-go/template/layout/www/register.html"
+	path := "/Users/fox/go/mypath/shop-go/src/github.com/foxiswho/shop-go/template/layout/www/register.html"
 	name := "template/layout/www/register.html"
 	bytes, err := bindataRead(path, name)
 	if err != nil {
@@ -195,7 +271,7 @@ func templateLayoutWwwRegisterHtml() (*asset, error) {
 
 // templateLayoutWwwUserHtml reads file data from disk. It returns an error on failure.
 func templateLayoutWwwUserHtml() (*asset, error) {
-	path := "/Users/fox/go/mypath/src/github.com/foxiswho/shop-go/template/layout/www/user.html"
+	path := "/Users/fox/go/mypath/shop-go/src/github.com/foxiswho/shop-go/template/layout/www/user.html"
 	name := "template/layout/www/user.html"
 	bytes, err := bindataRead(path, name)
 	if err != nil {
@@ -213,7 +289,7 @@ func templateLayoutWwwUserHtml() (*asset, error) {
 
 // templateLayoutTmpl reads file data from disk. It returns an error on failure.
 func templateLayoutTmpl() (*asset, error) {
-	path := "/Users/fox/go/mypath/src/github.com/foxiswho/shop-go/template/layout.tmpl"
+	path := "/Users/fox/go/mypath/shop-go/src/github.com/foxiswho/shop-go/template/layout.tmpl"
 	name := "template/layout.tmpl"
 	bytes, err := bindataRead(path, name)
 	if err != nil {
@@ -231,7 +307,7 @@ func templateLayoutTmpl() (*asset, error) {
 
 // templatePongo2BaseHtml reads file data from disk. It returns an error on failure.
 func templatePongo2BaseHtml() (*asset, error) {
-	path := "/Users/fox/go/mypath/src/github.com/foxiswho/shop-go/template/pongo2/base.html"
+	path := "/Users/fox/go/mypath/shop-go/src/github.com/foxiswho/shop-go/template/pongo2/base.html"
 	name := "template/pongo2/base.html"
 	bytes, err := bindataRead(path, name)
 	if err != nil {
@@ -247,10 +323,10 @@ func templatePongo2BaseHtml() (*asset, error) {
 	return a, err
 }
 
-// templatePongo2WebAboutHtml reads file data from disk. It returns an error on failure.
-func templatePongo2WebAboutHtml() (*asset, error) {
-	path := "/Users/fox/go/mypath/src/github.com/foxiswho/shop-go/template/pongo2/web/about.html"
-	name := "template/pongo2/web/about.html"
+// templatePongo2ExampleTestCacheHtml reads file data from disk. It returns an error on failure.
+func templatePongo2ExampleTestCacheHtml() (*asset, error) {
+	path := "/Users/fox/go/mypath/shop-go/src/github.com/foxiswho/shop-go/template/pongo2/example/test/cache.html"
+	name := "template/pongo2/example/test/cache.html"
 	bytes, err := bindataRead(path, name)
 	if err != nil {
 		return nil, err
@@ -265,10 +341,118 @@ func templatePongo2WebAboutHtml() (*asset, error) {
 	return a, err
 }
 
-// templatePongo2WebHomeHtml reads file data from disk. It returns an error on failure.
-func templatePongo2WebHomeHtml() (*asset, error) {
-	path := "/Users/fox/go/mypath/src/github.com/foxiswho/shop-go/template/pongo2/web/home.html"
-	name := "template/pongo2/web/home.html"
+// templatePongo2ExampleTestCookieHtml reads file data from disk. It returns an error on failure.
+func templatePongo2ExampleTestCookieHtml() (*asset, error) {
+	path := "/Users/fox/go/mypath/shop-go/src/github.com/foxiswho/shop-go/template/pongo2/example/test/cookie.html"
+	name := "template/pongo2/example/test/cookie.html"
+	bytes, err := bindataRead(path, name)
+	if err != nil {
+		return nil, err
+	}
+
+	fi, err := os.Stat(path)
+	if err != nil {
+		err = fmt.Errorf("Error reading asset info %s at %s: %v", name, path, err)
+	}
+
+	a := &asset{bytes: bytes, info: fi}
+	return a, err
+}
+
+// templatePongo2ExampleTestJwt_testerHtml reads file data from disk. It returns an error on failure.
+func templatePongo2ExampleTestJwt_testerHtml() (*asset, error) {
+	path := "/Users/fox/go/mypath/shop-go/src/github.com/foxiswho/shop-go/template/pongo2/example/test/jwt_tester.html"
+	name := "template/pongo2/example/test/jwt_tester.html"
+	bytes, err := bindataRead(path, name)
+	if err != nil {
+		return nil, err
+	}
+
+	fi, err := os.Stat(path)
+	if err != nil {
+		err = fmt.Errorf("Error reading asset info %s at %s: %v", name, path, err)
+	}
+
+	a := &asset{bytes: bytes, info: fi}
+	return a, err
+}
+
+// templatePongo2ExampleTestOrmHtml reads file data from disk. It returns an error on failure.
+func templatePongo2ExampleTestOrmHtml() (*asset, error) {
+	path := "/Users/fox/go/mypath/shop-go/src/github.com/foxiswho/shop-go/template/pongo2/example/test/orm.html"
+	name := "template/pongo2/example/test/orm.html"
+	bytes, err := bindataRead(path, name)
+	if err != nil {
+		return nil, err
+	}
+
+	fi, err := os.Stat(path)
+	if err != nil {
+		err = fmt.Errorf("Error reading asset info %s at %s: %v", name, path, err)
+	}
+
+	a := &asset{bytes: bytes, info: fi}
+	return a, err
+}
+
+// templatePongo2ExampleTestSessionHtml reads file data from disk. It returns an error on failure.
+func templatePongo2ExampleTestSessionHtml() (*asset, error) {
+	path := "/Users/fox/go/mypath/shop-go/src/github.com/foxiswho/shop-go/template/pongo2/example/test/session.html"
+	name := "template/pongo2/example/test/session.html"
+	bytes, err := bindataRead(path, name)
+	if err != nil {
+		return nil, err
+	}
+
+	fi, err := os.Stat(path)
+	if err != nil {
+		err = fmt.Errorf("Error reading asset info %s at %s: %v", name, path, err)
+	}
+
+	a := &asset{bytes: bytes, info: fi}
+	return a, err
+}
+
+// templatePongo2ExampleTestWsHtml reads file data from disk. It returns an error on failure.
+func templatePongo2ExampleTestWsHtml() (*asset, error) {
+	path := "/Users/fox/go/mypath/shop-go/src/github.com/foxiswho/shop-go/template/pongo2/example/test/ws.html"
+	name := "template/pongo2/example/test/ws.html"
+	bytes, err := bindataRead(path, name)
+	if err != nil {
+		return nil, err
+	}
+
+	fi, err := os.Stat(path)
+	if err != nil {
+		err = fmt.Errorf("Error reading asset info %s at %s: %v", name, path, err)
+	}
+
+	a := &asset{bytes: bytes, info: fi}
+	return a, err
+}
+
+// templatePongo2WebIndexAboutHtml reads file data from disk. It returns an error on failure.
+func templatePongo2WebIndexAboutHtml() (*asset, error) {
+	path := "/Users/fox/go/mypath/shop-go/src/github.com/foxiswho/shop-go/template/pongo2/web/index/about.html"
+	name := "template/pongo2/web/index/about.html"
+	bytes, err := bindataRead(path, name)
+	if err != nil {
+		return nil, err
+	}
+
+	fi, err := os.Stat(path)
+	if err != nil {
+		err = fmt.Errorf("Error reading asset info %s at %s: %v", name, path, err)
+	}
+
+	a := &asset{bytes: bytes, info: fi}
+	return a, err
+}
+
+// templatePongo2WebIndexHomeHtml reads file data from disk. It returns an error on failure.
+func templatePongo2WebIndexHomeHtml() (*asset, error) {
+	path := "/Users/fox/go/mypath/shop-go/src/github.com/foxiswho/shop-go/template/pongo2/web/index/home.html"
+	name := "template/pongo2/web/index/home.html"
 	bytes, err := bindataRead(path, name)
 	if err != nil {
 		return nil, err
@@ -285,7 +469,7 @@ func templatePongo2WebHomeHtml() (*asset, error) {
 
 // templatePongo2WebIndexHtml reads file data from disk. It returns an error on failure.
 func templatePongo2WebIndexHtml() (*asset, error) {
-	path := "/Users/fox/go/mypath/src/github.com/foxiswho/shop-go/template/pongo2/web/index.html"
+	path := "/Users/fox/go/mypath/shop-go/src/github.com/foxiswho/shop-go/template/pongo2/web/index.html"
 	name := "template/pongo2/web/index.html"
 	bytes, err := bindataRead(path, name)
 	if err != nil {
@@ -303,7 +487,7 @@ func templatePongo2WebIndexHtml() (*asset, error) {
 
 // templatePongo2WebLoginHtml reads file data from disk. It returns an error on failure.
 func templatePongo2WebLoginHtml() (*asset, error) {
-	path := "/Users/fox/go/mypath/src/github.com/foxiswho/shop-go/template/pongo2/web/login.html"
+	path := "/Users/fox/go/mypath/shop-go/src/github.com/foxiswho/shop-go/template/pongo2/web/login.html"
 	name := "template/pongo2/web/login.html"
 	bytes, err := bindataRead(path, name)
 	if err != nil {
@@ -321,116 +505,8 @@ func templatePongo2WebLoginHtml() (*asset, error) {
 
 // templatePongo2WebRegisterHtml reads file data from disk. It returns an error on failure.
 func templatePongo2WebRegisterHtml() (*asset, error) {
-	path := "/Users/fox/go/mypath/src/github.com/foxiswho/shop-go/template/pongo2/web/register.html"
+	path := "/Users/fox/go/mypath/shop-go/src/github.com/foxiswho/shop-go/template/pongo2/web/register.html"
 	name := "template/pongo2/web/register.html"
-	bytes, err := bindataRead(path, name)
-	if err != nil {
-		return nil, err
-	}
-
-	fi, err := os.Stat(path)
-	if err != nil {
-		err = fmt.Errorf("Error reading asset info %s at %s: %v", name, path, err)
-	}
-
-	a := &asset{bytes: bytes, info: fi}
-	return a, err
-}
-
-// templatePongo2WebTestCacheHtml reads file data from disk. It returns an error on failure.
-func templatePongo2WebTestCacheHtml() (*asset, error) {
-	path := "/Users/fox/go/mypath/src/github.com/foxiswho/shop-go/template/pongo2/web/test/cache.html"
-	name := "template/pongo2/web/test/cache.html"
-	bytes, err := bindataRead(path, name)
-	if err != nil {
-		return nil, err
-	}
-
-	fi, err := os.Stat(path)
-	if err != nil {
-		err = fmt.Errorf("Error reading asset info %s at %s: %v", name, path, err)
-	}
-
-	a := &asset{bytes: bytes, info: fi}
-	return a, err
-}
-
-// templatePongo2WebTestCookieHtml reads file data from disk. It returns an error on failure.
-func templatePongo2WebTestCookieHtml() (*asset, error) {
-	path := "/Users/fox/go/mypath/src/github.com/foxiswho/shop-go/template/pongo2/web/test/cookie.html"
-	name := "template/pongo2/web/test/cookie.html"
-	bytes, err := bindataRead(path, name)
-	if err != nil {
-		return nil, err
-	}
-
-	fi, err := os.Stat(path)
-	if err != nil {
-		err = fmt.Errorf("Error reading asset info %s at %s: %v", name, path, err)
-	}
-
-	a := &asset{bytes: bytes, info: fi}
-	return a, err
-}
-
-// templatePongo2WebTestJwt_testerHtml reads file data from disk. It returns an error on failure.
-func templatePongo2WebTestJwt_testerHtml() (*asset, error) {
-	path := "/Users/fox/go/mypath/src/github.com/foxiswho/shop-go/template/pongo2/web/test/jwt_tester.html"
-	name := "template/pongo2/web/test/jwt_tester.html"
-	bytes, err := bindataRead(path, name)
-	if err != nil {
-		return nil, err
-	}
-
-	fi, err := os.Stat(path)
-	if err != nil {
-		err = fmt.Errorf("Error reading asset info %s at %s: %v", name, path, err)
-	}
-
-	a := &asset{bytes: bytes, info: fi}
-	return a, err
-}
-
-// templatePongo2WebTestOrmHtml reads file data from disk. It returns an error on failure.
-func templatePongo2WebTestOrmHtml() (*asset, error) {
-	path := "/Users/fox/go/mypath/src/github.com/foxiswho/shop-go/template/pongo2/web/test/orm.html"
-	name := "template/pongo2/web/test/orm.html"
-	bytes, err := bindataRead(path, name)
-	if err != nil {
-		return nil, err
-	}
-
-	fi, err := os.Stat(path)
-	if err != nil {
-		err = fmt.Errorf("Error reading asset info %s at %s: %v", name, path, err)
-	}
-
-	a := &asset{bytes: bytes, info: fi}
-	return a, err
-}
-
-// templatePongo2WebTestSessionHtml reads file data from disk. It returns an error on failure.
-func templatePongo2WebTestSessionHtml() (*asset, error) {
-	path := "/Users/fox/go/mypath/src/github.com/foxiswho/shop-go/template/pongo2/web/test/session.html"
-	name := "template/pongo2/web/test/session.html"
-	bytes, err := bindataRead(path, name)
-	if err != nil {
-		return nil, err
-	}
-
-	fi, err := os.Stat(path)
-	if err != nil {
-		err = fmt.Errorf("Error reading asset info %s at %s: %v", name, path, err)
-	}
-
-	a := &asset{bytes: bytes, info: fi}
-	return a, err
-}
-
-// templatePongo2WebTestWsHtml reads file data from disk. It returns an error on failure.
-func templatePongo2WebTestWsHtml() (*asset, error) {
-	path := "/Users/fox/go/mypath/src/github.com/foxiswho/shop-go/template/pongo2/web/test/ws.html"
-	name := "template/pongo2/web/test/ws.html"
 	bytes, err := bindataRead(path, name)
 	if err != nil {
 		return nil, err
@@ -447,7 +523,7 @@ func templatePongo2WebTestWsHtml() (*asset, error) {
 
 // templatePongo2WebUserHtml reads file data from disk. It returns an error on failure.
 func templatePongo2WebUserHtml() (*asset, error) {
-	path := "/Users/fox/go/mypath/src/github.com/foxiswho/shop-go/template/pongo2/web/user.html"
+	path := "/Users/fox/go/mypath/shop-go/src/github.com/foxiswho/shop-go/template/pongo2/web/user.html"
 	name := "template/pongo2/web/user.html"
 	bytes, err := bindataRead(path, name)
 	if err != nil {
@@ -517,6 +593,10 @@ func AssetNames() []string {
 var _bindata = map[string]func() (*asset, error){
 	"template/40x.tmpl": template40xTmpl,
 	"template/50x.tmpl": template50xTmpl,
+	"template/design/goxorm/config": templateDesignGoxormConfig,
+	"template/design/goxorm/struct.go.tpl": templateDesignGoxormStructGoTpl,
+	"template/design/make/controllers.go.tpl": templateDesignMakeControllersGoTpl,
+	"template/design/make/service.go.tpl": templateDesignMakeServiceGoTpl,
 	"template/include/base.html": templateIncludeBaseHtml,
 	"template/layout/www/about.html": templateLayoutWwwAboutHtml,
 	"template/layout/www/home.html": templateLayoutWwwHomeHtml,
@@ -526,17 +606,17 @@ var _bindata = map[string]func() (*asset, error){
 	"template/layout/www/user.html": templateLayoutWwwUserHtml,
 	"template/layout.tmpl": templateLayoutTmpl,
 	"template/pongo2/base.html": templatePongo2BaseHtml,
-	"template/pongo2/web/about.html": templatePongo2WebAboutHtml,
-	"template/pongo2/web/home.html": templatePongo2WebHomeHtml,
+	"template/pongo2/example/test/cache.html": templatePongo2ExampleTestCacheHtml,
+	"template/pongo2/example/test/cookie.html": templatePongo2ExampleTestCookieHtml,
+	"template/pongo2/example/test/jwt_tester.html": templatePongo2ExampleTestJwt_testerHtml,
+	"template/pongo2/example/test/orm.html": templatePongo2ExampleTestOrmHtml,
+	"template/pongo2/example/test/session.html": templatePongo2ExampleTestSessionHtml,
+	"template/pongo2/example/test/ws.html": templatePongo2ExampleTestWsHtml,
+	"template/pongo2/web/index/about.html": templatePongo2WebIndexAboutHtml,
+	"template/pongo2/web/index/home.html": templatePongo2WebIndexHomeHtml,
 	"template/pongo2/web/index.html": templatePongo2WebIndexHtml,
 	"template/pongo2/web/login.html": templatePongo2WebLoginHtml,
 	"template/pongo2/web/register.html": templatePongo2WebRegisterHtml,
-	"template/pongo2/web/test/cache.html": templatePongo2WebTestCacheHtml,
-	"template/pongo2/web/test/cookie.html": templatePongo2WebTestCookieHtml,
-	"template/pongo2/web/test/jwt_tester.html": templatePongo2WebTestJwt_testerHtml,
-	"template/pongo2/web/test/orm.html": templatePongo2WebTestOrmHtml,
-	"template/pongo2/web/test/session.html": templatePongo2WebTestSessionHtml,
-	"template/pongo2/web/test/ws.html": templatePongo2WebTestWsHtml,
 	"template/pongo2/web/user.html": templatePongo2WebUserHtml,
 }
 
@@ -583,6 +663,16 @@ var _bintree = &bintree{nil, map[string]*bintree{
 	"template": &bintree{nil, map[string]*bintree{
 		"40x.tmpl": &bintree{template40xTmpl, map[string]*bintree{}},
 		"50x.tmpl": &bintree{template50xTmpl, map[string]*bintree{}},
+		"design": &bintree{nil, map[string]*bintree{
+			"goxorm": &bintree{nil, map[string]*bintree{
+				"config": &bintree{templateDesignGoxormConfig, map[string]*bintree{}},
+				"struct.go.tpl": &bintree{templateDesignGoxormStructGoTpl, map[string]*bintree{}},
+			}},
+			"make": &bintree{nil, map[string]*bintree{
+				"controllers.go.tpl": &bintree{templateDesignMakeControllersGoTpl, map[string]*bintree{}},
+				"service.go.tpl": &bintree{templateDesignMakeServiceGoTpl, map[string]*bintree{}},
+			}},
+		}},
 		"include": &bintree{nil, map[string]*bintree{
 			"base.html": &bintree{templateIncludeBaseHtml, map[string]*bintree{}},
 		}},
@@ -599,20 +689,24 @@ var _bintree = &bintree{nil, map[string]*bintree{
 		"layout.tmpl": &bintree{templateLayoutTmpl, map[string]*bintree{}},
 		"pongo2": &bintree{nil, map[string]*bintree{
 			"base.html": &bintree{templatePongo2BaseHtml, map[string]*bintree{}},
+			"example": &bintree{nil, map[string]*bintree{
+				"test": &bintree{nil, map[string]*bintree{
+					"cache.html": &bintree{templatePongo2ExampleTestCacheHtml, map[string]*bintree{}},
+					"cookie.html": &bintree{templatePongo2ExampleTestCookieHtml, map[string]*bintree{}},
+					"jwt_tester.html": &bintree{templatePongo2ExampleTestJwt_testerHtml, map[string]*bintree{}},
+					"orm.html": &bintree{templatePongo2ExampleTestOrmHtml, map[string]*bintree{}},
+					"session.html": &bintree{templatePongo2ExampleTestSessionHtml, map[string]*bintree{}},
+					"ws.html": &bintree{templatePongo2ExampleTestWsHtml, map[string]*bintree{}},
+				}},
+			}},
 			"web": &bintree{nil, map[string]*bintree{
-				"about.html": &bintree{templatePongo2WebAboutHtml, map[string]*bintree{}},
-				"home.html": &bintree{templatePongo2WebHomeHtml, map[string]*bintree{}},
+				"index": &bintree{nil, map[string]*bintree{
+					"about.html": &bintree{templatePongo2WebIndexAboutHtml, map[string]*bintree{}},
+					"home.html": &bintree{templatePongo2WebIndexHomeHtml, map[string]*bintree{}},
+				}},
 				"index.html": &bintree{templatePongo2WebIndexHtml, map[string]*bintree{}},
 				"login.html": &bintree{templatePongo2WebLoginHtml, map[string]*bintree{}},
 				"register.html": &bintree{templatePongo2WebRegisterHtml, map[string]*bintree{}},
-				"test": &bintree{nil, map[string]*bintree{
-					"cache.html": &bintree{templatePongo2WebTestCacheHtml, map[string]*bintree{}},
-					"cookie.html": &bintree{templatePongo2WebTestCookieHtml, map[string]*bintree{}},
-					"jwt_tester.html": &bintree{templatePongo2WebTestJwt_testerHtml, map[string]*bintree{}},
-					"orm.html": &bintree{templatePongo2WebTestOrmHtml, map[string]*bintree{}},
-					"session.html": &bintree{templatePongo2WebTestSessionHtml, map[string]*bintree{}},
-					"ws.html": &bintree{templatePongo2WebTestWsHtml, map[string]*bintree{}},
-				}},
 				"user.html": &bintree{templatePongo2WebUserHtml, map[string]*bintree{}},
 			}},
 		}},
