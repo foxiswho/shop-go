@@ -6,11 +6,11 @@ import (
 	"github.com/foxiswho/shop-go/middleware/session"
 
 	"github.com/opentracing/opentracing-go"
-
 	"github.com/foxiswho/shop-go/module/auth"
 	"github.com/foxiswho/shop-go/util/json"
 	ot "github.com/foxiswho/shop-go/middleware/opentracing"
 	"net/http"
+	"fmt"
 )
 
 type BaseContext struct {
@@ -44,7 +44,8 @@ func (ctx *BaseContext) OpenTracingSpan() opentracing.Span {
  */
 func (c *BaseContext) AutoFMT(code int, i interface{}) (err error) {
 	// JSONP
-	callback := c.QueryParam("jsonp")
+	callback := c.QueryParam("callback")
+	fmt.Println("callback",callback)
 	if len(callback) > 0 {
 		c.Logger().Infof("JSONP callback func:%v", callback)
 		return c.JSONP(code, callback, i)

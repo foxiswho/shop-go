@@ -5,8 +5,6 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/labstack/echo"
-
 	"github.com/foxiswho/shop-go/middleware/session"
 
 	"github.com/foxiswho/shop-go/module/cache"
@@ -50,6 +48,8 @@ func ApiHandler(c *base.BaseContext) error {
 	s.AddFlash("21", "key2")
 
 	request := c.Request()
+	c.Response().Header().Del("Access-Control-Allow-Origin")
+	c.Response().Header().Add("Access-Control-Allow-Origin","*")
 	c.AutoFMT(http.StatusOK, map[string]interface{}{
 		"title":        "Api Index",
 		"User":         u,
@@ -68,20 +68,6 @@ func ApiHandler(c *base.BaseContext) error {
 		"FlashDefault": s.Flashes(),
 		"Flash1":       s.Flashes("key1"),
 		"Flash2":       s.Flashes("key2"),
-	})
-
-	return nil
-}
-
-func JETTesterHandler(c echo.Context) error {
-	t, err := getJETToken()
-	if err != nil {
-		return err
-	}
-	c.Set("tmpl", "api/jwt_tester")
-	c.Set("data", map[string]interface{}{
-		"title": "JWT 接口测试",
-		"token": t,
 	})
 
 	return nil

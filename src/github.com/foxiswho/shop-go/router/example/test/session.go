@@ -20,7 +20,7 @@ func (x *Session) IndexHandler(c *base.BaseContext) error {
 	test:=c.Session().Get("SSSSSSS")
 	fmt.Println("session=》SSSSSSS",test)
 
-	c.Set("tmpl", "web/test/session")
+	c.Set("tmpl", "example/test/session")
 	c.Set("data", map[string]interface{}{
 		"title": "测试 COOIE",
 		"test":  test,

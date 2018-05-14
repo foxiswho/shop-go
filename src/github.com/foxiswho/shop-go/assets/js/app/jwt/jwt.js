@@ -8,9 +8,10 @@ define(["jquery", "jquery-form", "bootstrap"], function ($, form, bootstrap) {
 	    token = $('#token').val();
 	    url = $('#url').val();
 	    $.ajax({
-	        dataType: 'text',
 	        async: false,
 	        url: url,
+            dataType: 'jsonp',
+			jsonpCallback:'aajsonp',
 	        beforeSend: function(request) {
                 request.setRequestHeader("Authorization", "Bearer "+token);
             },
@@ -21,7 +22,8 @@ define(["jquery", "jquery-form", "bootstrap"], function ($, form, bootstrap) {
 	            // alert("失败");
 	        },
 	        complete: function (xhr) {
-	            $('#api_data').val(xhr.responseText);
+	            console.log(xhr)
+	            $('#api_data').val(JSON.stringify(xhr.responseJSON));
 	        },
 	    });
 	}

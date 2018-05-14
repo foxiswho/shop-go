@@ -40,7 +40,7 @@ func HomeHandler(c *base.BaseContext) error {
 	User.Id = 1
 	User.TraceGetUserById(1)
 
-	c.Set("tmpl", "web/home")
+	c.Set("tmpl", "web/index/home")
 	c.Set("data", map[string]interface{}{
 		"title": "Home",
 	})

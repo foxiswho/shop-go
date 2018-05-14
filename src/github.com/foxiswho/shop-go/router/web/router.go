@@ -17,7 +17,7 @@ import (
 	sauth "github.com/foxiswho/shop-go/service/user_service/auth"
 	web_user "github.com/foxiswho/shop-go/router/web/user"
 	web_index "github.com/foxiswho/shop-go/router/web/index"
-	web_test "github.com/foxiswho/shop-go/router/web/test"
+	web_test "github.com/foxiswho/shop-go/router/example/test"
 	"github.com/foxiswho/shop-go/router/base"
 	"github.com/foxiswho/shop-go/router/web/design"
 )
@@ -108,7 +108,7 @@ func Routers() *echo.Echo {
 	{
 		about.GET("", base.Handler(web_index.AboutHandler))
 	}
-	test := e.Group("/test")
+	test := e.Group("/example/test")
 	{
 		test.GET("/jwt/tester", base.Handler(web_test.JWTTesterHandler))
 		test.GET("/ws", base.Handler(web_test.WsHandler))

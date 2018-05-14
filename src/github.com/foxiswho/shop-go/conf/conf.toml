@@ -22,9 +22,9 @@ graceful = true
 addr = ":8080"
 
 # Domains
-domain_api = "echo.api.localhost.com"
+domain_api = "a.net"
+domain_socket = "b.net"
 domain_web = "localhost"
-domain_socket = "echo.socket.localhost.com"
 
 [static]
 # BINDATA,FILE(FILE Default)
@@ -41,7 +41,7 @@ dir = "template/pongo2"
 suffix = ".html"
 
 [database]
-name = "fox"
+name = "shop_go"
 user_name = "root"
 pwd  = "root"
 host = "127.0.0.1"

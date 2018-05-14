@@ -28,7 +28,7 @@ func (x *cookie) IndexHandler(c *base.BaseContext) error {
 
 
 
-	c.Set("tmpl", "web/test/cookie")
+	c.Set("tmpl", "example/test/cookie")
 	c.Set("data", map[string]interface{}{
 		"title": "测试 COOIE",
 		"test":  value,

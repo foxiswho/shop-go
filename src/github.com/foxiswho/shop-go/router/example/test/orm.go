@@ -33,7 +33,7 @@ func (x *Orm) IndexHandler(c *base.BaseContext) error {
 	data, err := user_service.GetAll(where, []string{}, "id desc", 1, 20)
 	fmt.Println("GetAll err=>", err)
 	fmt.Println("GetAll data=>", data)
-	c.Set("tmpl", "web/test/orm")
+	c.Set("tmpl", "example/test/orm")
 	c.Set("data", map[string]interface{}{
 		"title": "测试 COOIE",
 	})

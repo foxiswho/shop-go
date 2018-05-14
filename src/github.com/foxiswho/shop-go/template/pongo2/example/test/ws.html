@@ -16,7 +16,7 @@
     if (loc.protocol === 'https:') {
       uri = 'wss:';
     }
-    uri += '//{{_conf.Server.DomainSocket}}';
+    uri += '//{{_conf.Server.DomainSocket}}:{{_conf.Server.Addr}}';
     uri += '/ws';
 
     ws = new WebSocket(uri)

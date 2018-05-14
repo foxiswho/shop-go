@@ -5,7 +5,7 @@ import (
 )
 
 func AboutHandler(c *base.BaseContext) error {
-	c.Set("tmpl", "web/about")
+	c.Set("tmpl", "web/index/about")
 	c.Set("data", map[string]interface{}{
 		"title": "About",
 	})

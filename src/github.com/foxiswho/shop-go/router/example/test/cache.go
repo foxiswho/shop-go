@@ -14,7 +14,7 @@ func CacheHandler(c *base.BaseContext) error {
 	var cache_test time.Time
 	err = cache.Client().Get("test", &cache_test)
 	fmt.Println("get test err", err,cache_test)
-	c.Set("tmpl", "web/test/cache")
+	c.Set("tmpl", "example/test/cache")
 	c.Set("data", map[string]interface{}{
 		"title":      "测试 缓存",
 		"cache_test": cache_test,
