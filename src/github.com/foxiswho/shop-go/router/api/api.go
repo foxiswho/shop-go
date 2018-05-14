@@ -6,7 +6,6 @@ import (
 	"time"
 
 	"github.com/labstack/echo"
-	// "github.com/jinzhu/gorm"
 
 	"github.com/foxiswho/shop-go/middleware/session"
 

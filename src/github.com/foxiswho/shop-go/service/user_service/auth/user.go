@@ -12,7 +12,7 @@ import (
 type User struct {
 	models.User `xorm:"extends"`
 
-	model.Model `gorm:"-" xorm:"-"`
+	model.Model `xorm:"-"`
 
 	authenticated bool `form:"-" db:"-" json:"-" xorm:"-"`
 }
