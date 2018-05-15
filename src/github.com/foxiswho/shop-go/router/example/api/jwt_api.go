@@ -51,7 +51,8 @@ func JwtApiHandler(c echo.Context) error {
 	s.AddFlash("10", "key1")
 	s.AddFlash("20", "key2")
 	s.AddFlash("21", "key2")
-
+	c.Response().Header().Del("Access-Control-Allow-Origin")
+	c.Response().Header().Add("Access-Control-Allow-Origin","*")
 	request := c.Request()
 	return c.JSON(http.StatusOK, map[string]interface{}{
 		"title":        "Api Index",

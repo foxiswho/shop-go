@@ -8,7 +8,6 @@
 {% block head_scripts %}
 		<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
 <script type="text/javascript">
-    document.domain = ".{{_conf.Server.DomainWeb}}";
     requirejs(['jquery', 'bootstrap']);
 </script>
 
@@ -43,7 +42,7 @@ function checkForm(obj) {
 
 {% block content %}
 <div class="container" style="padding:0px 10px; width:900px;">
-	<h2 class="text-center">{{title}}</h2>
+	<h2 class="text-center">jwt 登录 获取token</h2>
 	<form method="POST" action="/jwt/login?{{redirectParam}}={{redirect}}" enctype="application/json"
           onsubmit="return checkForm(this);"
 		  id="form1"
@@ -93,7 +92,7 @@ function checkForm(obj) {
             },
             complete: function (xhr) {
                 console.log(xhr)
-                //$('#api_data').val(JSON.stringify(xhr.responseJSON));
+                $('#api_data').val(JSON.stringify(xhr.responseJSON));
             },
         });
     }

@@ -73,7 +73,7 @@ func RoutersApi() *echo.Echo {
 	j := e.Group("/jwt")
 	{
 		// Login route
-		j.POST("/jwt-login", base.Handler(api.JwtLoginPostHandler))
+		j.POST("/login", base.Handler(api.JwtLoginPostHandler))
 		i:=j.Group("/restricted")
 		{
 			// Configure middleware with the custom claims type
