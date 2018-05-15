@@ -91,10 +91,9 @@ func Routers() *echo.Echo {
 	e.Use(auth.New(sauth.GenerateAnonymousUser))
 	// Routers
 	e.GET("/", base.Handler(web_index.HomeHandler))
-	e.GET("/login", base.Handler(web_user.LoginHandler))
+
 	e.GET("/register", base.Handler(web_user.RegisterHandler))
-	e.GET("/logout", base.Handler(web_user.LogoutHandler))
-	e.POST("/login", base.Handler(web_user.LoginPostHandler))
+
 	e.POST("/register", base.Handler(web_user.RegisterPostHandler))
 
 	user := e.Group("/user_service")
@@ -116,6 +115,9 @@ func Routers() *echo.Echo {
 		test.GET("/cookie", base.Handler(web_test.NewCookie().IndexHandler))
 		test.GET("/session", base.Handler(web_test.NewSession().IndexHandler))
 		test.GET("/orm", base.Handler(web_test.NewOrm().IndexHandler))
+		test.GET("/login", base.Handler(web_test.LoginHandler))
+		test.POST("/login", base.Handler(web_test.LoginPostHandler))
+		test.GET("/logout", base.Handler(web_test.LogoutHandler))
 	}
 	des := e.Group("/design")
 	{
