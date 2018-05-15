@@ -13,7 +13,7 @@ import (
 
 	. "github.com/foxiswho/shop-go/conf"
 	"github.com/foxiswho/shop-go/middleware/opentracing"
-	"github.com/foxiswho/shop-go/router/example/api"
+	"github.com/foxiswho/shop-go/router/example"
 	"github.com/foxiswho/shop-go/router/example/socket"
 	"github.com/foxiswho/shop-go/router/web"
 )
@@ -29,7 +29,7 @@ func InitRoutes() map[string]*Host {
 	hosts := make(map[string]*Host)
 
 	hosts[Conf.Server.DomainWeb] = &Host{web.Routers()}
-	hosts[Conf.Server.DomainApi] = &Host{api.Routers()}
+	hosts[Conf.Server.DomainApi] = &Host{example.RoutersApi()}
 	hosts[Conf.Server.DomainSocket] = &Host{socket.Routers()}
 
 	return hosts

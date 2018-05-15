@@ -17,6 +17,7 @@
 // template/pongo2/base.html
 // template/pongo2/example/test/cache.html
 // template/pongo2/example/test/cookie.html
+// template/pongo2/example/test/jwt_login.html
 // template/pongo2/example/test/jwt_tester.html
 // template/pongo2/example/test/login.html
 // template/pongo2/example/test/orm.html
@@ -359,6 +360,24 @@ func templatePongo2ExampleTestCookieHtml() (*asset, error) {
 	return a, err
 }
 
+// templatePongo2ExampleTestJwt_loginHtml reads file data from disk. It returns an error on failure.
+func templatePongo2ExampleTestJwt_loginHtml() (*asset, error) {
+	path := "/Users/fox/go/mypath/src/github.com/foxiswho/shop-go/template/pongo2/example/test/jwt_login.html"
+	name := "template/pongo2/example/test/jwt_login.html"
+	bytes, err := bindataRead(path, name)
+	if err != nil {
+		return nil, err
+	}
+
+	fi, err := os.Stat(path)
+	if err != nil {
+		err = fmt.Errorf("Error reading asset info %s at %s: %v", name, path, err)
+	}
+
+	a := &asset{bytes: bytes, info: fi}
+	return a, err
+}
+
 // templatePongo2ExampleTestJwt_testerHtml reads file data from disk. It returns an error on failure.
 func templatePongo2ExampleTestJwt_testerHtml() (*asset, error) {
 	path := "/Users/fox/go/mypath/src/github.com/foxiswho/shop-go/template/pongo2/example/test/jwt_tester.html"
@@ -608,6 +627,7 @@ var _bindata = map[string]func() (*asset, error){
 	"template/pongo2/base.html": templatePongo2BaseHtml,
 	"template/pongo2/example/test/cache.html": templatePongo2ExampleTestCacheHtml,
 	"template/pongo2/example/test/cookie.html": templatePongo2ExampleTestCookieHtml,
+	"template/pongo2/example/test/jwt_login.html": templatePongo2ExampleTestJwt_loginHtml,
 	"template/pongo2/example/test/jwt_tester.html": templatePongo2ExampleTestJwt_testerHtml,
 	"template/pongo2/example/test/login.html": templatePongo2ExampleTestLoginHtml,
 	"template/pongo2/example/test/orm.html": templatePongo2ExampleTestOrmHtml,
@@ -693,6 +713,7 @@ var _bintree = &bintree{nil, map[string]*bintree{
 				"test": &bintree{nil, map[string]*bintree{
 					"cache.html": &bintree{templatePongo2ExampleTestCacheHtml, map[string]*bintree{}},
 					"cookie.html": &bintree{templatePongo2ExampleTestCookieHtml, map[string]*bintree{}},
+					"jwt_login.html": &bintree{templatePongo2ExampleTestJwt_loginHtml, map[string]*bintree{}},
 					"jwt_tester.html": &bintree{templatePongo2ExampleTestJwt_testerHtml, map[string]*bintree{}},
 					"login.html": &bintree{templatePongo2ExampleTestLoginHtml, map[string]*bintree{}},
 					"orm.html": &bintree{templatePongo2ExampleTestOrmHtml, map[string]*bintree{}},

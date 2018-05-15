@@ -1,0 +1,60 @@
+{% extends "../../base.html" %}
+
+{% block head_title %}
+{{title}}
+{% endblock %}
+
+
+{% block head_scripts %}
+		<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script type="text/javascript">
+	requirejs(['bootstrap']);
+</script>
+
+<!-- 验证码 -->
+<script>
+function checkForm(obj) {
+    $.ajax({
+        //几个参数需要注意一下
+        type: "POST",//方法类型
+        dataType: "json",//预期服务器返回的数据类型
+        url: $('#form1').attr("action") ,//url
+        data: $('#form1').serialize(),
+        success: function (result) {
+            console.log(result);//打印服务端返回的数据(调试用)
+            $('#result').val(result.token);
+
+        },
+        error : function() {
+            alert("异常！");
+        }
+    });
+	return false;
+}
+
+</script>
+{% endblock %}
+
+{% block content %}
+<div class="container" style="padding:0px 10px; width:900px;">
+	<h2 class="text-center">{{title}}</h2>
+	<form method="POST" action="http://{{_conf.Server.DomainApi}}{{_conf.Server.Addr}}/jwt-login?{{redirectParam}}={{redirect}}" enctype="application/json"
+          onsubmit="return checkForm(this);"
+		  id="form1"
+	>
+		<input type="hidden" name="_csrf" value="{{_csrf}}" /><br />
+		<input type="text" placeholder="Username" name="username" value="admin"/><br />
+		<input type="text" placeholder="Password" name="password" value="admin"/><br />
+		<br />
+		
+		<button>Login</button>	
+	</form>
+	<div>
+		<div>返回值：token</div>
+		<textarea id="result" style="width: 100%;min-height: 400px;">
+
+		</textarea>
+	</div>
+</div>
+
+{% endblock %}

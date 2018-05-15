@@ -103,6 +103,8 @@ func Routers() *echo.Echo {
 	test := e.Group("/example/test")
 	{
 		test.GET("/jwt/tester", base.Handler(web_test.JWTTesterHandler))
+		test.GET("/jwt/login", base.Handler(web_test.JwtLoginHandler))
+		//test.POST("/jwt/login", base.Handler(web_test.JwtLoginPostHandler))
 		test.GET("/ws", base.Handler(web_test.WsHandler))
 		test.GET("/cache", base.Handler(web_test.CacheHandler))
 		test.GET("/cookie", base.Handler(web_test.NewCookie().IndexHandler))
