@@ -12,14 +12,26 @@ import (
 	"github.com/foxiswho/shop-go/service/user_service/auth"
 	userService "github.com/foxiswho/shop-go/service/example_service"
 	"github.com/labstack/echo"
+	"github.com/dgrijalva/jwt-go"
+	"fmt"
 )
 
 func JwtApiHandler(c echo.Context) error {
+	//注意，不能使用跨域，死活调试不通
 	log.Debugf("JwtApiHandler")
 	log.Debugf("JwtApiHandler")
 	log.Debugf("JwtApiHandler")
 	log.Debugf("JwtApiHandler")
 	log.Debugf("JwtApiHandler")
+	user := c.Get("user").(*jwt.Token)
+	claims := user.Claims.(*JwtCustomClaims)
+	name := claims.Name
+	log.Debugf("Claims",claims)
+	log.Debugf("name",name)
+	fmt.Println("ClaimsClaimsClaimsClaims",claims)
+	fmt.Println("ClaimsClaimsClaimsClaims",claims)
+	fmt.Println("ClaimsClaimsClaimsClaims",claims)
+	fmt.Println("name",name)
 	idStr := c.QueryParam("id")
 	id, err := strconv.ParseUint(idStr, 10, 64)
 

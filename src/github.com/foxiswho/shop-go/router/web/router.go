@@ -20,8 +20,6 @@ import (
 	"github.com/foxiswho/shop-go/router/base"
 	"github.com/foxiswho/shop-go/router/web/design"
 	"github.com/foxiswho/shop-go/router/example/api"
-	"github.com/dgrijalva/jwt-go"
-	"net/http"
 )
 
 //---------
@@ -87,7 +85,6 @@ func Routers() *echo.Echo {
 				SigningKey: []byte(Conf.SessionSecretKey),
 			}
 			i.Use(mw.JWTWithConfig(config))
-			i.GET("/restricted", restricted)
 			i.GET("/xx", api.JwtApiHandler)
 		}
 	}
@@ -148,11 +145,4 @@ func Routers() *echo.Echo {
 		des.GET("/service", base.Handler(design.ServiceMakeHandler))
 	}
 	return e
-}
-
-func restricted(c echo.Context) error {
-	user := c.Get("user").(*jwt.Token)
-	claims := user.Claims.(*api.JwtCustomClaims)
-	name := claims.Name
-	return c.String(http.StatusOK, "Welcome "+name+"!")
 }

@@ -36,7 +36,7 @@ func JwtLoginPostHandler(c *base.BaseContext) error {
 		if u != nil {
 			// Set custom claims
 			claims := &JwtCustomClaims{
-				"Jon Snow",
+				form.Nickname,
 				true,
 				jwt.StandardClaims{
 					ExpiresAt: time.Now().Add(time.Hour * 72).Unix(),

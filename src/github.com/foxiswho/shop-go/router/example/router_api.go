@@ -10,7 +10,6 @@ import (
 	"github.com/foxiswho/shop-go/module/cache"
 	"github.com/foxiswho/shop-go/router/base"
 	"github.com/foxiswho/shop-go/router/example/api"
-	"github.com/dgrijalva/jwt-go"
 	"net/http"
 )
 
@@ -82,7 +81,6 @@ func RoutersApi() *echo.Echo {
 				SigningKey: []byte(Conf.SessionSecretKey),
 			}
 			i.Use(mw.JWTWithConfig(config))
-			i.GET("/restricted", restricted)
 			//j.Use(mw.JWTWithConfig(mw.JWTConfig{
 			//	SigningKey:  []byte(Conf.SessionSecretKey),
 			//	//ContextKey:  "_user",
@@ -107,13 +105,4 @@ func RoutersApi() *echo.Echo {
 }
 func accessible(c echo.Context) error {
 	return c.String(http.StatusOK, "Accessible")
-}
-
-func restricted(c echo.Context) error {
-	user := c.Get("user").(*jwt.Token)
-	claims := user.Claims.(*api.JwtCustomClaims)
-	name := claims.Name
-	c.Response().Header().Del("Access-Control-Allow-Origin")
-	c.Response().Header().Add("Access-Control-Allow-Origin","*")
-	return c.String(http.StatusOK, "Welcome "+name+"!")
 }
