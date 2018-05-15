@@ -66,36 +66,35 @@ func RoutersApi() *echo.Echo {
 	// RoutersApi
 	//e.GET("/login", UserLoginHandler)
 	//e.GET("/register", UserRegisterHandler)
-	// Login route
-	e.POST("/jwt-login", base.Handler(api.JwtLoginPostHandler))
 
 	// Unauthenticated route
 	e.GET("/", accessible)
-	// Restricted group
-	r := e.Group("/restricted")
-
-	// Configure middleware with the custom claims type
-	config := mw.JWTConfig{
-		Claims:     &api.JwtCustomClaims{},
-		SigningKey: []byte(Conf.SessionSecretKey),
-	}
-
-	r.Use(mw.JWTWithConfig(config))
-	r.GET("", restricted)
 	// JWT
-	//j := e.Group("/jwt")
-	//{
-		//j.Use(mw.JWTWithConfig(mw.JWTConfig{
-		//	SigningKey:  []byte(Conf.SessionSecretKey),
-		//	ContextKey:  "_user",
-		//	//TokenLookup: "header:" + echo.HeaderAuthorization,
-		//}))
+	j := e.Group("/jwt")
+	{
+		// Login route
+		j.POST("/jwt-login", base.Handler(api.JwtLoginPostHandler))
+		i:=j.Group("/restricted")
+		{
+			// Configure middleware with the custom claims type
+			config := mw.JWTConfig{
+				Claims:     &api.JwtCustomClaims{},
+				SigningKey: []byte(Conf.SessionSecretKey),
+			}
+			i.Use(mw.JWTWithConfig(config))
+			i.GET("/restricted", restricted)
+			//j.Use(mw.JWTWithConfig(mw.JWTConfig{
+			//	SigningKey:  []byte(Conf.SessionSecretKey),
+			//	//ContextKey:  "_user",
+			//	//TokenLookup: "header:" + echo.HeaderAuthorization,
+			//}))
+			i.GET("/xx", api.JwtApiHandler)
+		}
 
-		//r.GET("/", base.Handler(ApiHandler))
 
-		// curl http://echo.api.localhost:8080/restricted/user -H "Authorization: Bearer XXX"
+		//curl http://echo.api.localhost:8080/restricted/user -H "Authorization: Bearer XXX"
 		//r.GET("/user_service", UserHandler)
-	//}
+	}
 
 	//post := r.Group("/post")
 	//{
@@ -114,5 +113,7 @@ func restricted(c echo.Context) error {
 	user := c.Get("user").(*jwt.Token)
 	claims := user.Claims.(*api.JwtCustomClaims)
 	name := claims.Name
+	c.Response().Header().Del("Access-Control-Allow-Origin")
+	c.Response().Header().Add("Access-Control-Allow-Origin","*")
 	return c.String(http.StatusOK, "Welcome "+name+"!")
 }

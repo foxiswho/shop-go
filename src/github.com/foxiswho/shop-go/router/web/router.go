@@ -19,6 +19,9 @@ import (
 	web_test "github.com/foxiswho/shop-go/router/example/test"
 	"github.com/foxiswho/shop-go/router/base"
 	"github.com/foxiswho/shop-go/router/web/design"
+	"github.com/foxiswho/shop-go/router/example/api"
+	"github.com/dgrijalva/jwt-go"
+	"net/http"
 )
 
 //---------
@@ -40,11 +43,7 @@ func Routers() *echo.Echo {
 	// Session
 	e.Use(session.Session())
 
-	// CSRF
-	e.Use(mw.CSRFWithConfig(mw.CSRFConfig{
-		ContextKey:  "_csrf",
-		TokenLookup: "form:_csrf",
-	}))
+
 
 	// Middleware
 	e.Use(mw.Logger())
@@ -77,6 +76,27 @@ func Routers() *echo.Echo {
 	if !Conf.Opentracing.Disable {
 		e.Use(opentracing.OpenTracing("web"))
 	}
+	////////////////////////////
+	j := e.Group("/jwt")
+	{
+		j.POST("/login", base.Handler(api.JwtLoginPostHandler))
+		i:=j.Group("/restricted")
+		{
+			config := mw.JWTConfig{
+				Claims:     &api.JwtCustomClaims{},
+				SigningKey: []byte(Conf.SessionSecretKey),
+			}
+			i.Use(mw.JWTWithConfig(config))
+			i.GET("/restricted", restricted)
+			i.GET("/xx", api.JwtApiHandler)
+		}
+	}
+	////////////////////////////
+	// CSRF
+	e.Use(mw.CSRFWithConfig(mw.CSRFConfig{
+		ContextKey:  "_csrf",
+		TokenLookup: "form:_csrf",
+	}))
 
 	// 模板
 	e.Renderer = render.LoadTemplates()
@@ -128,4 +148,11 @@ func Routers() *echo.Echo {
 		des.GET("/service", base.Handler(design.ServiceMakeHandler))
 	}
 	return e
+}
+
+func restricted(c echo.Context) error {
+	user := c.Get("user").(*jwt.Token)
+	claims := user.Claims.(*api.JwtCustomClaims)
+	name := claims.Name
+	return c.String(http.StatusOK, "Welcome "+name+"!")
 }

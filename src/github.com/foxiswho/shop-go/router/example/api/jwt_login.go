@@ -6,6 +6,11 @@ import (
 	"net/http"
 	"github.com/labstack/echo"
 	"github.com/foxiswho/shop-go/router/base"
+	"fmt"
+	"github.com/foxiswho/shop-go/router/example/test"
+	"github.com/foxiswho/shop-go/service/example_service"
+	"github.com/foxiswho/shop-go/module/log"
+	"github.com/foxiswho/shop-go/conf"
 )
 
 // jwtCustomClaims are custom claims extending default ones.
@@ -16,33 +21,51 @@ type JwtCustomClaims struct {
 }
 
 func JwtLoginPostHandler(c *base.BaseContext) error {
-	username := c.FormValue("username")
-	password := c.FormValue("password")
 	c.Response().Header().Del("Access-Control-Allow-Origin")
 	c.Response().Header().Add("Access-Control-Allow-Origin","*")
-	if username == "admin" && password == "admin" {
+	var form test.LoginForm
+	if err := c.Bind(&form); err == nil {
+		fmt.Println("form",form)
+		u := example_service.GetUserByNicknamePwd(form.Nickname, form.Password)
+		fmt.Println("db=>u")
+		fmt.Println("db=>u")
+		fmt.Println("db=>u")
+		fmt.Println("db=>u")
+		fmt.Println("db=>u")
+		fmt.Println("db=>u",u)
+		if u != nil {
+			// Set custom claims
+			claims := &JwtCustomClaims{
+				"Jon Snow",
+				true,
+				jwt.StandardClaims{
+					ExpiresAt: time.Now().Add(time.Hour * 72).Unix(),
+				},
+			}
 
-		// Set custom claims
-		claims := &JwtCustomClaims{
-			"Jon Snow",
-			true,
-			jwt.StandardClaims{
-				ExpiresAt: time.Now().Add(time.Hour * 72).Unix(),
-			},
+			// Create token with claims
+			token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+
+			// Generate encoded token and send it as response.
+			t, err := token.SignedString([]byte(conf.Conf.SessionSecretKey))
+			if err != nil {
+				return err
+			}
+			return c.JSON(http.StatusOK, echo.Map{
+				"token": t,
+			})
+		} else {
+			return c.JSON(http.StatusOK, echo.Map{
+				"message": "用户不存在",
+			})
 		}
-
-		// Create token with claims
-		token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-
-		// Generate encoded token and send it as response.
-		t, err := token.SignedString([]byte("secret"))
-		if err != nil {
-			return err
-		}
+	} else {
+		params, _ := c.FormParams()
+		log.Debugf("Login form params: %v", params)
+		log.Debugf("Login form bind Error: %v", err)
 		return c.JSON(http.StatusOK, echo.Map{
-			"token": t,
+			"message": "错误",
 		})
 	}
-
 	return echo.ErrUnauthorized
 }

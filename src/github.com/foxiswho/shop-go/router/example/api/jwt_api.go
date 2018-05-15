@@ -11,10 +11,15 @@ import (
 	"github.com/foxiswho/shop-go/module/log"
 	"github.com/foxiswho/shop-go/service/user_service/auth"
 	userService "github.com/foxiswho/shop-go/service/example_service"
-	"github.com/foxiswho/shop-go/router/base"
+	"github.com/labstack/echo"
 )
 
-func ApiHandler(c *base.BaseContext) error {
+func JwtApiHandler(c echo.Context) error {
+	log.Debugf("JwtApiHandler")
+	log.Debugf("JwtApiHandler")
+	log.Debugf("JwtApiHandler")
+	log.Debugf("JwtApiHandler")
+	log.Debugf("JwtApiHandler")
 	idStr := c.QueryParam("id")
 	id, err := strconv.ParseUint(idStr, 10, 64)
 
@@ -48,9 +53,7 @@ func ApiHandler(c *base.BaseContext) error {
 	s.AddFlash("21", "key2")
 
 	request := c.Request()
-	c.Response().Header().Del("Access-Control-Allow-Origin")
-	c.Response().Header().Add("Access-Control-Allow-Origin","*")
-	c.AutoFMT(http.StatusOK, map[string]interface{}{
+	return c.JSON(http.StatusOK, map[string]interface{}{
 		"title":        "Api Index",
 		"User":         u,
 		"CacheValue":   value,
@@ -70,5 +73,4 @@ func ApiHandler(c *base.BaseContext) error {
 		"Flash2":       s.Flashes("key2"),
 	})
 
-	return nil
 }
