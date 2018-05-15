@@ -1,9 +1,9 @@
-package user
+package test
 
 import (
 	"strconv"
 
-	"github.com/foxiswho/shop-go/service/user_service"
+	"github.com/foxiswho/shop-go/service/example_service"
 	"fmt"
 	"github.com/foxiswho/shop-go/router/base"
 )
@@ -16,7 +16,7 @@ func UserHandler(c *base.BaseContext) error {
 	}
 	fmt.Println("idStr=>", idStr)
 	fmt.Println("id=>", id)
-	u := user_service.GetUserById(id)
+	u := example_service.GetUserById(id)
 	fmt.Println("UserHandler", u)
 	c.Set("tmpl", "web/user_service")
 	c.Set("data", map[string]interface{}{

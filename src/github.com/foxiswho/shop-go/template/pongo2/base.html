@@ -35,7 +35,7 @@
                 <li><a href="/example/test/jwt/tester">JWT</a></li>
                 <li><a href="/example/test/ws">Socket</a></li>
                 <li><a href="http://jaeger.hbchen.com" target="Jaeger">Jaeger</a></li>
-                <li><a href="https://github.com/hb-chen" target="GitHub">GitHub</a></li>
+                <li><a href="https://github.com/foxiswho/shop-go" target="GitHub">GitHub</a></li>
             </ul>
 
             <ul class="nav navbar-nav navbar-right">
@@ -43,10 +43,10 @@
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Account <span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
                     {% if _user.Id %}
-                        <li><a href="/logout?return_url={{requestUrl}}">Logout</a></li>
+                        <li><a href="/example/test/logout?return_url={{requestUrl}}">Logout</a></li>
                     {% else %}
-                        <li><a href="/login?return_url={{requestUrl}}">Login</a></li>
-                        <li><a href="/register?return_url={{requestUrl}}">Register</a></li>
+                        <li><a href="/example/test/login?return_url={{requestUrl}}">Login</a></li>
+                        <li><a href="/example/test/register?return_url={{requestUrl}}">Register</a></li>
                     {% endif %}
                     </ul>
                 </li>

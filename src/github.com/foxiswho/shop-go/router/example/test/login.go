@@ -6,7 +6,7 @@ import (
 	"github.com/foxiswho/shop-go/router/base"
 	"github.com/foxiswho/shop-go/module/auth"
 	"github.com/foxiswho/shop-go/module/log"
-	userService "github.com/foxiswho/shop-go/service/user_service"
+	userService "github.com/foxiswho/shop-go/service/example_service"
 	"fmt"
 )
 

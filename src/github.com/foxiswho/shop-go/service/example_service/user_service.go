@@ -1,4 +1,4 @@
-package user_service
+package example_service
 
 import (
 	"time"

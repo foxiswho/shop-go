@@ -10,7 +10,7 @@ import (
 	"github.com/foxiswho/shop-go/module/cache"
 	"github.com/foxiswho/shop-go/module/log"
 	"github.com/foxiswho/shop-go/service/user_service/auth"
-	userService "github.com/foxiswho/shop-go/service/user_service"
+	userService "github.com/foxiswho/shop-go/service/example_service"
 	"github.com/foxiswho/shop-go/router/base"
 )
 

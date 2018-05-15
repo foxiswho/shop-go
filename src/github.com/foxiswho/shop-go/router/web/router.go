@@ -15,7 +15,6 @@ import (
 	"github.com/foxiswho/shop-go/module/render"
 	"github.com/foxiswho/shop-go/module/session"
 	sauth "github.com/foxiswho/shop-go/service/user_service/auth"
-	web_user "github.com/foxiswho/shop-go/router/web/user"
 	web_index "github.com/foxiswho/shop-go/router/web/index"
 	web_test "github.com/foxiswho/shop-go/router/example/test"
 	"github.com/foxiswho/shop-go/router/base"
@@ -92,15 +91,9 @@ func Routers() *echo.Echo {
 	// Routers
 	e.GET("/", base.Handler(web_index.HomeHandler))
 
-	e.GET("/register", base.Handler(web_user.RegisterHandler))
 
-	e.POST("/register", base.Handler(web_user.RegisterPostHandler))
 
-	user := e.Group("/user_service")
-	user.Use(auth.LoginRequired())
-	{
-		user.GET("/:id", base.Handler(web_user.UserHandler))
-	}
+
 
 	about := e.Group("/about")
 	about.Use(auth.LoginRequired())
@@ -118,6 +111,15 @@ func Routers() *echo.Echo {
 		test.GET("/login", base.Handler(web_test.LoginHandler))
 		test.POST("/login", base.Handler(web_test.LoginPostHandler))
 		test.GET("/logout", base.Handler(web_test.LogoutHandler))
+		test.GET("/register", base.Handler(web_test.RegisterHandler))
+
+		test.POST("/register", base.Handler(web_test.RegisterPostHandler))
+
+		user := test.Group("/user_service")
+		user.Use(auth.LoginRequired())
+		{
+			user.GET("/:id", base.Handler(web_test.UserHandler))
+		}
 	}
 	des := e.Group("/design")
 	{
