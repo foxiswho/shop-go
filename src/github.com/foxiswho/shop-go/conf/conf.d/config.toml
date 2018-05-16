@@ -41,4 +41,5 @@ keys = [
     "/upload/default/size",
     "/upload/default/local_save_is",
     "/upload/default/http",
+    "/secret/upload_aes_key",
 ]

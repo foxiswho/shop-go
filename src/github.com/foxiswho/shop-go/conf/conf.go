@@ -48,6 +48,8 @@ type config struct {
 
 	// upload
 	Upload Upload
+
+	Secret Secret
 }
 
 type app struct {
@@ -106,6 +108,10 @@ type Upload struct {
 	Size        int    `toml:"size"`          //最大上传文件大小 5*1024*1024
 	LocalSaveIs bool   `toml:"local_save_is"` //是否本地保存
 	Http        string `toml:"http"`          //域名
+}
+
+type Secret struct {
+	UploadAesKey string `toml:"upload_aes_key"`
 }
 
 func init() {

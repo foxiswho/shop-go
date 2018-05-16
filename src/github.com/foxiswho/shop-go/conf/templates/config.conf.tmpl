@@ -84,3 +84,9 @@ size={{getv "/upload/default/size"}}
 local_save_is={{getv "/upload/default/local_save_is"}}
 #域名
 http="{{getv "/upload/default/http"}}"
+
+
+
+[secret]
+# AES-128。key长度：16, 24, 32 bytes 对应 AES-128, AES-192, AES-256
+upload_aes_key="{{getv "/secret/upload_aes_key"}}"

@@ -18,9 +18,20 @@ func NewUpload() *Upload {
 	return new(Upload)
 }
 func (x *Upload) UploadIndex(c *base.BaseContext) error {
+	//上传令牌 初始化
+	maps := make(map[string]interface{})
+	maps["type_id"] = 1
+	maps["id"] = 1
+	maps["aid"] = 1
+	cry, err := file.TokeMake(maps)
+	if err != nil {
+		fmt.Println("令牌加密错误：" + err.Error())
+		c.Error(err)
+	}
 	c.Set("tmpl", "example/test/upload")
 	c.Set("data", map[string]interface{}{
 		"title": "上传",
+		"upload_token": cry,
 	})
 	return nil
 }
@@ -106,12 +117,20 @@ func UploadMorePostIndex(c *base.BaseContext) error {
 
 //上传图片 支持 markdown编辑器上传图片
 // @router /upload/image [post]
-func UploadDb(c *base.BaseContext) error {
+func UploadDbHandler(c *base.BaseContext) error {
+	fmt.Println("pppppppppp")
+	fmt.Println("pppppppppp")
+	fmt.Println("pppppppppp")
+	fmt.Println("pppppppppp")
+	fmt.Println("pppppppppp")
+	pp,err:=c.FormParams()
+	fmt.Println("pppppppppp",pp,err)
 	//声明
 	var maps map[string]interface{}
-	var err error
-	t := c.Get("t").(string)
-	token := c.Get("token").(string)
+	t := c.FormValue("t")
+	fmt.Println("token=>",c.FormValue("token"))
+	token := c.FormValue("token")
+	fmt.Println("token=>",token)
 	//token 验证
 	if len(token) > 0 {
 		//解密
@@ -164,7 +183,7 @@ func UploadDb(c *base.BaseContext) error {
 		//}
 		c.JSON(http.StatusOK, map[string]interface{}{
 			"message": "",
-			"json":    md,
+			//"json":    md,
 		})
 	} else {
 		//其他返回

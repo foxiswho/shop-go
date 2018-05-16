@@ -297,8 +297,13 @@ func (c *UploadFile) SaveDataBase(maps map[string]interface{}) {
 	att.NameOriginal = c.NameOriginal
 	att.Path = c.Path
 	att.Md5 = crypt.Md5(c.Path + c.Name)
-
+	att.GmtCreate = time.Now()
 	fmt.Println("maps=>", maps)
+	//是否是图片
+	switch c.Ext {
+	case "jpeg","gif","png","bmp":
+		att.IsImage=1
+	}
 	//其他字段
 	if maps["type_id"] != nil {
 		type_id, _ := conv.ObjToInt(maps["type_id"])

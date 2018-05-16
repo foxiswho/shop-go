@@ -140,6 +140,7 @@ func Routers() *echo.Echo {
 		test.GET("/upload", base.Handler(web_test.NewUpload().UploadIndex))
 		test.POST("/upload", base.Handler(web_test.UploadPostIndex))
 		test.POST("/upload-more", base.Handler(web_test.UploadMorePostIndex))
+		test.POST("/upload-db", base.Handler(web_test.UploadDbHandler))
 		test.GET("/jsonp", base.Handler(web_test.JsonpIndexHandler))
 	}
 	des := e.Group("/design")
