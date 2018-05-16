@@ -68,6 +68,10 @@ func RoutersApi() *echo.Echo {
 
 	// Unauthenticated route
 	e.GET("/", accessible)
+	json := e.Group("/json")
+	{
+		json.GET("/jsonp",base.Handler(api.JsonpHandler))
+	}
 	// JWT
 	j := e.Group("/jwt")
 	{
