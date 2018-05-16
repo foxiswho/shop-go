@@ -22,9 +22,9 @@ graceful = true
 addr = ":8080"
 
 # Domains
-domain_api = "echo.api.localhost.com"
-domain_socket = "echo.socket.localhost.com"
-domain_web = "echo.www.localhost.com"
+domain_api = "api.a.net"
+domain_socket = "socket.a.net"
+domain_web = "www.a.net"
 
 [static]
 # BINDATA,FILE(FILE Default)
@@ -66,3 +66,19 @@ service_name = "echo-web"
 # jaeger-agent 127.0.0.1:6831
 # appdash http://localhost:8700
 address = "127.0.0.1:6831"
+
+[upload]
+#上传方式 local:本地 QiNiu:七牛云存储
+type="local"
+#允许上传后缀
+ext="jpg,gif,png,jpeg"
+#上传文件目录
+root_path="/uploads/image/"
+#临时文件目录
+root_path_tmp="/uploads/tmp/"
+#最大上传文件大小 5*1024*1024
+size=5242880
+#是否本地保存
+local_save_is=true
+#域名
+http="#upload_default"

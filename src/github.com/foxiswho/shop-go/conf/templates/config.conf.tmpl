@@ -68,3 +68,19 @@ service_name = "{{getv "/opentracing/service_name"}}"
 # jaeger-agent 127.0.0.1:6831
 # appdash http://localhost:8700
 address = "{{getv "/opentracing/address"}}"
+
+[default]
+#上传方式 local:本地 QiNiu:七牛云存储
+type="{{getv "/upload/default/type"}}"
+#允许上传后缀
+ext="{{getv "/upload/default/ext"}}"
+#上传文件目录
+root_path="{{getv "/upload/default/root_path"}}"
+#临时文件目录
+root_path_tmp="{{getv "/upload/default/root_path_tmp"}}"
+#最大上传文件大小 5*1024*1024
+size={{getv "/upload/default/size"}}
+#是否本地保存
+local_save_is={{getv "/upload/default/local_save_is"}}
+#域名
+http="{{getv "/upload/default/http"}}"

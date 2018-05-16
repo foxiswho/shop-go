@@ -39,9 +39,9 @@ func RoutersApi() *echo.Echo {
 	}
 
 	// CSRF
-	//e.Use(mw.CSRFWithConfig(mw.CSRFConfig{
-	//	TokenLookup: "form:X-XSRF-TOKEN",
-	//}))
+	e.Use(mw.CSRFWithConfig(mw.CSRFConfig{
+		TokenLookup: "form:X-XSRF-TOKEN",
+	}))
 
 	// Gzip
 	e.Use(mw.GzipWithConfig(mw.GzipConfig{

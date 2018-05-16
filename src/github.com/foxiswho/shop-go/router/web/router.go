@@ -131,14 +131,15 @@ func Routers() *echo.Echo {
 		test.POST("/login", base.Handler(web_test.LoginPostHandler))
 		test.GET("/logout", base.Handler(web_test.LogoutHandler))
 		test.GET("/register", base.Handler(web_test.RegisterHandler))
-
 		test.POST("/register", base.Handler(web_test.RegisterPostHandler))
-
 		user := test.Group("/user_service")
 		user.Use(auth.LoginRequired())
 		{
 			user.GET("/:id", base.Handler(web_test.UserHandler))
 		}
+		test.GET("/upload", base.Handler(web_test.NewUpload().UploadIndex))
+		test.POST("/upload", base.Handler(web_test.UploadPostIndex))
+		test.POST("/upload-more", base.Handler(web_test.UploadMorePostIndex))
 	}
 	des := e.Group("/design")
 	{

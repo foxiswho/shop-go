@@ -34,4 +34,11 @@ keys = [
     "/opentracing/type",
     "/opentracing/service_name",
     "/opentracing/address",
+    "/upload/default/type",
+    "/upload/default/ext",
+    "/upload/default/root_path",
+    "/upload/default/root_path_tmp",
+    "/upload/default/size",
+    "/upload/default/local_save_is",
+    "/upload/default/http",
 ]
