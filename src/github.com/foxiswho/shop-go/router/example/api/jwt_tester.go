@@ -1,28 +1,30 @@
-package test
+package api
 
 import (
-	"github.com/foxiswho/shop-go/router/base"
-	userService "github.com/foxiswho/shop-go/service/example_service"
-	"github.com/foxiswho/shop-go/service/user_service/auth"
+	"net/http"
+	"strconv"
 	"github.com/foxiswho/shop-go/module/log"
 	"github.com/foxiswho/shop-go/module/cache"
 	"github.com/foxiswho/shop-go/middleware/session"
-	"strconv"
+	"github.com/foxiswho/shop-go/service/user_service/auth"
+	userService "github.com/foxiswho/shop-go/service/example_service"
+	"github.com/foxiswho/shop-go/router/base"
 	"time"
-	"net/http"
+	"fmt"
+	"github.com/dgrijalva/jwt-go"
 )
 
-func JwtTesterHandler(c *base.BaseContext) error {
-	c.Set("tmpl", "example/test/jwt_tester")
-	c.Set("data", map[string]interface{}{
-		"title": "JWT 接口测试",
-		"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbiI6dHJ1ZSwiaWQiOiIxIiwibmFtZSI6IkhvYm8ifQ.YUzBykoELyKoQWaugkVNf3d09HBhICBJoOcWQKnveRQ",
-	})
-
-	return nil
-}
-
-func JWTTesterApiHandler(c *base.BaseContext) error {
+func JwtTesterApiHandler(c *base.BaseContext) error {
+	log.Debugf("JwtApiHandler")
+	log.Debugf("JwtApiHandler")
+	log.Debugf("JwtApiHandler")
+	log.Debugf("JwtApiHandler")
+	log.Debugf("JwtApiHandler")
+	user := c.Get("_user").(*jwt.Token)
+	fmt.Println("ClaimsClaimsClaimsClaims",user)
+	fmt.Println("ClaimsClaimsClaimsClaims",user)
+	fmt.Println("ClaimsClaimsClaimsClaims",user.Claims)
+	//fmt.Println("name",name)
 	idStr := c.QueryParam("id")
 	id, err := strconv.ParseUint(idStr, 10, 64)
 
@@ -49,14 +51,16 @@ func JWTTesterApiHandler(c *base.BaseContext) error {
 
 	// Flash测试
 	s := session.Default(c)
+	fmt.Println("session.Default",s)
 	s.AddFlash("0")
 	s.AddFlash("1")
 	s.AddFlash("10", "key1")
 	s.AddFlash("20", "key2")
 	s.AddFlash("21", "key2")
-
+	//c.Response().Header().Del("Access-Control-Allow-Origin")
+	//c.Response().Header().Add("Access-Control-Allow-Origin","*")
 	request := c.Request()
-	c.AutoFMT(http.StatusOK, map[string]interface{}{
+	c.JSON(http.StatusOK, map[string]interface{}{
 		"title":        "Api Index",
 		"User":         u,
 		"CacheValue":   value,
@@ -75,6 +79,5 @@ func JWTTesterApiHandler(c *base.BaseContext) error {
 		"Flash1":       s.Flashes("key1"),
 		"Flash2":       s.Flashes("key2"),
 	})
-
-	return nil
+	return  nil
 }

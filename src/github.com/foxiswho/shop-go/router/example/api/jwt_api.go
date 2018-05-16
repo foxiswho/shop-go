@@ -17,7 +17,7 @@ import (
 )
 
 func JwtApiHandler(c echo.Context) error {
-	//注意，不能使用跨域，死活调试不通
+	//
 	log.Debugf("JwtApiHandler")
 	log.Debugf("JwtApiHandler")
 	log.Debugf("JwtApiHandler")

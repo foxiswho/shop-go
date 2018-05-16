@@ -4,7 +4,7 @@ import (
 
 	"github.com/labstack/echo"
 	mw "github.com/labstack/echo/middleware"
-
+	"github.com/foxiswho/shop-go/module/session"
 	. "github.com/foxiswho/shop-go/conf"
 	"github.com/foxiswho/shop-go/middleware/opentracing"
 	"github.com/foxiswho/shop-go/module/cache"
@@ -31,7 +31,7 @@ func RoutersApi() *echo.Echo {
 	e.Logger.SetLevel(GetLogLvl())
 
 	// Session
-	//e.Use(session.Session())
+	e.Use(session.Session())
 
 	// OpenTracing
 	if !Conf.Opentracing.Disable {
@@ -92,6 +92,17 @@ func RoutersApi() *echo.Echo {
 
 		//curl http://echo.api.localhost:8080/restricted/user -H "Authorization: Bearer XXX"
 		//r.GET("/user_service", UserHandler)
+	}
+	// JWT
+	r := e.Group("/jwt2")
+	{
+		r.Use(mw.JWTWithConfig(mw.JWTConfig{
+			SigningKey:  []byte("secret"),
+			ContextKey:  "_user",
+			TokenLookup: "header:" + echo.HeaderAuthorization,
+		}))
+
+		r.GET("/login-in", base.Handler(api.JwtTesterApiHandler))
 	}
 
 	//post := r.Group("/post")
