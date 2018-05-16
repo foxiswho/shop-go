@@ -47,7 +47,7 @@ type config struct {
 	Opentracing opentracing
 
 	// upload
-	Upload upload
+	Upload Upload
 }
 
 type app struct {
@@ -98,7 +98,7 @@ type opentracing struct {
 	Address     string `toml:"address"`
 }
 
-type upload struct {
+type Upload struct {
 	Type        string `toml:"type"`          //上传方式 local:本地 QiNiu:七牛云存储
 	Ext         string `toml:"ext"`           //允许上传后缀
 	RootPath    string `toml:"root_path"`     //上传文件目录
