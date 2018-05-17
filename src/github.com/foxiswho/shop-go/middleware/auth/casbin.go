@@ -4,6 +4,7 @@ import (
 	"github.com/casbin/casbin"
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
+	"github.com/foxiswho/shop-go/module/auth"
 )
 
 type (
@@ -47,25 +48,22 @@ func MiddlewareWithConfig(config Config) echo.MiddlewareFunc {
 			if config.Skipper(c) || config.CheckPermission(c) {
 				return next(c)
 			}
-
 			return echo.ErrForbidden
 		}
 	}
 }
 
-// GetUserUid gets the user name from the request.
+// GetRoleId gets the user name from the request.
 // Currently, only HTTP basic authentication is supported
-func (a *Config) GetUserUid(c echo.Context) string {
-	username, _, _ := c.Request().BasicAuth()
-	return username
+func (a *Config) GetRoleId(c echo.Context) int {
+	return auth.Default(c).RoleId()
 }
 
 // CheckPermission checks the user/method/path combination from the request.
 // Returns true (permission granted) or false (permission forbidden)
 func (a *Config) CheckPermission(c echo.Context) bool {
-	//session.Default(c).Get()
-	user := a.GetUserUid(c)
+	role_id := a.GetRoleId(c)
 	method := c.Request().Method
 	path := c.Request().URL.Path
-	return a.Enforcer.Enforce(user, path, method)
+	return a.Enforcer.Enforce(role_id, path, method)
 }

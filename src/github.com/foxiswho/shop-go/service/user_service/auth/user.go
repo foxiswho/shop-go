@@ -48,6 +48,10 @@ func (u *User) UniqueId() interface{} {
 	return u.Id
 }
 
+func (u *User) RoleId() interface{} {
+	return u.User.GroupId
+}
+
 // GetById will populate a user_service object from a database model with
 // a matching id.
 func (u *User) GetById(id interface{}) error {

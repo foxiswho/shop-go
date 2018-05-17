@@ -13,7 +13,7 @@
 // limitations under the License.
 //https://github.com/casbin/xorm-adapter
 
-package xormadapter
+package authadapter
 
 import (
 	"errors"
@@ -66,7 +66,6 @@ func NewAdapter(driverName string, dataSourceName string, dbSpecified ...bool) *
 	}
 	// Call the destructor when the object is released.
 	runtime.SetFinalizer(a, finalizer)
-
 	return a
 }
 

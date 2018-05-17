@@ -40,6 +40,8 @@ type User interface {
 	// Return the unique identifier of this user_service object
 	UniqueId() interface{}
 
+	RoleId() int
+
 	// Populate this user_service object with values
 	GetById(id interface{}) error
 }
