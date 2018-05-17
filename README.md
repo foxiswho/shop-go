@@ -16,6 +16,7 @@ xorm reverse mysql root:root@/shop_go?charset=utf8 template/design/goxorm
 # 使用 casbin 作为后台权限控制
 http://casbin.org/
 https://github.com/casbin/casbin
+https://github.com/casbin/xorm-adapter
 
 ```SHELL
 go get github.com/casbin/casbin
@@ -24,6 +25,10 @@ go get github.com/casbin/xorm-adapter
 
 ```
 https://github.com/labstack/echo-contrib
+案例
+https://studygolang.com/articles/12323
+https://zupzup.org/casbin-http-role-auth/
+https://github.com/zupzup/casbin-http-role-example
 
 # 案例测试(本地测试)
 ## 修改本地host
