@@ -1,17 +1,16 @@
 package auth
 
 import (
-	"github.com/foxiswho/shop-go/module/auth"
-	"github.com/foxiswho/shop-go/module/log"
 	"github.com/foxiswho/shop-go/module/db"
-	"fmt"
+	"github.com/foxiswho/shop-go/module/auth"
+	"github.com/foxiswho/shop-go/module/model"
 	"github.com/foxiswho/shop-go/models"
 )
 
 type Admin struct {
 	models.Admin `xorm:"extends"`
 
-	//model.Model `xorm:"-"`
+	model.Model `xorm:"-"`
 
 	authenticated bool `form:"-" db:"-" json:"-" xorm:"-"`
 }
@@ -58,7 +57,6 @@ func (u *Admin) GetById(id interface{}) error {
 	if err != nil {
 		return err
 	}
-	log.Debugf("GetUserById USER:", u)
 	return nil
 }
 
@@ -68,8 +66,9 @@ func (u *Admin) TraceGetUserById(id uint64) *Admin {
 	//}
 
 	user := new(Admin)
-	ok, err := db.DB().Engine.Where("username = ?", "admin").Get(user)
-	fmt.Println("TraceGetUserById err:", err)
-	fmt.Println("TraceGetUserById :", ok, user)
+	_, err := db.DB().Engine.Where("username = ?", "admin").Get(user)
+	if err != nil {
+		panic(err.Error())
+	}
 	return user
 }
