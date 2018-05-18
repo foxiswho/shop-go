@@ -24,7 +24,7 @@ func UserHandler(c echo.Context) error {
 	u := userService.GetUserById(id)
 
 	c.JSON(http.StatusOK, map[string]interface{}{
-		"title":  "User",
+		"title":  "Admin",
 		"user_service":   u,
 		"claims": claims,
 	})

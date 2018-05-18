@@ -20,7 +20,7 @@ func UserHandler(c *base.BaseContext) error {
 	fmt.Println("UserHandler", u)
 	c.Set("tmpl", "web/user_service")
 	c.Set("data", map[string]interface{}{
-		"title":        "User",
+		"title":        "Admin",
 		"user_service": u,
 	})
 

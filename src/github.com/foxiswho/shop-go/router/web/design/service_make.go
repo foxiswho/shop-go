@@ -92,7 +92,7 @@ func toASCIIUpper(r rune) rune {
 }
 
 // GonicMapper implements IMapper. It will consider initialisms when mapping names.
-// E.g. id -> ID, user -> User and to table names: UserID -> user_id, MyUID -> my_uid
+// E.g. id -> ID, user -> Admin and to table names: UserID -> user_id, MyUID -> my_uid
 type GonicMapper map[string]bool
 
 func (mapper GonicMapper) Obj2Table(name string) string {

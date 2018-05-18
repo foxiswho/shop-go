@@ -24,10 +24,10 @@ var (
 	RedirectParam string = "return_url"
 
 	// SessionKey is the key containing the unique ID in your session
-	SessionKey string = "AUTHUNIQUEIDADMIN"
+	SessionKey string = "ADMINAUTHUNIQUEID"
 )
 
-type User interface {
+type Admin interface {
 	// Return whether this user_service is logged in or not
 	IsAuthenticated() bool
 
@@ -46,16 +46,16 @@ type User interface {
 	GetById(id interface{}) error
 }
 
-type Auth struct {
-	User
+type AuthAdmin struct {
+	Admin
 }
 
-func New(newUser func() User) echo.MiddlewareFunc {
+func New(newAdmin func() Admin) echo.MiddlewareFunc {
 	return func(next echo.HandlerFunc) echo.HandlerFunc {
 		return func(c echo.Context) error {
 			s := session.Default(c)
 			userId := s.Get(SessionKey)
-			user := newUser()
+			user := newAdmin()
 			if userId != nil {
 				err := user.GetById(userId)
 				if err != nil {
@@ -67,34 +67,34 @@ func New(newUser func() User) echo.MiddlewareFunc {
 				c.Logger().Debugf("Login status: No UserId")
 			}
 
-			auth := Auth{user}
+			auth := AuthAdmin{user}
 			c.Set(DefaultKey, auth)
 			return next(c)
 		}
 	}
 }
 
-// shortcut to get Auth
-func Default(c echo.Context) Auth {
-	return c.Get(DefaultKey).(Auth)
+// shortcut to get AuthAdmin
+func Default(c echo.Context) AuthAdmin {
+	return c.Get(DefaultKey).(AuthAdmin)
 }
 
 // AuthenticateSession will mark the session and user_service object as authenticated. Then
 // the Login() user_service function will be called. This function should be called after
 // you have validated a user_service.
-func AuthenticateSession(s session.Session, user User) error {
+func AuthenticateSession(s session.Session, user Admin) error {
 	user.Login()
 	return UpdateUser(s, user)
 }
 
-func (a Auth) LogoutTest(s session.Session) {
-	a.User.Logout()
+func (a AuthAdmin) LogoutTest(s session.Session) {
+	a.Admin.Logout()
 	s.Delete(SessionKey)
 	s.Save()
 }
 
 // Logout will clear out the session and call the Logout() user_service function.
-func Logout(s session.Session, user User) {
+func Logout(s session.Session, user Admin) {
 	user.Logout()
 	s.Delete(SessionKey)
 	s.Save()
@@ -108,7 +108,7 @@ func LoginRequired() echo.MiddlewareFunc {
 	return func(next echo.HandlerFunc) echo.HandlerFunc {
 		return func(c echo.Context) error {
 			a := Default(c)
-			if a.User.IsAuthenticated() == false {
+			if a.Admin.IsAuthenticated() == false {
 				uri := c.Request().RequestURI
 				path := fmt.Sprintf("%s?%s=%s", RedirectUrl, RedirectParam, uri)
 				c.Redirect(http.StatusMovedPermanently, path)
@@ -120,9 +120,9 @@ func LoginRequired() echo.MiddlewareFunc {
 	}
 }
 
-// UpdateUser updates the User object stored in the session. This is useful incase a change
+// UpdateUser updates the Admin object stored in the session. This is useful incase a change
 // is made to the user_service model that needs to persist across requests.
-func UpdateUser(s session.Session, user User) error {
+func UpdateUser(s session.Session, user Admin) error {
 	s.Set(SessionKey, user.UniqueId())
 	s.Save()
 	return nil
