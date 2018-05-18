@@ -1,6 +1,6 @@
-# Echo Web
+# SHOP Go (Echo Web)
 Go web framework Echo example. 
-> Echo middleware [echo-mw](https://github.com/hb-go/echo-mw)
+> 本案例是是 对 [echo-web](https://github.com/hb-go/echo-web) 的增强版，站在巨人的肩膀上
 
 > Echo中文文档 [go-echo.org](http://go-echo.org/)
 
@@ -8,7 +8,9 @@ Go web framework Echo example.
 - go1.8+
 - Echo V3
 
-> [在线演示](http://echo.www.hbchen.com/)
+> [在线演示](http://echo.www.foxwho.com/)
+
+注意：如果要案例运行全部正确，请设置域名或本地域名映射
 
 #### 目录
 - [环境配置](#环境配置)
@@ -47,14 +49,14 @@ $ glide install
 ```shell
 # ./conf/conf.toml
 [database]
-name = "goweb_db"
-user_name = "goweb_dba"
-pwd  = "123456"
+name = "shop_go"
+user_name = "root"
+pwd  = "root"
 host = "127.0.0.1"
 port = "3306"
 
 # 测试数据库SQL脚本
-./echo-web/res/db_structure.sql
+./res/shop_go.sql
 ```
 
 ##### 4.Redis、Memcached配置，可选
@@ -68,7 +70,7 @@ port = "3306"
 # ./conf/conf.toml
 [redis]
 server = "127.0.0.1:6379"
-pwd = "123456"
+pwd = ""
 
 [memcached]
 server = "localhost:11211"
@@ -139,31 +141,72 @@ $ ./echo-web -c conf/conf.toml      # -c指定配置文件，默认conf/conf.tom
 assets          Web服务静态资源
 conf            项目配置
 middleware      中间件
-model           模型，数据库连接&ORM
-  └ orm         ORM扩展
+models           模型
 module          模块封装
   ├ auth        Auth授权
+  ├ auth_admin        废弃
   ├ cache       缓存
+  ├ db          数据库orm 操作
+  ├ file        文件上传
   ├ log         日志
+  ├ model       模型相关
   ├ render      渲染
   ├ session     Session
   └ tmpl        Web模板
 res             项目资源
   └ db          数据
 router          路由
-  └ api         接口路由
-    ├context    自定义Context，便于扩展API层扩展
+  ├ base        Context 基类
+  ├ example        案例
+      └ admin         后台管理中心
+        └rbac          rbac权限管理
+            ├create    创建权限，保存到数据库
+            └index     权限显示，在路由中间件内验证
+        └default          默认页，方便跳转到登录页面
+        └index          管理中心首页
+        └login          登录和登录post
+        └logout         退出
+      └ api         接口路由
+        ├jsonp      jsonp 案例
+        ├jwt_api      jwt 获取数据
+        ├jwt_login      jwt 登录
+        ├jwt_tester      jwt 获取数据
+        └user     
+      ├ socket      socket示范
+      └ test            测试
+        ├cache          缓存案例
+        ├cookie          cookie案例
+        ├jsonp          jsonp案例
+        ├jwt            jwt案例
+        ├jwt_login      jwt_login案例
+        ├login          login案例
+        ├logout          logout案例
+        ├orm             orm案例
+        ├register        注册案例
+        ├session        session案例
+        ├upload        上传案例
+        ├user          user案例
+        └ws             websocket案例    
+  └ web            Web路由
+    ├design            设计，自动生成
+        └service_make     自动生成 service       
     └router     路由
-  ├ socket      socket示范
-  └ web         Web路由
-    ├context    自定义Context，便于扩展Webb层扩展
-    └router     路由        
+service         服务
 template        模板
+  ├casbin       权限配置
+  ├design       设计配置
+    ├goxorm         数据库生成 models 模板            
+    └make           设计生成控制器，service模板
   └ pongo2      pongo2模板
+uploads         上传目录
 util            公共工具
   ├ conv        类型转换
   ├ crypt       加/解密
+  ├ datetime    时间相关操作
+  ├ json        json相关操作
   └ sql         SQL
+  └ str         字符串相关操作
+  └ error       默认错误信息
 ```
 
 ## 框架功能
@@ -174,13 +217,13 @@ util            公共工具
 [子域名部署](https://github.com/foxiswho/shop-go/blob/master/router/router.go) | 子域名区分模块
 [缓存](https://github.com/foxiswho/shop-go/blob/master/module/cache) | Redis、Memcached、Memory
 [Session](https://github.com/foxiswho/shop-go/blob/master/module/session) | Redis、File、Cookie，支持Flash
-[ORM](https://github.com/foxiswho/shop-go/tree/master/model) | Fork [gorm](http://github.com/jinzhu/gorm)，`FirstSQL`、`LastSQL`、`FindSQL`、`CountSQL`支持构造查询SQL
-[查询缓存](https://github.com/foxiswho/shop-go/tree/master/model/orm) | 支持`First`、`Last`、`Find`、`Count`的查询缓存
+[ORM](https://github.com/foxiswho/shop-go/tree/master/module/db) | Fork [xorm]( github.com/go-xorm/xorm)
+[权限](https://github.com/foxiswho/shop-go/blob/master/middleware/auth) |  Fork [casbin]( github.com/casbin/casbin)
 [模板](https://github.com/foxiswho/shop-go/tree/master/module/render) | 支持html/template、[pongo2](http://github.com/flosch/pongo2)，模板支持打包[bindata](https://github.com/jteeuwen/go-bindata#installation)
 静态 | 静态资源，支持打包[bindata](https://github.com/jteeuwen/go-bindata#installation)
 安全 | CORS、CSRF、XSS、HSTS、验证码等
 [OpenTracing](http://opentracing.io/) | Tracer支持Jaeger、Appdash，在Request、ORM层做跟踪，可在conf配置开启)
-其他 | JWT、Socket演示
+其他 | RBAC权限,JWT、Socket,session,cookie,缓存,登录,注册,上传,db数据库操作,生成models,service演示
 
 ## Supervisord部署
 ```bash
