@@ -44,6 +44,8 @@ type User interface {
 
 	// Populate this user_service object with values
 	GetById(id interface{}) error
+
+	Module() string
 }
 
 type Auth struct {

@@ -52,6 +52,10 @@ func (u *User) RoleId() int {
 	return u.User.GroupId
 }
 
+func (u *User) Module() string {
+	return auth.MODULE_USER
+}
+
 // GetById will populate a user_service object from a database model with
 // a matching id.
 func (u *User) GetById(id interface{}) error {
@@ -83,12 +87,6 @@ func (u *User) TraceGetUserById(id uint64) *User {
 	}
 
 	user := new(User)
-	//var count int64
-	//db := DB().Where("id = ?", id)
-	//if err := Cache(db).First(&user_service).Count(&count).Error; err != nil {
-	//	log.Debugf("GetUserById error: %v", err)
-	//	return nil
-	//}
 	ok, err := db.DB().Engine.Where("username = ?", "admin").Get(user)
 	fmt.Println("TraceGetUserById err:", err)
 	fmt.Println("TraceGetUserById :", ok, user)

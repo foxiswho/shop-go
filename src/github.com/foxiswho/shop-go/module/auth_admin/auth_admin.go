@@ -1,4 +1,5 @@
 // Base on https://github.com/martini-contrib/sessionauth
+//这里不能随便自定义，否则，需要改的好多地方，如 模板
 package auth_admin
 
 import (

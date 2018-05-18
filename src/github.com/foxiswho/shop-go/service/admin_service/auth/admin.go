@@ -5,7 +5,6 @@ import (
 	"github.com/foxiswho/shop-go/module/auth"
 	"github.com/foxiswho/shop-go/module/model"
 	"github.com/foxiswho/shop-go/models"
-	"fmt"
 )
 
 type Admin struct {
@@ -19,6 +18,8 @@ type Admin struct {
 // GetAnonymousUser should generate an anonymous user_service model
 // for all sessions. This should be an unauthenticated 0 value struct.
 func GenerateAnonymousUser() auth.User {
+	//默认跳转URL地址
+	auth.RedirectUrl = "/admin/login"
 	return &Admin{}
 }
 
@@ -51,6 +52,10 @@ func (u *Admin) RoleId() int {
 	return u.Admin.RoleId
 }
 
+func (u *Admin) Module() string {
+	return auth.MODULE_ADMIN
+}
+
 // GetById will populate a user_service object from a database model with
 // a matching id.
 func (u *Admin) GetById(id interface{}) error {
@@ -58,15 +63,13 @@ func (u *Admin) GetById(id interface{}) error {
 	if err != nil {
 		return err
 	}
-	fmt.Println("USER =============> auth",u)
-	fmt.Println("USER =============> auth=>role_id",u.RoleId())
 	return nil
 }
 
 func (u *Admin) TraceGetUserById(id uint64) *Admin {
-	//if s := u.Trace(); s != nil {
-	//	defer s.Finish()
-	//}
+	if s := u.Trace(); s != nil {
+		defer s.Finish()
+	}
 
 	user := new(Admin)
 	_, err := db.DB().Engine.Where("username = ?", "admin").Get(user)
