@@ -15,6 +15,7 @@ keys = [
     "/server/graceful",
     "/server/addr",
     "/server/domain_api",
+    "/server/domain_admin",
     "/server/domain_web",
     "/server/domain_socket",
     "/static/type",

@@ -2,7 +2,6 @@ package admin
 
 import (
 	"net/http"
-	"github.com/dchest/captcha"
 	"github.com/foxiswho/shop-go/router/base"
 	"github.com/foxiswho/shop-go/module/auth"
 	"github.com/foxiswho/shop-go/module/log"
@@ -16,7 +15,7 @@ type LoginForm struct {
 }
 
 func LoginHandler(c *base.BaseContext) error {
-	redirect := c.QueryParam(auth.RedirectParam)
+	//redirect := c.QueryParam(auth.RedirectParam)
 	//
 	//a := c.Auth()
 	//if a.User.IsAuthenticated() {
@@ -30,9 +29,8 @@ func LoginHandler(c *base.BaseContext) error {
 	c.Set("tmpl", "example/admin/login")
 	c.Set("data", map[string]interface{}{
 		"title":         "Login",
-		"redirectParam": auth.RedirectParam,
-		"redirect":      redirect,
-		"CaptchaId":     captcha.NewLen(6),
+		//"redirectParam": auth.RedirectParam,
+		//"redirect":      redirect,
 	})
 
 	return nil
@@ -57,11 +55,6 @@ func LoginPostHandler(c *base.BaseContext) error {
 	if err := c.Bind(&form); err == nil {
 		fmt.Println("form",form)
 		u := userService.NewAdminService().GetUserByNicknamePwd(form.UserName, form.Password)
-		fmt.Println("db=>u")
-		fmt.Println("db=>u")
-		fmt.Println("db=>u")
-		fmt.Println("db=>u")
-		fmt.Println("db=>u")
 		fmt.Println("db=>u",u)
 		if u != nil {
 			session := c.Session()

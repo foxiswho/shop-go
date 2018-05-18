@@ -1,25 +1,24 @@
 package auth
 
 import (
-	"github.com/foxiswho/shop-go/module/auth"
+	"github.com/foxiswho/shop-go/module/auth_admin"
 	"github.com/foxiswho/shop-go/module/log"
 	"github.com/foxiswho/shop-go/module/db"
 	"fmt"
-	"github.com/foxiswho/shop-go/module/model"
 	"github.com/foxiswho/shop-go/models"
 )
 
 type User struct {
 	models.Admin `xorm:"extends"`
 
-	model.Model `xorm:"-"`
+	//model.Model `xorm:"-"`
 
 	authenticated bool `form:"-" db:"-" json:"-" xorm:"-"`
 }
 
 // GetAnonymousUser should generate an anonymous user_service model
 // for all sessions. This should be an unauthenticated 0 value struct.
-func GenerateAnonymousUser() auth.User {
+func GenerateAnonymousUser() auth_admin.User {
 	return &User{}
 }
 
@@ -56,11 +55,6 @@ func (u *User) RoleId() int {
 // a matching id.
 func (u *User) GetById(id interface{}) error {
 	_, err := db.DB().Engine.Id(id).Get(u)
-	fmt.Println("GetById=>")
-	fmt.Println("GetById=>")
-	fmt.Println("GetById=>id", id)
-	fmt.Println("GetById=>u", u)
-	fmt.Println("GetById=>", err)
 	if err != nil {
 		return err
 	}
@@ -69,9 +63,9 @@ func (u *User) GetById(id interface{}) error {
 }
 
 func (u *User) TraceGetUserById(id uint64) *User {
-	if s := u.Trace(); s != nil {
-		defer s.Finish()
-	}
+	//if s := u.Trace(); s != nil {
+	//	defer s.Finish()
+	//}
 
 	user := new(User)
 	ok, err := db.DB().Engine.Where("username = ?", "admin").Get(user)

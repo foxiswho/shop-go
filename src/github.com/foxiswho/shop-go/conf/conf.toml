@@ -22,9 +22,15 @@ graceful = true
 addr = ":8080"
 
 # Domains
-domain_api = "api.a.net"
-domain_socket = "socket.a.net"
-domain_web = "localhost"
+#domain_admin = "admin.a.net"
+#domain_api = "api.a.net"
+#domain_socket = "socket.a.net"
+#domain_web = "localhost"
+#
+domain_admin = "echo.admin.localhost.com"
+domain_api = "echo.api.localhost.com"
+domain_socket = "echo.socket.localhost.com"
+domain_web = "echo.www.localhost.com"
 
 [static]
 # BINDATA,FILE(FILE Default)
