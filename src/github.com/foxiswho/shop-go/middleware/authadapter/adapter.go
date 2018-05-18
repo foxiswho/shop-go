@@ -64,6 +64,8 @@ func NewAdapter(driverName string, dataSourceName string, dbSpecified ...bool) *
 	} else {
 		panic(errors.New("invalid parameter: dbSpecified"))
 	}
+	//创建表
+	a.createTable()
 	// Call the destructor when the object is released.
 	runtime.SetFinalizer(a, finalizer)
 	return a

@@ -14,7 +14,7 @@ import (
 	"github.com/foxiswho/shop-go/module/cache"
 	"github.com/foxiswho/shop-go/module/render"
 	"github.com/foxiswho/shop-go/module/session"
-	sauth "github.com/foxiswho/shop-go/service/user_service/auth"
+	serviceAuth "github.com/foxiswho/shop-go/service/user_service/auth"
 	web_index "github.com/foxiswho/shop-go/router/web/index"
 	web_test "github.com/foxiswho/shop-go/router/example/test"
 	"github.com/foxiswho/shop-go/router/base"
@@ -40,8 +40,6 @@ func Routers() *echo.Echo {
 
 	// Session
 	e.Use(session.Session())
-
-
 
 	// Middleware
 	e.Use(mw.Logger())
@@ -78,7 +76,7 @@ func Routers() *echo.Echo {
 	j := e.Group("/jwt")
 	{
 		j.POST("/login", base.Handler(api.JwtLoginPostHandler))
-		i:=j.Group("/restricted")
+		i := j.Group("/restricted")
 		{
 			config := mw.JWTConfig{
 				Claims:     &api.JwtCustomClaims{},
@@ -104,48 +102,48 @@ func Routers() *echo.Echo {
 
 	// Auth
 	//e.Use(auth.New(model.GenerateAnonymousUser))
-	e.Use(auth.New(sauth.GenerateAnonymousUser))
+	//e.Use(auth.New(serviceAuth.GenerateAnonymousUser))
 	// Routers
-	e.GET("/", base.Handler(web_index.HomeHandler))
-
-
-
-
-
-	about := e.Group("/about")
-	about.Use(auth.LoginRequired())
+	index := e.Group("", auth.New(serviceAuth.GenerateAnonymousUser))
 	{
-		about.GET("", base.Handler(web_index.AboutHandler))
-	}
-	test := e.Group("/example/test")
-	{
-		test.GET("/jwt/tester", base.Handler(web_test.JwtTesterHandler))
-		test.GET("/jwt/login", base.Handler(web_test.JwtLoginHandler))
-		//test.POST("/jwt/login", base.Handler(web_test.JwtLoginPostHandler))
-		test.GET("/ws", base.Handler(web_test.WsHandler))
-		test.GET("/cache", base.Handler(web_test.CacheHandler))
-		test.GET("/cookie", base.Handler(web_test.NewCookie().IndexHandler))
-		test.GET("/session", base.Handler(web_test.NewSession().IndexHandler))
-		test.GET("/orm", base.Handler(web_test.NewOrm().IndexHandler))
-		test.GET("/login", base.Handler(web_test.LoginHandler))
-		test.POST("/login", base.Handler(web_test.LoginPostHandler))
-		test.GET("/logout", base.Handler(web_test.LogoutHandler))
-		test.GET("/register", base.Handler(web_test.RegisterHandler))
-		test.POST("/register", base.Handler(web_test.RegisterPostHandler))
-		user := test.Group("/user_service")
-		user.Use(auth.LoginRequired())
+		index.GET("/", base.Handler(web_index.HomeHandler))
+		//
+		about := index.Group("/about")
+		about.Use(auth.LoginRequired())
 		{
-			user.GET("/:id", base.Handler(web_test.UserHandler))
+			about.GET("", base.Handler(web_index.AboutHandler))
 		}
-		test.GET("/upload", base.Handler(web_test.NewUpload().UploadIndex))
-		test.POST("/upload", base.Handler(web_test.UploadPostIndex))
-		test.POST("/upload-more", base.Handler(web_test.UploadMorePostIndex))
-		test.POST("/upload-db", base.Handler(web_test.UploadDbHandler))
-		test.GET("/jsonp", base.Handler(web_test.JsonpIndexHandler))
-	}
-	des := e.Group("/design")
-	{
-		des.GET("/service", base.Handler(design.ServiceMakeHandler))
+		//
+		test := index.Group("/example/test")
+		{
+			test.GET("/jwt/tester", base.Handler(web_test.JwtTesterHandler))
+			test.GET("/jwt/login", base.Handler(web_test.JwtLoginHandler))
+			//test.POST("/jwt/login", base.Handler(web_test.JwtLoginPostHandler))
+			test.GET("/ws", base.Handler(web_test.WsHandler))
+			test.GET("/cache", base.Handler(web_test.CacheHandler))
+			test.GET("/cookie", base.Handler(web_test.NewCookie().IndexHandler))
+			test.GET("/session", base.Handler(web_test.NewSession().IndexHandler))
+			test.GET("/orm", base.Handler(web_test.NewOrm().IndexHandler))
+			test.GET("/login", base.Handler(web_test.LoginHandler))
+			test.POST("/login", base.Handler(web_test.LoginPostHandler))
+			test.GET("/logout", base.Handler(web_test.LogoutHandler))
+			test.GET("/register", base.Handler(web_test.RegisterHandler))
+			test.POST("/register", base.Handler(web_test.RegisterPostHandler))
+			user := test.Group("/user_service")
+			user.Use(auth.LoginRequired())
+			{
+				user.GET("/:id", base.Handler(web_test.UserHandler))
+			}
+			test.GET("/upload", base.Handler(web_test.NewUpload().UploadIndex))
+			test.POST("/upload", base.Handler(web_test.UploadPostIndex))
+			test.POST("/upload-more", base.Handler(web_test.UploadMorePostIndex))
+			test.POST("/upload-db", base.Handler(web_test.UploadDbHandler))
+			test.GET("/jsonp", base.Handler(web_test.JsonpIndexHandler))
+		}
+		des := index.Group("/design")
+		{
+			des.GET("/service", base.Handler(design.ServiceMakeHandler))
+		}
 	}
 	return e
 }
