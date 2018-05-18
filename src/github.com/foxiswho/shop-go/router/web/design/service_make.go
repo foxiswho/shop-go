@@ -7,6 +7,7 @@ import (
 	"text/template"
 	"os"
 	"strings"
+	"github.com/foxiswho/shop-go/conf"
 )
 
 func ServiceMakeHandler(c *base.BaseContext) error {
@@ -20,19 +21,19 @@ func ServiceMakeHandler(c *base.BaseContext) error {
 	} else {
 		template_file := "./template/design/make/service.go.tpl"
 		service_path := "./service"
-
+		field:="Tables_in_"+conf.Conf.DB.Name
 		for i, val := range result {
 			fmt.Println("result index=>", i)
 			fmt.Println("result val=>", val)
-			fmt.Println("result val=>", val["Tables_in_fox"])
+			fmt.Println("result val=>", val[field])
 			tmpl, err := template.ParseFiles(template_file)
 			fmt.Println("template err", err)
 			fmt.Println("template err", tmpl)
-			//val["Tables_in_fox"] = "admin_menu"
+			//val[field] = "admin_menu"
 			data := make(map[string]interface{})
-			data["tables"] = val["Tables_in_fox"]
-			//data["tables_first"] = gonicCasedName(val["Tables_in_fox"])
-			data["tables_Camel_Case"] = LintGonicMapper.Table2Obj(val["Tables_in_fox"])
+			data["tables"] = val[field]
+			//data["tables_first"] = gonicCasedName(val[field])
+			data["tables_Camel_Case"] = LintGonicMapper.Table2Obj(val[field])
 			fmt.Println("data=>", data)
 
 			//
@@ -44,7 +45,9 @@ func ServiceMakeHandler(c *base.BaseContext) error {
 			} else {
 				fmt.Print("Create Directory OK! ", service_path)
 			}
-			service_file := service_path + "/" + val["Tables_in_fox"] + "_auto_make.go"
+			service_file := service_path + "/" + val[field] + "_auto_make.go"
+			fmt.Println("Create file :", service_file)
+			fmt.Println("Create file :", service_file)
 			fmt.Println("Create file :", service_file)
 			file, err := os.OpenFile(service_file, os.O_CREATE|os.O_WRONLY, os.ModePerm)
 			if err != nil {
