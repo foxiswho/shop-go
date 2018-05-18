@@ -14,9 +14,11 @@ import (
 	"github.com/foxiswho/shop-go/module/cache"
 	"github.com/foxiswho/shop-go/module/render"
 	"github.com/foxiswho/shop-go/module/session"
+	serviceAdminAuth "github.com/foxiswho/shop-go/service/admin_service/auth"
 	serviceAuth "github.com/foxiswho/shop-go/service/user_service/auth"
 	web_index "github.com/foxiswho/shop-go/router/web/index"
 	web_test "github.com/foxiswho/shop-go/router/example/test"
+	example_admin "github.com/foxiswho/shop-go/router/example/admin"
 	"github.com/foxiswho/shop-go/router/base"
 	"github.com/foxiswho/shop-go/router/web/design"
 	"github.com/foxiswho/shop-go/router/example/api"
@@ -140,7 +142,16 @@ func Routers() *echo.Echo {
 			test.POST("/upload-db", base.Handler(web_test.UploadDbHandler))
 			test.GET("/jsonp", base.Handler(web_test.JsonpIndexHandler))
 		}
-		des := index.Group("/design")
+
+	}
+	////////////////////////////
+	/////admin
+	e.GET("/admin/login", base.Handler(example_admin.LoginHandler))
+	e.POST("/admin/login", base.Handler(example_admin.LoginPostHandler))
+	admin := e.Group("/admin", auth.New(serviceAdminAuth.GenerateAnonymousUser))
+	{
+		admin.GET("",base.Handler(example_admin.IndexHandler))
+		des := admin.Group("/design")
 		{
 			des.GET("/service", base.Handler(design.ServiceMakeHandler))
 		}

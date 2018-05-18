@@ -1,22 +1,21 @@
 package example_service
 
 import (
-	"time"
 	"fmt"
+	"time"
 	"github.com/foxiswho/shop-go/module/db"
 	"github.com/foxiswho/shop-go/module/log"
-	"github.com/foxiswho/shop-go/service/user_service/auth"
+	"github.com/foxiswho/shop-go/service/admin_service/auth"
 )
 
-type User struct {
-
+type Admin struct {
 }
 
-func NewUserService() *User {
-	return new(User)
+func NewAdminService() *Admin {
+	return new(Admin)
 }
 
-func GetUserByNicknamePwd(nickname string, pwd string) *auth.User {
+func (x *Admin) GetUserByNicknamePwd(nickname string, pwd string) *auth.User {
 	user := new(auth.User)
 	ok, err := db.DB().Engine.Where("username = ?", nickname).Get(user)
 	fmt.Println("GetUserByNicknamePwd :", ok, user)
@@ -34,26 +33,19 @@ func GetUserByNicknamePwd(nickname string, pwd string) *auth.User {
 	return user
 }
 
-func AddUserWithNicknamePwd(nickname string, pwd string) *auth.User {
+func (x *Admin) AddUserWithNicknamePwd(nickname string, pwd string) *auth.User {
 	user := new(auth.User)
-	user.Username=nickname
-	user.Password=pwd
-	user.RegTime=time.Now()
-	if _,err:=db.DB().Engine.Insert(user); err != nil {
+	user.Username = nickname
+	user.Password = pwd
+	user.GmtCreate = time.Now()
+	if _, err := db.DB().Engine.Insert(user); err != nil {
 		return nil
 	}
 	return user
 }
 
-func GetUserById(id uint64) *auth.User {
+func (x *Admin) GetById(id uint64) *auth.User {
 	user := new(auth.User)
-	//var count int64
-	//db := DB().Where("id = ?", id)
-	//if err := Cache(db).First(&user_service).Count(&count).Error; err != nil {
-	//	log.Debugf("GetUserById error: %v", err)
-	//	return nil
-	//}
-
 	if _, err := db.DB().Engine.Id(id).Get(user); err != nil {
 		log.Debugf("GetUserById error: %v", err)
 		return nil

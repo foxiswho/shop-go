@@ -1,4 +1,4 @@
-package main
+package admin
 
 import (
 	"github.com/casbin/casbin"

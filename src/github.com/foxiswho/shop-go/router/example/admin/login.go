@@ -1,4 +1,4 @@
-package test
+package admin
 
 import (
 	"net/http"
@@ -11,23 +11,23 @@ import (
 )
 
 type LoginForm struct {
-	Nickname string `form:"nickname" binding:"required"`
+	UserName string `form:"username" binding:"required"`
 	Password string `form:"password" binding:"required"`
 }
 
 func LoginHandler(c *base.BaseContext) error {
 	redirect := c.QueryParam(auth.RedirectParam)
+	//
+	//a := c.Auth()
+	//if a.User.IsAuthenticated() {
+	//	if redirect == "" {
+	//		redirect = "/"
+	//	}
+	//	c.Redirect(http.StatusMovedPermanently, redirect)
+	//	return nil
+	//}
 
-	a := c.Auth()
-	if a.User.IsAuthenticated() {
-		if redirect == "" {
-			redirect = "/"
-		}
-		c.Redirect(http.StatusMovedPermanently, redirect)
-		return nil
-	}
-
-	c.Set("tmpl", "example/test/login")
+	c.Set("tmpl", "example/admin/login")
 	c.Set("data", map[string]interface{}{
 		"title":         "Login",
 		"redirectParam": auth.RedirectParam,
@@ -40,14 +40,6 @@ func LoginHandler(c *base.BaseContext) error {
 
 func LoginPostHandler(c *base.BaseContext) error {
 	loginURL := c.Request().RequestURI
-
-	if !captcha.VerifyString(c.FormValue("captchaId"), c.FormValue("captchaSolution")) {
-		log.Debugf("Wrong captcha solution: %v! No robots allowed!\n", c.Param("captchaSolution"))
-		c.Redirect(http.StatusMovedPermanently, loginURL)
-		return nil
-	} else {
-		log.Debugf("Great job, human! You solved the captcha.")
-	}
 
 	redirect := c.QueryParam(auth.RedirectParam)
 	if redirect == "" {
@@ -64,7 +56,13 @@ func LoginPostHandler(c *base.BaseContext) error {
 	var form LoginForm
 	if err := c.Bind(&form); err == nil {
 		fmt.Println("form",form)
-		u := userService.GetUserByNicknamePwd(form.Nickname, form.Password)
+		u := userService.NewAdminService().GetUserByNicknamePwd(form.UserName, form.Password)
+		fmt.Println("db=>u")
+		fmt.Println("db=>u")
+		fmt.Println("db=>u")
+		fmt.Println("db=>u")
+		fmt.Println("db=>u")
+		fmt.Println("db=>u",u)
 		if u != nil {
 			session := c.Session()
 			err := auth.AuthenticateSession(session, u)

@@ -10,7 +10,7 @@ import (
 )
 
 type User struct {
-	models.User `xorm:"extends"`
+	models.Admin `xorm:"extends"`
 
 	model.Model `xorm:"-"`
 
@@ -49,31 +49,22 @@ func (u *User) UniqueId() interface{} {
 }
 
 func (u *User) RoleId() int {
-	return u.User.GroupId
+	return u.Admin.RoleId
 }
 
 // GetById will populate a user_service object from a database model with
 // a matching id.
 func (u *User) GetById(id interface{}) error {
-	//newu:=new(User)
-	//newdb.DB().Engine.Id(id).Get(&u)
 	_, err := db.DB().Engine.Id(id).Get(u)
 	fmt.Println("GetById=>")
 	fmt.Println("GetById=>")
 	fmt.Println("GetById=>id", id)
 	fmt.Println("GetById=>u", u)
 	fmt.Println("GetById=>", err)
-	//fmt.Println("GetById=>newu",newu)
-	// u = newu
-	//fmt.Println("GetById=>newu",u)
 	if err != nil {
 		return err
 	}
-	//if err := DB().Where("id = ?", id).First(&u).Error; err != nil {
-	//	return err
-	//}
 	log.Debugf("GetUserById USER:", u)
-	fmt.Println("GetUserById USER:", u)
 	return nil
 }
 
@@ -83,12 +74,6 @@ func (u *User) TraceGetUserById(id uint64) *User {
 	}
 
 	user := new(User)
-	//var count int64
-	//db := DB().Where("id = ?", id)
-	//if err := Cache(db).First(&user_service).Count(&count).Error; err != nil {
-	//	log.Debugf("GetUserById error: %v", err)
-	//	return nil
-	//}
 	ok, err := db.DB().Engine.Where("username = ?", "admin").Get(user)
 	fmt.Println("TraceGetUserById err:", err)
 	fmt.Println("TraceGetUserById :", ok, user)

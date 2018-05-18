@@ -46,7 +46,7 @@ func newDB() (*Db, error) {
 	locat, _ := time.LoadLocation("Asia/Shanghai")
 	db.Engine.TZLocation = locat
 	db.Engine.DatabaseTZ = locat
-	defer db.Engine.Close()
+	//defer db.Engine.Close()
 	return db, nil
 }
 
