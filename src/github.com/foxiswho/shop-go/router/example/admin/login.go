@@ -41,7 +41,7 @@ func LoginPostHandler(c *base.BaseContext) error {
 
 	redirect := c.QueryParam(auth.RedirectParam)
 	if redirect == "" {
-		redirect = "/"
+		redirect = "/admin"
 	}
 
 	a := c.Auth()
