@@ -68,7 +68,7 @@ func JwtApiHandler(c echo.Context) error {
 	request := c.Request()
 	return c.JSON(http.StatusOK, map[string]interface{}{
 		"title":        "Api Index",
-		"User":         u,
+		"Admin":         u,
 		"CacheValue":   value,
 		"URL":          request.URL,
 		"Scheme":       request.URL.Scheme,

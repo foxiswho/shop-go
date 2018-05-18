@@ -10,7 +10,7 @@ import (
 	"github.com/foxiswho/shop-go/assets"
 	. "github.com/foxiswho/shop-go/conf"
 	"github.com/foxiswho/shop-go/middleware/opentracing"
-	"github.com/foxiswho/shop-go/module/auth_admin"
+	"github.com/foxiswho/shop-go/module/auth"
 	"github.com/foxiswho/shop-go/module/cache"
 	"github.com/foxiswho/shop-go/module/render"
 	"github.com/foxiswho/shop-go/module/session"
@@ -82,11 +82,12 @@ func RoutersAdmin() *echo.Echo {
 
 	// Cache
 	e.Use(cache.Cache())
+	e.Use(auth.New(serviceAdminAuth.GenerateAnonymousUser))
+	e.GET("/login", base.Handler(example_admin.LoginHandler))
 	////////////////////////////
 	/////admin
-	admin := e.Group("/admin", auth_admin.New(serviceAdminAuth.GenerateAnonymousUser))
+	admin := e.Group("/admin")
 	{
-		admin.GET("/login", base.Handler(example_admin.LoginHandler))
 		admin.POST("/login", base.Handler(example_admin.LoginPostHandler))
 		admin.GET("", base.Handler(example_admin.IndexHandler))
 		des := admin.Group("/design")

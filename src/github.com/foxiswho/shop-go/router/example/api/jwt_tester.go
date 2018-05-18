@@ -62,7 +62,7 @@ func JwtTesterApiHandler(c *base.BaseContext) error {
 	request := c.Request()
 	c.JSON(http.StatusOK, map[string]interface{}{
 		"title":        "Api Index",
-		"User":         u,
+		"Admin":         u,
 		"CacheValue":   value,
 		"URL":          request.URL,
 		"Scheme":       request.URL.Scheme,

@@ -79,16 +79,16 @@ func getContext(c echo.Context) (tmpl string, context map[string]interface{}, er
 
 func getCommonContext(c echo.Context) map[string]interface{} {
 	a := auth.Default(c)
-	fmt.Println("a.User======>")
-	fmt.Println("a.User======>")
-	fmt.Println("a.User======>")
-	fmt.Println("a.User======>")
-	fmt.Println("a.User======>")
-	fmt.Println("a.User======>")
-	fmt.Println("a.User======>",a.User)
+	fmt.Println("a.Admin======>")
+	fmt.Println("a.Admin======>")
+	fmt.Println("a.Admin======>")
+	fmt.Println("a.Admin======>")
+	fmt.Println("a.Admin======>")
+	fmt.Println("a.Admin======>")
+	fmt.Println("a.Admin======>",a.User)
 	// 公共模板数据
 	commonDatas := make(map[string]interface{})
-	//commonDatas["_user"] = a.User.(*model.User)
+	//commonDatas["_user"] = a.Admin.(*model.Admin)
 	commonDatas["_user"] = a.User
 
 	// 配置

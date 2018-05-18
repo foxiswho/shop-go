@@ -15,8 +15,8 @@ func NewAdminService() *Admin {
 	return new(Admin)
 }
 
-func (x *Admin) GetUserByNicknamePwd(nickname string, pwd string) *auth.User {
-	user := new(auth.User)
+func (x *Admin) GetUserByNicknamePwd(nickname string, pwd string) *auth.Admin {
+	user := new(auth.Admin)
 	ok, err := db.DB().Engine.Where("username = ?", nickname).Get(user)
 	fmt.Println("GetUserByNicknamePwd :", ok, user)
 	if err != nil {
@@ -33,8 +33,8 @@ func (x *Admin) GetUserByNicknamePwd(nickname string, pwd string) *auth.User {
 	return user
 }
 
-func (x *Admin) AddUserWithNicknamePwd(nickname string, pwd string) *auth.User {
-	user := new(auth.User)
+func (x *Admin) AddUserWithNicknamePwd(nickname string, pwd string) *auth.Admin {
+	user := new(auth.Admin)
 	user.Username = nickname
 	user.Password = pwd
 	user.GmtCreate = time.Now()
@@ -44,8 +44,8 @@ func (x *Admin) AddUserWithNicknamePwd(nickname string, pwd string) *auth.User {
 	return user
 }
 
-func (x *Admin) GetById(id uint64) *auth.User {
-	user := new(auth.User)
+func (x *Admin) GetById(id uint64) *auth.Admin {
+	user := new(auth.Admin)
 	if _, err := db.DB().Engine.Id(id).Get(user); err != nil {
 		log.Debugf("GetUserById error: %v", err)
 		return nil

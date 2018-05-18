@@ -18,7 +18,7 @@ func LoginHandler(c *base.BaseContext) error {
 	//redirect := c.QueryParam(auth.RedirectParam)
 	//
 	//a := c.Auth()
-	//if a.User.IsAuthenticated() {
+	//if a.Admin.IsAuthenticated() {
 	//	if redirect == "" {
 	//		redirect = "/"
 	//	}

@@ -11,17 +11,13 @@ import (
 	. "github.com/foxiswho/shop-go/conf"
 	"github.com/foxiswho/shop-go/middleware/opentracing"
 	"github.com/foxiswho/shop-go/module/auth"
-	"github.com/foxiswho/shop-go/module/auth_admin"
 	"github.com/foxiswho/shop-go/module/cache"
 	"github.com/foxiswho/shop-go/module/render"
 	"github.com/foxiswho/shop-go/module/session"
-	serviceAdminAuth "github.com/foxiswho/shop-go/service/admin_service/auth"
 	serviceAuth "github.com/foxiswho/shop-go/service/user_service/auth"
 	web_index "github.com/foxiswho/shop-go/router/web/index"
 	web_test "github.com/foxiswho/shop-go/router/example/test"
-	example_admin "github.com/foxiswho/shop-go/router/example/admin"
 	"github.com/foxiswho/shop-go/router/base"
-	"github.com/foxiswho/shop-go/router/web/design"
 	"github.com/foxiswho/shop-go/router/example/api"
 )
 
@@ -102,18 +98,6 @@ func Routers() *echo.Echo {
 
 	// Cache
 	e.Use(cache.Cache())
-	////////////////////////////
-	/////admin
-	admin := e.Group("/admin", auth_admin.New(serviceAdminAuth.GenerateAnonymousUser))
-	{
-		admin.GET("/login", base.Handler(example_admin.LoginHandler))
-		admin.POST("/login", base.Handler(example_admin.LoginPostHandler))
-		admin.GET("", base.Handler(example_admin.IndexHandler))
-		des := admin.Group("/design")
-		{
-			des.GET("/service", base.Handler(design.ServiceMakeHandler))
-		}
-	}
 	// Auth
 	//e.Use(auth.New(model.GenerateAnonymousUser))
 	//e.Use(auth.New(serviceAuth.GenerateAnonymousUser))

@@ -55,7 +55,7 @@ func (u *User) RoleId() int {
 // GetById will populate a user_service object from a database model with
 // a matching id.
 func (u *User) GetById(id interface{}) error {
-	//newu:=new(User)
+	//newu:=new(Admin)
 	//newdb.DB().Engine.Id(id).Get(&u)
 	_, err := db.DB().Engine.Id(id).Get(u)
 	fmt.Println("GetById=>")

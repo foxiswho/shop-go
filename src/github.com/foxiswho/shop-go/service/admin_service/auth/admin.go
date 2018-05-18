@@ -1,14 +1,14 @@
 package auth
 
 import (
-	"github.com/foxiswho/shop-go/module/auth_admin"
+	"github.com/foxiswho/shop-go/module/auth"
 	"github.com/foxiswho/shop-go/module/log"
 	"github.com/foxiswho/shop-go/module/db"
 	"fmt"
 	"github.com/foxiswho/shop-go/models"
 )
 
-type User struct {
+type Admin struct {
 	models.Admin `xorm:"extends"`
 
 	//model.Model `xorm:"-"`
@@ -18,13 +18,13 @@ type User struct {
 
 // GetAnonymousUser should generate an anonymous user_service model
 // for all sessions. This should be an unauthenticated 0 value struct.
-func GenerateAnonymousUser() auth_admin.User {
-	return &User{}
+func GenerateAnonymousUser() auth.User {
+	return &Admin{}
 }
 
 // Login will preform any actions that are required to make a user_service model
 // officially authenticated.
-func (u *User) Login() {
+func (u *Admin) Login() {
 	// Update last login time
 	// Add to logged-in user_service's list
 	// etc ...
@@ -33,27 +33,27 @@ func (u *User) Login() {
 
 // Logout will preform any actions that are required to completely
 // logout a user_service.
-func (u *User) Logout() {
+func (u *Admin) Logout() {
 	// Remove from logged-in user_service's list
 	// etc ...
 	u.authenticated = false
 }
 
-func (u *User) IsAuthenticated() bool {
+func (u *Admin) IsAuthenticated() bool {
 	return u.authenticated
 }
 
-func (u *User) UniqueId() interface{} {
+func (u *Admin) UniqueId() interface{} {
 	return u.Id
 }
 
-func (u *User) RoleId() int {
+func (u *Admin) RoleId() int {
 	return u.Admin.RoleId
 }
 
 // GetById will populate a user_service object from a database model with
 // a matching id.
-func (u *User) GetById(id interface{}) error {
+func (u *Admin) GetById(id interface{}) error {
 	_, err := db.DB().Engine.Id(id).Get(u)
 	if err != nil {
 		return err
@@ -62,12 +62,12 @@ func (u *User) GetById(id interface{}) error {
 	return nil
 }
 
-func (u *User) TraceGetUserById(id uint64) *User {
+func (u *Admin) TraceGetUserById(id uint64) *Admin {
 	//if s := u.Trace(); s != nil {
 	//	defer s.Finish()
 	//}
 
-	user := new(User)
+	user := new(Admin)
 	ok, err := db.DB().Engine.Where("username = ?", "admin").Get(user)
 	fmt.Println("TraceGetUserById err:", err)
 	fmt.Println("TraceGetUserById :", ok, user)
