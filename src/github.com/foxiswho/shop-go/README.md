@@ -112,6 +112,9 @@ server{
 ##### 6.Bindata打包工具，可选(运行可选，打包必选)
 > [Bindata安装](https://github.com/jteeuwen/go-bindata#installation)
 
+##### 用户名和密码
+可以到数据库表中查看，`user` 和`admin` 表
+
 ## 运行
 ```shell
 # 首次运行必须带 -a -t，更新assets.go、template.go的资源路径为本地
@@ -236,6 +239,12 @@ xorm reverse mysql root:root@/shop_go?charset=utf8 template/design/goxorm
 
 ## 生成service
 使用访问网页生成，首先你必须把数据库配置完成。
+
+```SHELL
+/admin/design/service
+```
+## 生成控制器 略
+你可以根据生成service 这个修改成你想要的
 
 ## Supervisord部署
 ```bash

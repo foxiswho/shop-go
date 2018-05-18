@@ -1,17 +1,17 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : localhost
+ Source Server         : 127.0.0.1
  Source Server Type    : MySQL
  Source Server Version : 50721
  Source Host           : localhost:3306
- Source Schema         : fox
+ Source Schema         : shop_go
 
  Target Server Type    : MySQL
  Target Server Version : 50721
  File Encoding         : 65001
 
- Date: 13/05/2018 16:09:16
+ Date: 18/05/2018 17:10:20
 */
 
 SET NAMES utf8mb4;
@@ -48,7 +48,14 @@ CREATE TABLE `admin` (
   KEY `username` (`username`),
   KEY `is_del` (`is_del`),
   KEY `role_id` (`role_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='管理员表';
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='管理员表';
+
+-- ----------------------------
+-- Records of admin
+-- ----------------------------
+BEGIN;
+INSERT INTO `admin` VALUES (1, 'admin', 'admin', NULL, NULL, '2018-05-18 10:04:57', '2018-05-18 10:04:57', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, 0, 0, 0, 0, 1);
+COMMIT;
 
 -- ----------------------------
 -- Table structure for admin_menu
@@ -209,7 +216,63 @@ CREATE TABLE `attachment` (
   KEY `aid` (`aid`),
   KEY `uid` (`uid`),
   KEY `is_show` (`is_show`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='附件表';
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='附件表';
+
+-- ----------------------------
+-- Records of attachment
+-- ----------------------------
+BEGIN;
+INSERT INTO `attachment` VALUES (1, '', '', 1, '302b4f78f934cf4a06c5d8a9257ed97c.jpg', '9358d109b3de9c82bb32fd2d6081800a19d84338.jpg', '/uploads/image/2018-05/', 313768, 'jpg', 0, 0, 0, '2018-05-16 22:15:11', '', 0, '8444e2b2a9f99cae7a855a5f887dd3e2', '', 0, 1, 0, 0, '');
+COMMIT;
+
+-- ----------------------------
+-- Table structure for cart
+-- ----------------------------
+DROP TABLE IF EXISTS `cart`;
+CREATE TABLE `cart` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `uid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '用户ID',
+  `goods_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '商品ID',
+  `product_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '商品信息id',
+  `num` bigint(10) unsigned NOT NULL DEFAULT '0' COMMENT '数量',
+  `price` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT '单价',
+  `amount` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT '合计总价',
+  `warehouse_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '仓库ID',
+  `sid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '供货商ID',
+  `type_id` int(11) NOT NULL DEFAULT '1' COMMENT '类别:1普通',
+  PRIMARY KEY (`id`),
+  KEY `uid` (`uid`),
+  KEY `type_id` (`type_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='购物车';
+
+-- ----------------------------
+-- Table structure for casbin_rule
+-- ----------------------------
+DROP TABLE IF EXISTS `casbin_rule`;
+CREATE TABLE `casbin_rule` (
+  `p_type` varchar(100) DEFAULT NULL,
+  `v0` varchar(100) DEFAULT NULL,
+  `v1` varchar(100) DEFAULT NULL,
+  `v2` varchar(100) DEFAULT NULL,
+  `v3` varchar(100) DEFAULT NULL,
+  `v4` varchar(100) DEFAULT NULL,
+  `v5` varchar(100) DEFAULT NULL,
+  KEY `IDX_casbin_rule_p_type` (`p_type`),
+  KEY `IDX_casbin_rule_v0` (`v0`),
+  KEY `IDX_casbin_rule_v1` (`v1`),
+  KEY `IDX_casbin_rule_v2` (`v2`),
+  KEY `IDX_casbin_rule_v3` (`v3`),
+  KEY `IDX_casbin_rule_v4` (`v4`),
+  KEY `IDX_casbin_rule_v5` (`v5`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- ----------------------------
+-- Records of casbin_rule
+-- ----------------------------
+BEGIN;
+INSERT INTO `casbin_rule` VALUES ('p', '1', '/admin/rbac/index', 'GET', '', '', '');
+INSERT INTO `casbin_rule` VALUES ('p', '1', '/admin/rdbc/*', 'GET', '', '', '');
+COMMIT;
 
 -- ----------------------------
 -- Table structure for connect
@@ -230,6 +293,159 @@ CREATE TABLE `connect` (
   KEY `uid` (`uid`) USING BTREE,
   KEY `type_id` (`type_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='快捷登陆/qq';
+
+-- ----------------------------
+-- Table structure for goods
+-- ----------------------------
+DROP TABLE IF EXISTS `goods`;
+CREATE TABLE `goods` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `product_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '商品信息ID',
+  `warehouse_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '仓库ID',
+  `sid` int(11) NOT NULL DEFAULT '0' COMMENT '供应商ID',
+  `status` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '状态0未审核99已审核',
+  `is_del` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否删除1是0否',
+  `is_open` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否上架1是0否',
+  `aid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '管理员（发布人）ID',
+  `cat_id` int(10) unsigned NOT NULL DEFAULT '1' COMMENT '栏目id',
+  `brand_id` int(10) NOT NULL DEFAULT '0' COMMENT '品牌',
+  `title` varchar(100) DEFAULT NULL COMMENT '标题',
+  `model` varchar(100) DEFAULT NULL COMMENT '规格',
+  `number` char(100) DEFAULT NULL COMMENT '商品编号',
+  `thumb` varchar(255) DEFAULT NULL COMMENT '缩略图',
+  `original_img` varchar(255) DEFAULT NULL COMMENT '原始图',
+  `sort` int(10) NOT NULL DEFAULT '0' COMMENT '排序',
+  `price_base` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '底价',
+  `price_plantform_cost` int(12) unsigned NOT NULL DEFAULT '0' COMMENT '平台成本',
+  `attr_type_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '属性类别ID',
+  `num_unit` int(11) unsigned NOT NULL DEFAULT '1' COMMENT '每个单位内多少个，每盒几罐',
+  `type_stock` int(10) NOT NULL DEFAULT '0' COMMENT '是否仓库库存',
+  `type_id` int(11) NOT NULL DEFAULT '10001' COMMENT '类别类目10001默认10002直邮10003现货10004一般贸易',
+  `mark` char(32) NOT NULL DEFAULT '' COMMENT '标志:产品-仓库-供应商',
+  `is_combined` tinyint(4) NOT NULL DEFAULT '0' COMMENT '是否商品组合',
+  `description` varchar(255) DEFAULT NULL COMMENT '描述',
+  PRIMARY KEY (`id`) USING BTREE,
+  KEY `aid` (`aid`) USING BTREE,
+  KEY `cat_id` (`cat_id`) USING BTREE,
+  KEY `brand_id` (`brand_id`) USING BTREE,
+  KEY `is_open` (`is_open`),
+  KEY `sort` (`sort`),
+  KEY `status` (`status`),
+  KEY `is_del` (`is_del`),
+  KEY `sid` (`sid`),
+  KEY `mark` (`mark`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='商品发布';
+
+-- ----------------------------
+-- Table structure for goods_brand
+-- ----------------------------
+DROP TABLE IF EXISTS `goods_brand`;
+CREATE TABLE `goods_brand` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) DEFAULT NULL COMMENT '名称',
+  `name_en` varchar(255) DEFAULT NULL COMMENT '品牌英文名称或是汉语拼音',
+  `http` varchar(255) DEFAULT NULL COMMENT '品牌网站',
+  `phone` varchar(255) DEFAULT NULL COMMENT '客服电话',
+  `content` text COMMENT '品牌介绍',
+  `letter` varchar(255) DEFAULT NULL COMMENT '品牌首字母',
+  `sort` int(10) NOT NULL DEFAULT '0' COMMENT '品牌排序',
+  `logo` varchar(255) DEFAULT NULL COMMENT '品牌logo',
+  `parent_id` int(10) unsigned NOT NULL DEFAULT '0',
+  `arr_parent_id` varchar(255) DEFAULT NULL COMMENT '所有父栏目ID',
+  `is_child` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否有子栏目',
+  `arr_child_id` text COMMENT '所有子栏目ID',
+  `is_del` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否删除1是0否',
+  PRIMARY KEY (`id`),
+  KEY `is_del` (`is_del`),
+  KEY `parent_id` (`parent_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='品牌';
+
+-- ----------------------------
+-- Table structure for goods_category
+-- ----------------------------
+DROP TABLE IF EXISTS `goods_category`;
+CREATE TABLE `goods_category` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) DEFAULT NULL COMMENT '名称',
+  `description` text COMMENT '介绍',
+  `parent_id` int(10) unsigned NOT NULL DEFAULT '0',
+  `sort` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '排序',
+  `arr_parent_id` varchar(255) DEFAULT NULL COMMENT '所有父栏目ID',
+  `is_child` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否有子栏目',
+  `arr_child_id` text COMMENT '所有子栏目ID',
+  `is_del` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否删除1是0否',
+  `gmt_create` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '添加时间',
+  `gmt_modified` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  PRIMARY KEY (`id`) USING BTREE,
+  KEY `parent_id` (`parent_id`) USING BTREE,
+  KEY `sort` (`sort`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='栏目';
+
+-- ----------------------------
+-- Table structure for goods_combined
+-- ----------------------------
+DROP TABLE IF EXISTS `goods_combined`;
+CREATE TABLE `goods_combined` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `goods_id` int(11) NOT NULL DEFAULT '0',
+  `product_id` int(11) NOT NULL DEFAULT '0' COMMENT '产品ID',
+  `aid` int(11) NOT NULL DEFAULT '0' COMMENT '添加人',
+  `price_shop` bigint(20) NOT NULL DEFAULT '0' COMMENT '组合商品价格',
+  `sort` int(11) NOT NULL DEFAULT '0' COMMENT '排序',
+  `num_least` int(11) NOT NULL DEFAULT '1' COMMENT '最少购买数量',
+  `parent_id` int(11) NOT NULL DEFAULT '0' COMMENT '顶级商品ID',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='组合商品';
+
+-- ----------------------------
+-- Table structure for goods_content
+-- ----------------------------
+DROP TABLE IF EXISTS `goods_content`;
+CREATE TABLE `goods_content` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `seo_title` varchar(50) DEFAULT NULL COMMENT 'seo标题',
+  `seo_description` varchar(200) DEFAULT NULL COMMENT 'seo描述',
+  `seo_keyword` varchar(50) DEFAULT NULL COMMENT 'seo关键字',
+  `content` text COMMENT '内容',
+  `remark` varchar(255) DEFAULT NULL COMMENT '备注紧供自己查看',
+  `title_other` varchar(5000) DEFAULT NULL COMMENT '其他名称',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='商品内容';
+
+-- ----------------------------
+-- Table structure for goods_price
+-- ----------------------------
+DROP TABLE IF EXISTS `goods_price`;
+CREATE TABLE `goods_price` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `price_market` bigint(12) unsigned NOT NULL DEFAULT '0' COMMENT '市场价',
+  `price_shop` bigint(12) unsigned NOT NULL DEFAULT '0' COMMENT '商城价',
+  `is_promote` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否促销1是0否',
+  `promote_price` int(12) unsigned NOT NULL DEFAULT '0' COMMENT '促销价格',
+  `promote_start_date` timestamp NULL DEFAULT NULL COMMENT '促销开始日期',
+  `promote_end_date` timestamp NULL DEFAULT NULL COMMENT '促销结束日期',
+  `is_free_shipping` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否包邮1是0否',
+  `start_date` timestamp NULL DEFAULT NULL COMMENT '开始时间',
+  `end_date` timestamp NULL DEFAULT NULL COMMENT '结束时间',
+  `min_free_shipping` int(10) unsigned NOT NULL DEFAULT '1' COMMENT '最小包邮数量',
+  `num_max` varchar(255) NOT NULL DEFAULT '9999' COMMENT '最大可一次购买数量',
+  `num_least` int(11) NOT NULL DEFAULT '1' COMMENT '最少购买数量',
+  `is_free_tax` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否包税使用包税价格',
+  `is_group_price` decimal(10,0) DEFAULT '1' COMMENT '是否使用用户组价格',
+  `tax_price` bigint(12) NOT NULL DEFAULT '0' COMMENT '包税价格',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- ----------------------------
+-- Table structure for goods_statistics
+-- ----------------------------
+DROP TABLE IF EXISTS `goods_statistics`;
+CREATE TABLE `goods_statistics` (
+  `id` int(11) NOT NULL,
+  `saless` bigint(20) NOT NULL DEFAULT '0' COMMENT '销量',
+  `reading` bigint(20) NOT NULL DEFAULT '0' COMMENT '访问数',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='商品销量';
 
 -- ----------------------------
 -- Table structure for log
@@ -361,6 +577,142 @@ CREATE TABLE `news_tag` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='博客标签';
 
 -- ----------------------------
+-- Table structure for order
+-- ----------------------------
+DROP TABLE IF EXISTS `order`;
+CREATE TABLE `order` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `order_no` char(32) DEFAULT NULL COMMENT '销售订单号',
+  `order_sn` char(32) DEFAULT NULL COMMENT '单号淘宝苏宁等等',
+  `uid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '用户ID',
+  `order_status` int(11) NOT NULL DEFAULT '0' COMMENT '订单状态(DEFAULT用户未点发货,WAIT_CHECK等待审核,NO_CHECK审核不通过,WAIT_SEND等等发货,SEND卖家已发货,RECEIPT已收货,DROP交易关闭,SUCCESS订单交易成功,CANCEL交易取消,WAIT_CUSTOMS_CHECK等待海关审核 REFUND退款 DELETE删除 DRAFT 草稿)',
+  `status` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '状态0未审核99已审核',
+  `is_del` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否删除1是0否',
+  `type_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '类别,1普通订单;',
+  `type_id_admin` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '类别,1普通订单;后台设置',
+  `type_id_sub` int(11) NOT NULL DEFAULT '0' COMMENT '其他类别',
+  `vat_fee` int(10) NOT NULL DEFAULT '0' COMMENT '增值税费',
+  `sales_fee` int(10) NOT NULL DEFAULT '0' COMMENT '消费税',
+  `amount_freight` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT '物流费用',
+  `amount_discount` bigint(20) NOT NULL DEFAULT '0' COMMENT '折扣金额',
+  `amount_goods` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT '商品总金额',
+  `amount_other` bigint(20) NOT NULL COMMENT '其他价格费用',
+  `amount_tax` int(10) NOT NULL DEFAULT '0' COMMENT '税费',
+  `amount_order` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT '订单总额',
+  `amount_payment` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT '支付总额,已付款金额(实际付款金额)',
+  `total` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '总数量',
+  `total_no_receipt` int(10) NOT NULL DEFAULT '0' COMMENT '未收货数量',
+  `sid` int(11) NOT NULL DEFAULT '0' COMMENT '供应商ID',
+  `warehouse_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '仓库ID',
+  `store_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '店铺ID',
+  `express_no` char(50) NOT NULL DEFAULT '' COMMENT '物流单号,运送单号',
+  `express_id` int(10) NOT NULL DEFAULT '0' COMMENT '快递公司id',
+  `remark` varchar(255) DEFAULT NULL COMMENT '备注用户自己看',
+  `remark_admin` varchar(255) DEFAULT NULL COMMENT '备注客服自己看',
+  `gmt_create` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '下单时间',
+  `gmt_modified` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后更新时间',
+  `time_success` timestamp NULL DEFAULT NULL COMMENT '订单完成时间(整个订单完成，交易完成)',
+  `time_check_admin` timestamp NULL DEFAULT NULL COMMENT '客服审核时间',
+  `time_check` timestamp NULL DEFAULT NULL COMMENT '审核时间，海关审核时间',
+  `time_receipt` timestamp NULL DEFAULT NULL COMMENT '收货时间',
+  `declare` int(11) NOT NULL DEFAULT '0' COMMENT 'DEFAULT未申报 NOT_ALLOW禁止申报 PORT_ACCEPT申报中 SUCCESS申报成功 FAIL申报失败 WARING申报异常;总订单时SUCCESS表示本订单已全部添加完成',
+  `declare_msg` varchar(200) DEFAULT NULL COMMENT '申报信息',
+  `declare_time` timestamp NULL DEFAULT NULL COMMENT '申报时间',
+  `is_send_time` timestamp NULL DEFAULT NULL COMMENT '发货动作时间',
+  `is_send` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否发货1是0否',
+  `is_refund` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否退款',
+  `is_return` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '退货1是0否',
+  `is_exchange` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '换货1是0否',
+  `order_id_from` int(10) NOT NULL DEFAULT '0' COMMENT '來自哪个ID，修改价格前ID',
+  `order_id_from_api` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '接口订单id',
+  `order_id_master` int(10) NOT NULL DEFAULT '0' COMMENT '总订单号ID',
+  `order_no_master` char(32) DEFAULT NULL COMMENT '总订单号',
+  `sid_from` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '货源商家id',
+  `pay_time` timestamp NULL DEFAULT NULL COMMENT '客户购买时间',
+  `pay_id` int(11) NOT NULL DEFAULT '0' COMMENT '支付ID',
+  `pay_no` char(50) DEFAULT NULL COMMENT '支付单号',
+  `is_paid` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否已支付',
+  `is_paid_system` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否已支付(系统自动)',
+  `time_paid_system` datetime DEFAULT NULL COMMENT '系统支付时间',
+  `exchange_rate` bigint(20) NOT NULL DEFAULT '0' COMMENT '汇率',
+  `currency_mark` char(3) DEFAULT NULL COMMENT '币制',
+  `get_id` int(11) NOT NULL DEFAULT '0' COMMENT '优惠券',
+  `use_wallet` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT '使用钱包',
+  `use_credit` bigint(20) NOT NULL DEFAULT '0' COMMENT '使用积分',
+  PRIMARY KEY (`id`) USING BTREE,
+  KEY `uid` (`uid`),
+  KEY `is_send` (`is_send`),
+  KEY `order_status` (`order_status`),
+  KEY `status` (`status`),
+  KEY `is_del` (`is_del`),
+  KEY `type` (`type_id`) USING BTREE,
+  KEY `is_refund` (`is_refund`) USING BTREE,
+  KEY `add_time` (`gmt_create`),
+  KEY `sales_no` (`order_no`),
+  KEY `type_admin` (`type_id_admin`),
+  KEY `sid` (`sid`),
+  KEY `order_no_parent` (`order_no_master`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='订单';
+
+-- ----------------------------
+-- Table structure for order_consignee
+-- ----------------------------
+DROP TABLE IF EXISTS `order_consignee`;
+CREATE TABLE `order_consignee` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '订单id',
+  `consignee_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '收货人ID',
+  `consignee` varchar(50) DEFAULT NULL COMMENT '收货人',
+  `mobile` char(11) DEFAULT NULL COMMENT '手机号',
+  `country` int(11) unsigned NOT NULL DEFAULT '1' COMMENT '国家',
+  `province` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '省',
+  `city` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '市',
+  `district` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '区',
+  `address` varchar(255) DEFAULT NULL COMMENT '地址',
+  `address_en` varchar(255) DEFAULT NULL COMMENT '地址(英文)',
+  `id_card` char(19) DEFAULT NULL COMMENT '身份证号',
+  `id_card_front` varchar(255) DEFAULT NULL COMMENT '身份证正面',
+  `id_card_back` varchar(255) DEFAULT NULL COMMENT '身份证反面',
+  `province_name` char(30) DEFAULT NULL COMMENT '省',
+  `city_name` char(50) DEFAULT NULL COMMENT '市',
+  `district_name` char(50) DEFAULT NULL COMMENT '区',
+  `address_all` varchar(255) DEFAULT NULL COMMENT '地址',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='订单收货人';
+
+-- ----------------------------
+-- Table structure for order_ext
+-- ----------------------------
+DROP TABLE IF EXISTS `order_ext`;
+CREATE TABLE `order_ext` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `cost_amount_payment` bigint(20) NOT NULL DEFAULT '0' COMMENT '支付金额成本',
+  `cost_amount_goods` bigint(20) NOT NULL DEFAULT '0' COMMENT '商品金额成本',
+  `declare_tax` int(11) NOT NULL DEFAULT '0' COMMENT '申报税',
+  `declare_vat_fee` int(11) NOT NULL DEFAULT '0' COMMENT '申报增值税',
+  `declare_sales_fee` int(11) NOT NULL DEFAULT '0' COMMENT '申报消费税',
+  `declare_amount_freight` int(11) NOT NULL DEFAULT '0' COMMENT '申报运费',
+  `declare_amount_payment` int(11) NOT NULL DEFAULT '0' COMMENT '申报运费',
+  `is_wms_sales` tinyint(4) NOT NULL DEFAULT '0' COMMENT '是否向WMS通信生成销售单   0未通信 1已通信',
+  `is_wms_send_out` tinyint(4) NOT NULL DEFAULT '0' COMMENT '是否向WMS发送并生成出货单  0未完成 1已完成',
+  `order_amount_declare` bigint(20) NOT NULL DEFAULT '0' COMMENT '订单总金额',
+  `payment_amount_declare` bigint(20) NOT NULL DEFAULT '0' COMMENT '支付总金额',
+  `goods_amount_declare` bigint(20) NOT NULL DEFAULT '0' COMMENT '商品小计',
+  `billing_country` int(11) unsigned NOT NULL DEFAULT '1' COMMENT '账单国家',
+  `billing_province` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '账单省',
+  `billing_city` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '账单市',
+  `billing_district` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '账单区',
+  `billing_address` varchar(255) NOT NULL DEFAULT '' COMMENT '账单地址',
+  `billing_mobile` char(11) NOT NULL DEFAULT '' COMMENT '手机号',
+  `billing_consignee` varchar(255) NOT NULL DEFAULT '' COMMENT '账单收货人',
+  `billing_mail` varchar(255) NOT NULL DEFAULT '' COMMENT '账单邮箱',
+  `billing_address_en` varchar(255) DEFAULT NULL COMMENT '账单地址(英文)',
+  `billing_zip_code` varchar(10) DEFAULT NULL COMMENT '账单邮编',
+  `billing_tax_no` varchar(255) DEFAULT NULL COMMENT '税号',
+  `packing_id` int(10) DEFAULT '0' COMMENT '包装ID',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='扩展订单信息';
+
+-- ----------------------------
 -- Table structure for session
 -- ----------------------------
 DROP TABLE IF EXISTS `session`;
@@ -468,11 +820,33 @@ CREATE TABLE `user` (
   KEY `username` (`username`),
   KEY `email` (`mail`),
   KEY `group_id` (`group_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='用户表';
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='用户表';
 
 -- ----------------------------
 -- Records of user
 -- ----------------------------
+BEGIN;
+INSERT INTO `user` VALUES (1, '', 'admin', '', 'admin', '', '', '2018-05-15 21:20:46', 0, 0, '', '', NULL, NULL);
+COMMIT;
+
+-- ----------------------------
+-- Table structure for user_group
+-- ----------------------------
+DROP TABLE IF EXISTS `user_group`;
+CREATE TABLE `user_group` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '会员用户组ID',
+  `name` char(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '名称',
+  `discount` int(11) NOT NULL DEFAULT '0' COMMENT '折扣率',
+  `is_show_price` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '是否显示价格1是0否',
+  `remark` varchar(255) DEFAULT NULL COMMENT '备注',
+  `sort` int(5) unsigned NOT NULL DEFAULT '0' COMMENT '排序',
+  `is_del` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否删除1是0否',
+  `mark` char(15) DEFAULT NULL COMMENT '标志',
+  `qq` varchar(15) DEFAULT NULL COMMENT '客服',
+  PRIMARY KEY (`id`),
+  KEY `is_del` (`is_del`),
+  KEY `sort` (`sort`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='会员用户组';
 
 -- ----------------------------
 -- Table structure for user_group_ext
