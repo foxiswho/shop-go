@@ -20,6 +20,7 @@
 // template/pongo2/example/admin/base.html
 // template/pongo2/example/admin/index.html
 // template/pongo2/example/admin/login.html
+// template/pongo2/example/admin/rbac/index.html
 // template/pongo2/example/test/cache.html
 // template/pongo2/example/test/cookie.html
 // template/pongo2/example/test/jsonp.html
@@ -421,6 +422,24 @@ func templatePongo2ExampleAdminLoginHtml() (*asset, error) {
 	return a, err
 }
 
+// templatePongo2ExampleAdminRbacIndexHtml reads file data from disk. It returns an error on failure.
+func templatePongo2ExampleAdminRbacIndexHtml() (*asset, error) {
+	path := "/Users/fox/go/mypath/src/github.com/foxiswho/shop-go/template/pongo2/example/admin/rbac/index.html"
+	name := "template/pongo2/example/admin/rbac/index.html"
+	bytes, err := bindataRead(path, name)
+	if err != nil {
+		return nil, err
+	}
+
+	fi, err := os.Stat(path)
+	if err != nil {
+		err = fmt.Errorf("Error reading asset info %s at %s: %v", name, path, err)
+	}
+
+	a := &asset{bytes: bytes, info: fi}
+	return a, err
+}
+
 // templatePongo2ExampleTestCacheHtml reads file data from disk. It returns an error on failure.
 func templatePongo2ExampleTestCacheHtml() (*asset, error) {
 	path := "/Users/fox/go/mypath/src/github.com/foxiswho/shop-go/template/pongo2/example/test/cache.html"
@@ -763,6 +782,7 @@ var _bindata = map[string]func() (*asset, error){
 	"template/pongo2/example/admin/base.html": templatePongo2ExampleAdminBaseHtml,
 	"template/pongo2/example/admin/index.html": templatePongo2ExampleAdminIndexHtml,
 	"template/pongo2/example/admin/login.html": templatePongo2ExampleAdminLoginHtml,
+	"template/pongo2/example/admin/rbac/index.html": templatePongo2ExampleAdminRbacIndexHtml,
 	"template/pongo2/example/test/cache.html": templatePongo2ExampleTestCacheHtml,
 	"template/pongo2/example/test/cookie.html": templatePongo2ExampleTestCookieHtml,
 	"template/pongo2/example/test/jsonp.html": templatePongo2ExampleTestJsonpHtml,
@@ -858,6 +878,9 @@ var _bintree = &bintree{nil, map[string]*bintree{
 					"base.html": &bintree{templatePongo2ExampleAdminBaseHtml, map[string]*bintree{}},
 					"index.html": &bintree{templatePongo2ExampleAdminIndexHtml, map[string]*bintree{}},
 					"login.html": &bintree{templatePongo2ExampleAdminLoginHtml, map[string]*bintree{}},
+					"rbac": &bintree{nil, map[string]*bintree{
+						"index.html": &bintree{templatePongo2ExampleAdminRbacIndexHtml, map[string]*bintree{}},
+					}},
 				}},
 				"test": &bintree{nil, map[string]*bintree{
 					"cache.html": &bintree{templatePongo2ExampleTestCacheHtml, map[string]*bintree{}},

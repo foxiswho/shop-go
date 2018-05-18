@@ -5,6 +5,7 @@ import (
 	"github.com/foxiswho/shop-go/module/auth"
 	"github.com/foxiswho/shop-go/module/model"
 	"github.com/foxiswho/shop-go/models"
+	"fmt"
 )
 
 type Admin struct {
@@ -57,6 +58,8 @@ func (u *Admin) GetById(id interface{}) error {
 	if err != nil {
 		return err
 	}
+	fmt.Println("USER =============> auth",u)
+	fmt.Println("USER =============> auth=>role_id",u.RoleId())
 	return nil
 }
 

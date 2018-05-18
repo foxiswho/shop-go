@@ -26,6 +26,7 @@ import (
 )
 
 type CasbinRule struct {
+	Id    int	`xorm:"-"`
 	PType string `xorm:"varchar(100) index"`
 	V0    string `xorm:"varchar(100) index"`
 	V1    string `xorm:"varchar(100) index"`
@@ -65,7 +66,7 @@ func NewAdapter(driverName string, dataSourceName string, dbSpecified ...bool) *
 		panic(errors.New("invalid parameter: dbSpecified"))
 	}
 	//创建表
-	a.createTable()
+	//a.createTable()
 	// Call the destructor when the object is released.
 	runtime.SetFinalizer(a, finalizer)
 	return a

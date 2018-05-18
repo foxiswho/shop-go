@@ -21,6 +21,7 @@ import (
 	"github.com/foxiswho/shop-go/router/web/design"
 	"github.com/casbin/casbin"
 	rbac2 "github.com/foxiswho/shop-go/router/example/admin/rbac"
+	"github.com/foxiswho/shop-go/middleware/authadapter"
 )
 
 //---------
@@ -100,7 +101,13 @@ func RoutersAdmin() *echo.Echo {
 		}
 		rbac := admin.Group("/rbac")
 		{
-			ce := casbin.NewEnforcer("template/casbin/rbac_model.conf")
+			//数据库驱动
+			a := authadapter.NewAdapter("mysql", "")
+			//加载 过滤条件
+			ce := casbin.NewEnforcer("template/casbin/rbac_model.conf",a)
+			//从数据库加载到内存中
+			ce.LoadPolicy()
+			//中间件
 			rbac.Use(auth_casbin.Middleware(ce))
 			rbac.GET("/index", base.Handler(rbac2.IndexHandler))
 		}
