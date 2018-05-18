@@ -9,6 +9,7 @@ import (
 
 	"github.com/foxiswho/shop-go/assets"
 	. "github.com/foxiswho/shop-go/conf"
+	auth_casbin "github.com/foxiswho/shop-go/middleware/auth"
 	"github.com/foxiswho/shop-go/middleware/opentracing"
 	"github.com/foxiswho/shop-go/module/auth"
 	"github.com/foxiswho/shop-go/module/cache"
@@ -18,6 +19,8 @@ import (
 	example_admin "github.com/foxiswho/shop-go/router/example/admin"
 	"github.com/foxiswho/shop-go/router/base"
 	"github.com/foxiswho/shop-go/router/web/design"
+	"github.com/casbin/casbin"
+	rbac2 "github.com/foxiswho/shop-go/router/example/admin/rbac"
 )
 
 //---------
@@ -83,16 +86,23 @@ func RoutersAdmin() *echo.Echo {
 	// Cache
 	e.Use(cache.Cache())
 	e.Use(auth.New(serviceAdminAuth.GenerateAnonymousUser))
+	e.GET("/", base.Handler(example_admin.DefaultHandler))
 	e.GET("/login", base.Handler(example_admin.LoginHandler))
+	e.POST("/login", base.Handler(example_admin.LoginPostHandler))
 	////////////////////////////
 	/////admin
 	admin := e.Group("/admin")
 	{
-		admin.POST("/login", base.Handler(example_admin.LoginPostHandler))
 		admin.GET("", base.Handler(example_admin.IndexHandler))
 		des := admin.Group("/design")
 		{
 			des.GET("/service", base.Handler(design.ServiceMakeHandler))
+		}
+		rbac := admin.Group("/rbac")
+		{
+			ce := casbin.NewEnforcer("template/casbin/rbac_model.conf")
+			rbac.Use(auth_casbin.Middleware(ce))
+			rbac.GET("/index", base.Handler(rbac2.IndexHandler))
 		}
 	}
 	// Auth

@@ -5,6 +5,7 @@ import (
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
 	"github.com/foxiswho/shop-go/module/auth"
+	"github.com/foxiswho/shop-go/module/log"
 )
 
 type (
@@ -65,5 +66,6 @@ func (a *Config) CheckPermission(c echo.Context) bool {
 	role_id := a.GetRoleId(c)
 	method := c.Request().Method
 	path := c.Request().URL.Path
-	return a.Enforcer.Enforce(role_id, path, method)
+	log.Debugf("role_id ? ,method ?, ?",string(role_id), path, method)
+	return a.Enforcer.Enforce(string(role_id), path, method)
 }

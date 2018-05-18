@@ -25,6 +25,7 @@ func LoginHandler(c *base.BaseContext) error {
 	//	c.Redirect(http.StatusMovedPermanently, redirect)
 	//	return nil
 	//}
+	//CheckAuthCasbin()
 
 	c.Set("tmpl", "example/admin/login")
 	c.Set("data", map[string]interface{}{
