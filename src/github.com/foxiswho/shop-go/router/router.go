@@ -30,7 +30,6 @@ func InitRoutes() map[string]*Host {
 
 	hosts[Conf.Server.DomainWeb] = &Host{web.Routers()}
 	hosts[Conf.Server.DomainApi] = &Host{example.RoutersApi()}
-	hosts[Conf.Server.DomainAdmin] = &Host{example.RoutersAdmin()}
 	hosts[Conf.Server.DomainSocket] = &Host{socket.Routers()}
 
 	return hosts
