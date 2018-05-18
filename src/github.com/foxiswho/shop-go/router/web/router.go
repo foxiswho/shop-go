@@ -15,10 +15,16 @@ import (
 	"github.com/foxiswho/shop-go/module/render"
 	"github.com/foxiswho/shop-go/module/session"
 	serviceAuth "github.com/foxiswho/shop-go/service/user_service/auth"
+	serviceAdminAuth "github.com/foxiswho/shop-go/service/admin_service/auth"
 	web_index "github.com/foxiswho/shop-go/router/web/index"
 	web_test "github.com/foxiswho/shop-go/router/example/test"
+	example_admin "github.com/foxiswho/shop-go/router/example/admin"
 	"github.com/foxiswho/shop-go/router/base"
 	"github.com/foxiswho/shop-go/router/example/api"
+	"github.com/foxiswho/shop-go/middleware/authadapter"
+	"github.com/casbin/casbin"
+	auth_casbin "github.com/foxiswho/shop-go/middleware/auth"
+	rbac2 "github.com/foxiswho/shop-go/router/example/admin/rbac"
 )
 
 //---------
@@ -102,8 +108,9 @@ func Routers() *echo.Echo {
 	//e.Use(auth.New(model.GenerateAnonymousUser))
 	//e.Use(auth.New(serviceAuth.GenerateAnonymousUser))
 	// Routers
-	index := e.Group("", auth.New(serviceAuth.GenerateAnonymousUser))
+	index := e.Group("")
 	{
+		index.Use(auth.New(serviceAuth.GenerateAnonymousUser))
 		index.GET("/", base.Handler(web_index.HomeHandler))
 		//
 		about := index.Group("/about")
@@ -138,7 +145,33 @@ func Routers() *echo.Echo {
 			test.POST("/upload-db", base.Handler(web_test.UploadDbHandler))
 			test.GET("/jsonp", base.Handler(web_test.JsonpIndexHandler))
 		}
-
+	}
+	////////////////////////////
+	/////admin
+	admin_login := e.Group("/admin_login")
+	{
+		admin_login.Use(auth.New(serviceAdminAuth.GenerateAnonymousUser))
+		admin_login.GET("/", base.Handler(example_admin.DefaultHandler))
+		admin_login.GET("/login", base.Handler(example_admin.LoginHandler))
+		admin_login.POST("/login", base.Handler(example_admin.LoginPostHandler))
+		admin_login.GET("/logout", base.Handler(example_admin.LogoutHandler))
+	}
+	admin := e.Group("/admin")
+	{
+		admin.Use(auth.New(serviceAdminAuth.GenerateAnonymousUser))
+		admin.GET("", base.Handler(example_admin.IndexHandler))
+		rbac := admin.Group("/rbac")
+		{
+			//数据库驱动
+			a := authadapter.NewAdapter("mysql", "")
+			//加载 过滤条件
+			ce := casbin.NewEnforcer("template/casbin/rbac_model.conf",a)
+			//从数据库加载到内存中
+			ce.LoadPolicy()
+			//中间件
+			rbac.Use(auth_casbin.Middleware(ce))
+			rbac.GET("/index", base.Handler(rbac2.IndexHandler))
+		}
 	}
 	return e
 }

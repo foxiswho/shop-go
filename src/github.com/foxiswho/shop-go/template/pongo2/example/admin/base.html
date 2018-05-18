@@ -40,9 +40,9 @@
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Account <span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
                     {% if _user.Id %}
-                        <li><a href="/example/test/logout?return_url={{requestUrl}}">Logout</a></li>
+                        <li><a href="/admin_login/logout?return_url={{requestUrl}}">Logout</a></li>
                     {% else %}
-                        <li><a href="/admin/login?return_url={{requestUrl}}">Login</a></li>
+                        <li><a href="/admin_login/login?return_url={{requestUrl}}">Login</a></li>
                     {% endif %}
                     </ul>
                 </li>
