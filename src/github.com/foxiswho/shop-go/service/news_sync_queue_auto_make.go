@@ -8,22 +8,22 @@ import (
 	"github.com/foxiswho/shop-go/util"
 )
 
-type BlogService struct {
+type NewsSyncQueueService struct {
 
 }
 
-func NewBlogService() *BlogService {
-	return new(BlogService)
+func NewNewsSyncQueueService() *NewsSyncQueueService {
+	return new(NewsSyncQueueService)
 }
 
 //初始化列表
-func blogNewMakeDataArr() []models.Blog {
-	return make([]models.Blog, 0)
+func news_sync_queueNewMakeDataArr() []models.NewsSyncQueue {
+	return make([]models.NewsSyncQueue, 0)
 }
 
 //列表查询
-func (s *BlogService) GetAll(where []*db.QueryCondition, fields []string, orderBy string, page int, limit int) (*db.Paginator, error) {
-	m := models.NewBlog()
+func (s *NewsSyncQueueService) GetAll(where []*db.QueryCondition, fields []string, orderBy string, page int, limit int) (*db.Paginator, error) {
+	m := models.NewNewsSyncQueue()
 	session := db.Filter(where)
 	count, err := session.Count(m)
 	if err != nil {
@@ -43,7 +43,7 @@ func (s *BlogService) GetAll(where []*db.QueryCondition, fields []string, orderB
 	if len(fields) == 0 {
 		session.AllCols()
 	}
-	data := blogNewMakeDataArr()
+	data := news_sync_queueNewMakeDataArr()
 	err = session.Find(&data)
 	if err != nil {
 		fmt.Println(err)
@@ -58,8 +58,8 @@ func (s *BlogService) GetAll(where []*db.QueryCondition, fields []string, orderB
 
 
 // 获取 单条记录
-func (s *BlogService) GetById(id int) (*models.Blog, error) {
-    m:=new(models.Blog)
+func (s *NewsSyncQueueService) GetById(id int) (*models.NewsSyncQueue, error) {
+    m:=new(models.NewsSyncQueue)
 	m.Id = id
 	ok, err := db.DB().Engine.Get(m)
     if err != nil {
@@ -72,8 +72,8 @@ func (s *BlogService) GetById(id int) (*models.Blog, error) {
 }
 
 // 删除 单条记录
-func (s *BlogService) Delete(id int) (int64, error) {
-	m:=new(models.Blog)
+func (s *NewsSyncQueueService) Delete(id int) (int64, error) {
+	m:=new(models.NewsSyncQueue)
 	m.Id = id
 	num, err := db.DB().Engine.Delete(m)
 	if err == nil {

@@ -8,22 +8,22 @@ import (
 	"github.com/foxiswho/shop-go/util"
 )
 
-type BlogSyncMappingService struct {
+type GoodsCombinedService struct {
 
 }
 
-func NewBlogSyncMappingService() *BlogSyncMappingService {
-	return new(BlogSyncMappingService)
+func NewGoodsCombinedService() *GoodsCombinedService {
+	return new(GoodsCombinedService)
 }
 
 //初始化列表
-func blog_sync_mappingNewMakeDataArr() []models.BlogSyncMapping {
-	return make([]models.BlogSyncMapping, 0)
+func goods_combinedNewMakeDataArr() []models.GoodsCombined {
+	return make([]models.GoodsCombined, 0)
 }
 
 //列表查询
-func (s *BlogSyncMappingService) GetAll(where []*db.QueryCondition, fields []string, orderBy string, page int, limit int) (*db.Paginator, error) {
-	m := models.NewBlogSyncMapping()
+func (s *GoodsCombinedService) GetAll(where []*db.QueryCondition, fields []string, orderBy string, page int, limit int) (*db.Paginator, error) {
+	m := models.NewGoodsCombined()
 	session := db.Filter(where)
 	count, err := session.Count(m)
 	if err != nil {
@@ -43,7 +43,7 @@ func (s *BlogSyncMappingService) GetAll(where []*db.QueryCondition, fields []str
 	if len(fields) == 0 {
 		session.AllCols()
 	}
-	data := blog_sync_mappingNewMakeDataArr()
+	data := goods_combinedNewMakeDataArr()
 	err = session.Find(&data)
 	if err != nil {
 		fmt.Println(err)
@@ -58,8 +58,8 @@ func (s *BlogSyncMappingService) GetAll(where []*db.QueryCondition, fields []str
 
 
 // 获取 单条记录
-func (s *BlogSyncMappingService) GetById(id int) (*models.BlogSyncMapping, error) {
-    m:=new(models.BlogSyncMapping)
+func (s *GoodsCombinedService) GetById(id int) (*models.GoodsCombined, error) {
+    m:=new(models.GoodsCombined)
 	m.Id = id
 	ok, err := db.DB().Engine.Get(m)
     if err != nil {
@@ -72,8 +72,8 @@ func (s *BlogSyncMappingService) GetById(id int) (*models.BlogSyncMapping, error
 }
 
 // 删除 单条记录
-func (s *BlogSyncMappingService) Delete(id int) (int64, error) {
-	m:=new(models.BlogSyncMapping)
+func (s *GoodsCombinedService) Delete(id int) (int64, error) {
+	m:=new(models.GoodsCombined)
 	m.Id = id
 	num, err := db.DB().Engine.Delete(m)
 	if err == nil {

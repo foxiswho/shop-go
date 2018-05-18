@@ -8,22 +8,22 @@ import (
 	"github.com/foxiswho/shop-go/util"
 )
 
-type BlogSyncQueueService struct {
+type GoodsContentService struct {
 
 }
 
-func NewBlogSyncQueueService() *BlogSyncQueueService {
-	return new(BlogSyncQueueService)
+func NewGoodsContentService() *GoodsContentService {
+	return new(GoodsContentService)
 }
 
 //初始化列表
-func blog_sync_queueNewMakeDataArr() []models.BlogSyncQueue {
-	return make([]models.BlogSyncQueue, 0)
+func goods_contentNewMakeDataArr() []models.GoodsContent {
+	return make([]models.GoodsContent, 0)
 }
 
 //列表查询
-func (s *BlogSyncQueueService) GetAll(where []*db.QueryCondition, fields []string, orderBy string, page int, limit int) (*db.Paginator, error) {
-	m := models.NewBlogSyncQueue()
+func (s *GoodsContentService) GetAll(where []*db.QueryCondition, fields []string, orderBy string, page int, limit int) (*db.Paginator, error) {
+	m := models.NewGoodsContent()
 	session := db.Filter(where)
 	count, err := session.Count(m)
 	if err != nil {
@@ -43,7 +43,7 @@ func (s *BlogSyncQueueService) GetAll(where []*db.QueryCondition, fields []strin
 	if len(fields) == 0 {
 		session.AllCols()
 	}
-	data := blog_sync_queueNewMakeDataArr()
+	data := goods_contentNewMakeDataArr()
 	err = session.Find(&data)
 	if err != nil {
 		fmt.Println(err)
@@ -58,8 +58,8 @@ func (s *BlogSyncQueueService) GetAll(where []*db.QueryCondition, fields []strin
 
 
 // 获取 单条记录
-func (s *BlogSyncQueueService) GetById(id int) (*models.BlogSyncQueue, error) {
-    m:=new(models.BlogSyncQueue)
+func (s *GoodsContentService) GetById(id int) (*models.GoodsContent, error) {
+    m:=new(models.GoodsContent)
 	m.Id = id
 	ok, err := db.DB().Engine.Get(m)
     if err != nil {
@@ -72,8 +72,8 @@ func (s *BlogSyncQueueService) GetById(id int) (*models.BlogSyncQueue, error) {
 }
 
 // 删除 单条记录
-func (s *BlogSyncQueueService) Delete(id int) (int64, error) {
-	m:=new(models.BlogSyncQueue)
+func (s *GoodsContentService) Delete(id int) (int64, error) {
+	m:=new(models.GoodsContent)
 	m.Id = id
 	num, err := db.DB().Engine.Delete(m)
 	if err == nil {

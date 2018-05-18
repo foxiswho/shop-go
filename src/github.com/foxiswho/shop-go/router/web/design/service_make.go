@@ -8,6 +8,7 @@ import (
 	"os"
 	"strings"
 	"github.com/foxiswho/shop-go/conf"
+	"net/http"
 )
 
 func ServiceMakeHandler(c *base.BaseContext) error {
@@ -41,9 +42,9 @@ func ServiceMakeHandler(c *base.BaseContext) error {
 			//
 			err = os.MkdirAll(service_path, os.ModePerm)
 			if err != nil {
-				fmt.Printf("%s", err)
+				fmt.Println("%s", err)
 			} else {
-				fmt.Print("Create Directory OK! ", service_path)
+				fmt.Println("Create Directory OK! ", service_path)
 			}
 			service_file := service_path + "/" + val[field] + "_auto_make.go"
 			fmt.Println("Create file :", service_file)
@@ -58,6 +59,7 @@ func ServiceMakeHandler(c *base.BaseContext) error {
 			}
 			//break
 		}
+		c.HTML(http.StatusOK,"create success")
 	}
 	return nil
 }

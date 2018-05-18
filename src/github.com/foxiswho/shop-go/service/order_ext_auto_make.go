@@ -8,22 +8,22 @@ import (
 	"github.com/foxiswho/shop-go/util"
 )
 
-type BlogStatisticsService struct {
+type OrderExtService struct {
 
 }
 
-func NewBlogStatisticsService() *BlogStatisticsService {
-	return new(BlogStatisticsService)
+func NewOrderExtService() *OrderExtService {
+	return new(OrderExtService)
 }
 
 //初始化列表
-func blog_statisticsNewMakeDataArr() []models.BlogStatistics {
-	return make([]models.BlogStatistics, 0)
+func order_extNewMakeDataArr() []models.OrderExt {
+	return make([]models.OrderExt, 0)
 }
 
 //列表查询
-func (s *BlogStatisticsService) GetAll(where []*db.QueryCondition, fields []string, orderBy string, page int, limit int) (*db.Paginator, error) {
-	m := models.NewBlogStatistics()
+func (s *OrderExtService) GetAll(where []*db.QueryCondition, fields []string, orderBy string, page int, limit int) (*db.Paginator, error) {
+	m := models.NewOrderExt()
 	session := db.Filter(where)
 	count, err := session.Count(m)
 	if err != nil {
@@ -43,7 +43,7 @@ func (s *BlogStatisticsService) GetAll(where []*db.QueryCondition, fields []stri
 	if len(fields) == 0 {
 		session.AllCols()
 	}
-	data := blog_statisticsNewMakeDataArr()
+	data := order_extNewMakeDataArr()
 	err = session.Find(&data)
 	if err != nil {
 		fmt.Println(err)
@@ -58,8 +58,8 @@ func (s *BlogStatisticsService) GetAll(where []*db.QueryCondition, fields []stri
 
 
 // 获取 单条记录
-func (s *BlogStatisticsService) GetById(id int) (*models.BlogStatistics, error) {
-    m:=new(models.BlogStatistics)
+func (s *OrderExtService) GetById(id int) (*models.OrderExt, error) {
+    m:=new(models.OrderExt)
 	m.Id = id
 	ok, err := db.DB().Engine.Get(m)
     if err != nil {
@@ -72,8 +72,8 @@ func (s *BlogStatisticsService) GetById(id int) (*models.BlogStatistics, error) 
 }
 
 // 删除 单条记录
-func (s *BlogStatisticsService) Delete(id int) (int64, error) {
-	m:=new(models.BlogStatistics)
+func (s *OrderExtService) Delete(id int) (int64, error) {
+	m:=new(models.OrderExt)
 	m.Id = id
 	num, err := db.DB().Engine.Delete(m)
 	if err == nil {
