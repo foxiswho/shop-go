@@ -225,6 +225,18 @@ util            公共工具
 [OpenTracing](http://opentracing.io/) | Tracer支持Jaeger、Appdash，在Request、ORM层做跟踪，可在conf配置开启)
 其他 | RBAC权限,JWT、Socket,session,cookie,缓存,登录,注册,上传,db数据库操作,生成models,service演示
 
+
+## 生成models
+```shel
+#进入项目根目录
+cd src/github.com/foxiswho/shop-go/
+#使用命令
+xorm reverse mysql root:root@/shop_go?charset=utf8 template/design/goxorm
+```
+
+## 生成service
+使用访问网页生成，首先你必须把数据库配置完成。
+
 ## Supervisord部署
 ```bash
 $ vi /etc/supervisor/conf.d/echo-web.conf
