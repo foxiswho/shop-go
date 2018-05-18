@@ -1,5 +1,7 @@
-# SHOP Go (Echo Web)
+# ECHO GO SHOP Go (Echo Web)
 Go web framework Echo example. 
+RBAC权限,JWT、Socket,session,cookie,缓存,登录,注册,上传,db数据库操作,生成models,service演示
+
 > 本案例是是 对 [echo-web](https://github.com/hb-go/echo-web) 的增强版，站在巨人的肩膀上
 
 > Echo中文文档 [go-echo.org](http://go-echo.org/)
