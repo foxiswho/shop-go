@@ -78,18 +78,9 @@ func getContext(c echo.Context) (tmpl string, context map[string]interface{}, er
 }
 
 func getCommonContext(c echo.Context) map[string]interface{} {
-	a := auth.Default(c)
-	fmt.Println("a.Admin======>")
-	fmt.Println("a.Admin======>")
-	fmt.Println("a.Admin======>")
-	fmt.Println("a.Admin======>")
-	fmt.Println("a.Admin======>")
-	fmt.Println("a.Admin======>")
-	fmt.Println("a.Admin======>",a.User)
 	// 公共模板数据
 	commonDatas := make(map[string]interface{})
-	//commonDatas["_user"] = a.Admin.(*model.Admin)
-	commonDatas["_user"] = a.User
+	commonDatas["_user"] = getAuthData(c) // 获取用户数据
 
 	// 配置
 	commonDatas["_conf"] = Conf
@@ -139,7 +130,7 @@ func LoadTemplates() echo.Renderer {
 		case BINDATA:
 			return pongo2echo.New(
 				pongo2echo.RenderOptions{
-					TmplLoader: BindataFileLoader{baseDir: Conf.Tmpl.Dir},
+					TmplLoader:  BindataFileLoader{baseDir: Conf.Tmpl.Dir},
 					ContentType: "text/html; charset=utf-8",
 					Debug:       !Conf.ReleaseMode,
 				})

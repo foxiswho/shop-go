@@ -80,6 +80,12 @@ func Default(c echo.Context) AuthAdmin {
 	return c.Get(DefaultKey).(AuthAdmin)
 }
 
+// shortcut to get AuthAdmin
+func DefaultGetAdmin(c echo.Context) Admin {
+	user := c.Get(DefaultKey).(AuthAdmin)
+	return user.Admin
+}
+
 // AuthenticateSession will mark the session and user_service object as authenticated. Then
 // the Login() user_service function will be called. This function should be called after
 // you have validated a user_service.

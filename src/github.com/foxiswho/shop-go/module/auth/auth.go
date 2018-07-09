@@ -82,6 +82,13 @@ func Default(c echo.Context) Auth {
 	return c.Get(DefaultKey).(Auth)
 }
 
+// shortcut to get Auth
+func DefaultGetUser(c echo.Context) User {
+	// return c.MustGet(DefaultKey).(auth)
+	auth := c.Get(DefaultKey).(Auth)
+	return auth.User
+}
+
 // AuthenticateSession will mark the session and user_service object as authenticated. Then
 // the Login() user_service function will be called. This function should be called after
 // you have validated a user_service.

@@ -24,3 +24,7 @@ func SetContextTypeUser() echo.MiddlewareFunc {
 		}
 	}
 }
+
+func GetContextType(c BaseContext) string {
+	return c.ContextType
+}
