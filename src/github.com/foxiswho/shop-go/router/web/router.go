@@ -151,6 +151,7 @@ func Routers() *echo.Echo {
 	/////admin
 	admin_login := e.Group("/admin_login")
 	{
+		admin_login.Use(base.SetContextTypeAdmin())
 		admin_login.Use(auth.New(serviceAdminAuth.GenerateAnonymousUser))
 		admin_login.GET("/", base.Handler(example_admin.DefaultHandler))
 		admin_login.GET("/login", base.Handler(example_admin.LoginHandler))
@@ -159,6 +160,7 @@ func Routers() *echo.Echo {
 	}
 	admin := e.Group("/admin")
 	{
+		admin.Use(base.SetContextTypeAdmin())
 		admin.Use(auth.New(serviceAdminAuth.GenerateAnonymousUser))
 		admin.GET("", base.Handler(example_admin.IndexHandler))
 		rbac := admin.Group("/rbac")
@@ -166,7 +168,7 @@ func Routers() *echo.Echo {
 			//数据库驱动
 			a := authadapter.NewAdapter("mysql", "")
 			//加载 过滤条件
-			ce := casbin.NewEnforcer("template/casbin/rbac_model.conf",a)
+			ce := casbin.NewEnforcer("template/casbin/rbac_model.conf", a)
 			//从数据库加载到内存中
 			ce.LoadPolicy()
 			//中间件

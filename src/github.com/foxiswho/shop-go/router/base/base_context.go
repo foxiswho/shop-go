@@ -11,19 +11,24 @@ import (
 	ot "github.com/foxiswho/shop-go/middleware/opentracing"
 	"net/http"
 	"fmt"
+	"github.com/foxiswho/shop-go/consts/context"
 )
 
 type BaseContext struct {
 	echo.Context
+	ContextType string
 }
 
 func NewBaseContext() echo.MiddlewareFunc {
 	return func(h echo.HandlerFunc) echo.HandlerFunc {
 		return func(c echo.Context) error {
-			ctx := &BaseContext{c}
+			ctx := &BaseContext{c, context.Type_User}
 			return h(ctx)
 		}
 	}
+}
+func (ctx *BaseContext) SetContextType(contextType string) {
+	ctx.ContextType = contextType
 }
 
 func (ctx *BaseContext) Session() session.Session {
@@ -45,7 +50,7 @@ func (ctx *BaseContext) OpenTracingSpan() opentracing.Span {
 func (c *BaseContext) AutoFMT(code int, i interface{}) (err error) {
 	// JSONP
 	callback := c.QueryParam("callback")
-	fmt.Println("callback",callback)
+	fmt.Println("callback", callback)
 	if len(callback) > 0 {
 		c.Logger().Infof("JSONP callback func:%v", callback)
 		return c.JSONP(code, callback, i)
