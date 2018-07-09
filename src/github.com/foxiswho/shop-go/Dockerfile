@@ -2,19 +2,19 @@ FROM alpine:3.2
 
 # 配置文件
 ADD conf /conf
-ADD echo-web /echo-web
+ADD shop-go /shop-go
 
 WORKDIR /
 
 # conf.toml配置端口一致
 EXPOSE 8080
 
-ENTRYPOINT [ "/echo-web" ]
+ENTRYPOINT [ "/shop-go" ]
 
 # 源码方式
 #    FROM golang:1.8.3
 #
-#    WORKDIR /go/src/echo-web
+#    WORKDIR /go/src/shop-go
 #    COPY . .
 #
 #    #RUN go-wrapper download   # "go get -d -v ./..."
