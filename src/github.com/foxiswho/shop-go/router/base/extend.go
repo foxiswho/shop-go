@@ -8,9 +8,10 @@ import (
 //设置 为管理员
 func SetContextTypeAdmin() echo.MiddlewareFunc {
 	return func(next echo.HandlerFunc) echo.HandlerFunc {
-		return func(c BaseContext) error {
-			c.ContextType = context.Type_Admin
-			return next(c)
+		return func(c echo.Context) error {
+			x := c.(BaseContext)
+			x.ContextType = context.Type_Admin
+			return next(x)
 		}
 	}
 }
@@ -18,13 +19,15 @@ func SetContextTypeAdmin() echo.MiddlewareFunc {
 //设置 为用户
 func SetContextTypeUser() echo.MiddlewareFunc {
 	return func(next echo.HandlerFunc) echo.HandlerFunc {
-		return func(c BaseContext) error {
-			c.ContextType = context.Type_Admin
-			return next(c)
+		return func(c echo.Context) error {
+			x := c.(BaseContext)
+			x.ContextType = context.Type_Admin
+			return next(x)
 		}
 	}
 }
 
-func GetContextType(c BaseContext) string {
-	return c.ContextType
+func GetContextType(c echo.Context) string {
+	x := c.(BaseContext)
+	return x.ContextType
 }

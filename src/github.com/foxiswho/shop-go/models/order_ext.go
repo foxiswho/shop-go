@@ -18,13 +18,13 @@ type OrderExt struct {
 	BillingProvince      int    `json:"billing_province" xorm:"not null default 0 comment('账单省') INT(11)"`
 	BillingCity          int    `json:"billing_city" xorm:"not null default 0 comment('账单市') INT(11)"`
 	BillingDistrict      int    `json:"billing_district" xorm:"not null default 0 comment('账单区') INT(11)"`
-	BillingAddress       string `json:"billing_address" xorm:"not null default '' comment('账单地址') VARCHAR(255)"`
-	BillingMobile        string `json:"billing_mobile" xorm:"not null default '' comment('手机号') CHAR(11)"`
-	BillingConsignee     string `json:"billing_consignee" xorm:"not null default '' comment('账单收货人') VARCHAR(255)"`
-	BillingMail          string `json:"billing_mail" xorm:"not null default '' comment('账单邮箱') VARCHAR(255)"`
-	BillingAddressEn     string `json:"billing_address_en" xorm:"comment('账单地址(英文)') VARCHAR(255)"`
-	BillingZipCode       string `json:"billing_zip_code" xorm:"comment('账单邮编') VARCHAR(10)"`
-	BillingTaxNo         string `json:"billing_tax_no" xorm:"comment('税号') VARCHAR(255)"`
+	BillingAddress       string `json:"billing_address" xorm:"not null default '''' comment('账单地址') VARCHAR(255)"`
+	BillingMobile        string `json:"billing_mobile" xorm:"not null default '''' comment('手机号') CHAR(11)"`
+	BillingConsignee     string `json:"billing_consignee" xorm:"not null default '''' comment('账单收货人') VARCHAR(255)"`
+	BillingMail          string `json:"billing_mail" xorm:"not null default '''' comment('账单邮箱') VARCHAR(255)"`
+	BillingAddressEn     string `json:"billing_address_en" xorm:"default 'NULL' comment('账单地址(英文)') VARCHAR(255)"`
+	BillingZipCode       string `json:"billing_zip_code" xorm:"default 'NULL' comment('账单邮编') VARCHAR(10)"`
+	BillingTaxNo         string `json:"billing_tax_no" xorm:"default 'NULL' comment('税号') VARCHAR(255)"`
 	PackingId            int    `json:"packing_id" xorm:"default 0 comment('包装ID') INT(10)"`
 }
 
