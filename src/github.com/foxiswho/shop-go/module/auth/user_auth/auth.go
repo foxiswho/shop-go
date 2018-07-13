@@ -10,7 +10,7 @@ import (
 )
 
 const (
-	DefaultKey  = "github.com/foxiswho/shop-go/modules/auth"
+	DefaultKey  = "github.com/foxiswho/shop-go/modules/auth/user_auth"
 	errorFormat = "[modules] ERROR! %s\n"
 )
 

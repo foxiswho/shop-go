@@ -12,7 +12,7 @@ import (
 )
 
 const (
-	DefaultKey  = "github.com/foxiswho/shop-go/modules/auth_admin"
+	DefaultKey  = "github.com/foxiswho/shop-go/modules/auth/admin"
 	errorFormat = "[modules] ERROR! %s\n"
 )
 
