@@ -1,13 +1,13 @@
 package admin
 
 import (
-	"github.com/foxiswho/shop-go/router/base"
 	"github.com/casbin/casbin"
 	"github.com/foxiswho/shop-go/middleware/authadapter"
 	"fmt"
+	"github.com/foxiswho/shop-go/module/context"
 )
 
-func adminAuth(c *base.BaseContext) error {
+func adminAuth(c *context.BaseContext) error {
 	// Initialize a Xorm adapter and use it in a Casbin enforcer:
 	// The adapter will use the MySQL database named "casbin".
 	// If it doesn't exist, the adapter will create it automatically.

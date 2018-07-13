@@ -5,10 +5,10 @@ import (
 
 	"github.com/foxiswho/shop-go/service/example_service"
 	"fmt"
-	"github.com/foxiswho/shop-go/router/base"
+	"github.com/foxiswho/shop-go/module/context"
 )
 
-func UserHandler(c *base.BaseContext) error {
+func UserHandler(c *context.BaseContext) error {
 	idStr := c.Param("id")
 	id, err := strconv.ParseUint(idStr, 10, 64)
 	if err != nil {

@@ -1,9 +1,9 @@
 package test
 
 import (
-	"github.com/foxiswho/shop-go/router/base"
 	"fmt"
 	"time"
+	"github.com/foxiswho/shop-go/module/context"
 )
 
 type cookie struct {
@@ -14,7 +14,7 @@ func NewCookie() *cookie {
 	return new(cookie)
 }
 
-func (x *cookie) IndexHandler(c *base.BaseContext) error {
+func (x *cookie) IndexHandler(c *context.BaseContext) error {
 	c.CookieSet("test", time.Now().String()+"=="+time.Now().String())
 	value, err := c.CookieGet("test")
 	fmt.Println("err", err)

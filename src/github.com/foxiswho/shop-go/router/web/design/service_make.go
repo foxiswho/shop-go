@@ -1,7 +1,6 @@
 package design
 
 import (
-	"github.com/foxiswho/shop-go/router/base"
 	"github.com/foxiswho/shop-go/module/db"
 	"fmt"
 	"text/template"
@@ -9,9 +8,10 @@ import (
 	"strings"
 	"github.com/foxiswho/shop-go/conf"
 	"net/http"
+	"github.com/foxiswho/shop-go/module/context"
 )
 
-func ServiceMakeHandler(c *base.BaseContext) error {
+func ServiceMakeHandler(c *context.BaseContext) error {
 
 	sql := "show tables"
 	result, err := db.DB().Engine.QueryString(sql)

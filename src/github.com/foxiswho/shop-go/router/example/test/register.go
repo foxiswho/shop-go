@@ -6,10 +6,10 @@ import (
 	"github.com/foxiswho/shop-go/module/auth/user_auth"
 	"github.com/foxiswho/shop-go/module/log"
 	userService "github.com/foxiswho/shop-go/service/example_service"
-	"github.com/foxiswho/shop-go/router/base"
+	"github.com/foxiswho/shop-go/module/context"
 )
 
-func RegisterHandler(c *base.BaseContext) error {
+func RegisterHandler(c *context.BaseContext) error {
 	redirect := c.QueryParam(user_auth.RedirectParam)
 
 	a := c.AuthUser()
@@ -31,7 +31,7 @@ func RegisterHandler(c *base.BaseContext) error {
 	return nil
 }
 
-func RegisterPostHandler(c *base.BaseContext) error {
+func RegisterPostHandler(c *context.BaseContext) error {
 	redirect := c.QueryParam(user_auth.RedirectParam)
 	if redirect == "" {
 		redirect = "/"

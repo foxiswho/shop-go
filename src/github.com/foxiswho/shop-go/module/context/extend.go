@@ -1,8 +1,7 @@
-package base
+package context
 
 import (
 	"github.com/labstack/echo"
-	"github.com/foxiswho/shop-go/consts/context"
 	"github.com/foxiswho/shop-go/module/auth/user_auth"
 	"github.com/foxiswho/shop-go/module/auth/admin_auth"
 )
@@ -12,7 +11,7 @@ func SetContextTypeAdmin() echo.MiddlewareFunc {
 	return func(next echo.HandlerFunc) echo.HandlerFunc {
 		return func(c echo.Context) error {
 			x := c.(*BaseContext)
-			x.ContextType = context.Type_Admin
+			x.ContextType = Type_Admin
 			return next(x)
 		}
 	}
@@ -23,7 +22,7 @@ func SetContextTypeUser() echo.MiddlewareFunc {
 	return func(next echo.HandlerFunc) echo.HandlerFunc {
 		return func(c echo.Context) error {
 			x := c.(*BaseContext)
-			x.ContextType = context.Type_Admin
+			x.ContextType = Type_Admin
 			return next(x)
 		}
 	}

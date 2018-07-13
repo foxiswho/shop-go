@@ -9,10 +9,10 @@ import (
 	"github.com/foxiswho/shop-go/module/log"
 	. "github.com/foxiswho/shop-go/conf"
 	sauth "github.com/foxiswho/shop-go/service/user_service/auth"
-	"github.com/foxiswho/shop-go/router/base"
+	"github.com/foxiswho/shop-go/module/context"
 )
 
-func HomeHandler(c *base.BaseContext) error {
+func HomeHandler(c *context.BaseContext) error {
 	// OpenTracing层级监控示例，API层通过中间件已支持
 	span := c.OpenTracingSpan()
 	if span != nil {

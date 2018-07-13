@@ -1,10 +1,10 @@
 package rbac
 
 import (
-	"github.com/foxiswho/shop-go/router/base"
+	"github.com/foxiswho/shop-go/module/context"
 )
 
-func IndexHandler(c *base.BaseContext) error {
+func IndexHandler(c *context.BaseContext) error {
 	//a := authadapter.NewAdapter("mysql", "")
 	//e := casbin.NewEnforcer("template/casbin/rbac_model.conf")
 	// Load the policy from DB.

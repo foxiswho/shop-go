@@ -1,12 +1,12 @@
 package test
 
 import (
-	"github.com/foxiswho/shop-go/router/base"
 	"github.com/foxiswho/shop-go/service/example_service"
 	"fmt"
 	"github.com/foxiswho/shop-go/util/str"
 	"github.com/foxiswho/shop-go/module/db"
 	"github.com/foxiswho/shop-go/service/user_service"
+	"github.com/foxiswho/shop-go/module/context"
 )
 
 type Orm struct {
@@ -16,7 +16,7 @@ func NewOrm() *Orm {
 	return new(Orm)
 }
 
-func (x *Orm) IndexHandler(c *base.BaseContext) error {
+func (x *Orm) IndexHandler(c *context.BaseContext) error {
 	//主键ID查询
 	user := example_service.GetUserById(1)
 	fmt.Println("GetUserById user=>", user)

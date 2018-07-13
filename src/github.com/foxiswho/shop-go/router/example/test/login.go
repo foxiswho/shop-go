@@ -3,11 +3,11 @@ package test
 import (
 	"net/http"
 	"github.com/dchest/captcha"
-	"github.com/foxiswho/shop-go/router/base"
 	"github.com/foxiswho/shop-go/module/auth/user_auth"
 	"github.com/foxiswho/shop-go/module/log"
 	userService "github.com/foxiswho/shop-go/service/example_service"
 	"fmt"
+	"github.com/foxiswho/shop-go/module/context"
 )
 
 type LoginForm struct {
@@ -15,7 +15,7 @@ type LoginForm struct {
 	Password string `form:"password" binding:"required"`
 }
 
-func LoginHandler(c *base.BaseContext) error {
+func LoginHandler(c *context.BaseContext) error {
 	redirect := c.QueryParam(user_auth.RedirectParam)
 
 	a := c.AuthUser()
@@ -38,7 +38,7 @@ func LoginHandler(c *base.BaseContext) error {
 	return nil
 }
 
-func LoginPostHandler(c *base.BaseContext) error {
+func LoginPostHandler(c *context.BaseContext) error {
 	loginURL := c.Request().RequestURI
 
 	if !captcha.VerifyString(c.FormValue("captchaId"), c.FormValue("captchaSolution")) {

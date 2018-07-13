@@ -1,8 +1,8 @@
 package test
 
 import (
-	"github.com/foxiswho/shop-go/router/base"
 	"fmt"
+	"github.com/foxiswho/shop-go/module/context"
 )
 
 //
@@ -14,7 +14,7 @@ func NewSession() *Session{
 	return  new(Session)
 }
 
-func (x *Session) IndexHandler(c *base.BaseContext) error {
+func (x *Session) IndexHandler(c *context.BaseContext) error {
 	c.Session().Set("SSSSSSS","asldfjlksajdflkasjdflkjd")
 
 	test:=c.Session().Get("SSSSSSS")

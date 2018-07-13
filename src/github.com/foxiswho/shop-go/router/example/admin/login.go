@@ -2,11 +2,11 @@ package admin
 
 import (
 	"net/http"
-	"github.com/foxiswho/shop-go/router/base"
 	"github.com/foxiswho/shop-go/module/auth/admin_auth"
 	"github.com/foxiswho/shop-go/module/log"
 	userService "github.com/foxiswho/shop-go/service/example_service"
 	"fmt"
+	"github.com/foxiswho/shop-go/module/context"
 )
 
 type LoginForm struct {
@@ -14,7 +14,7 @@ type LoginForm struct {
 	Password string `form:"password" binding:"required"`
 }
 
-func LoginHandler(c *base.BaseContext) error {
+func LoginHandler(c *context.BaseContext) error {
 	//redirect := c.QueryParam(auth.RedirectParam)
 	//
 	//a := c.AuthUser()
@@ -37,7 +37,7 @@ func LoginHandler(c *base.BaseContext) error {
 	return nil
 }
 
-func LoginPostHandler(c *base.BaseContext) error {
+func LoginPostHandler(c *context.BaseContext) error {
 	loginURL := c.Request().RequestURI
 
 	redirect := c.QueryParam(admin_auth.RedirectParam)

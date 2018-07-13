@@ -1,7 +1,6 @@
 package test
 
 import (
-	"github.com/foxiswho/shop-go/router/base"
 	"os"
 	"io"
 	"net/http"
@@ -9,6 +8,7 @@ import (
 	"github.com/foxiswho/shop-go/conf"
 	"github.com/foxiswho/shop-go/module/file"
 	"github.com/foxiswho/shop-go/util/conv"
+	"github.com/foxiswho/shop-go/module/context"
 )
 
 type Upload struct {
@@ -17,7 +17,7 @@ type Upload struct {
 func NewUpload() *Upload {
 	return new(Upload)
 }
-func (x *Upload) UploadIndex(c *base.BaseContext) error {
+func (x *Upload) UploadIndex(c *context.BaseContext) error {
 	//上传令牌 初始化
 	maps := make(map[string]interface{})
 	maps["type_id"] = 1
@@ -36,7 +36,7 @@ func (x *Upload) UploadIndex(c *base.BaseContext) error {
 	return nil
 }
 
-func UploadPostIndex(c *base.BaseContext) error {
+func UploadPostIndex(c *context.BaseContext) error {
 
 	//-----------
 	// Read file
@@ -75,7 +75,7 @@ func UploadPostIndex(c *base.BaseContext) error {
 	return c.HTML(http.StatusOK, fmt.Sprintf("<p>File %s uploaded successfully </p>", root_path+file.Filename))
 }
 
-func UploadMorePostIndex(c *base.BaseContext) error {
+func UploadMorePostIndex(c *context.BaseContext) error {
 	// Multipart form
 	form, err := c.MultipartForm()
 	if err != nil {
@@ -117,7 +117,7 @@ func UploadMorePostIndex(c *base.BaseContext) error {
 
 //上传图片 支持 markdown编辑器上传图片
 // @router /upload/image [post]
-func UploadDbHandler(c *base.BaseContext) error {
+func UploadDbHandler(c *context.BaseContext) error {
 	fmt.Println("pppppppppp")
 	fmt.Println("pppppppppp")
 	fmt.Println("pppppppppp")

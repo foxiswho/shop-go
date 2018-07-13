@@ -5,12 +5,12 @@ import (
 	"time"
 	"net/http"
 	"github.com/labstack/echo"
-	"github.com/foxiswho/shop-go/router/base"
 	"fmt"
 	"github.com/foxiswho/shop-go/router/example/test"
 	"github.com/foxiswho/shop-go/service/example_service"
 	"github.com/foxiswho/shop-go/module/log"
 	"github.com/foxiswho/shop-go/conf"
+	"github.com/foxiswho/shop-go/module/context"
 )
 
 // jwtCustomClaims are custom claims extending default ones.
@@ -20,7 +20,7 @@ type JwtCustomClaims struct {
 	jwt.StandardClaims
 }
 
-func JwtLoginPostHandler(c *base.BaseContext) error {
+func JwtLoginPostHandler(c *context.BaseContext) error {
 	c.Response().Header().Del("Access-Control-Allow-Origin")
 	c.Response().Header().Add("Access-Control-Allow-Origin","*")
 	var form test.LoginForm

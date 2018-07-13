@@ -19,7 +19,6 @@ import (
 	web_index "github.com/foxiswho/shop-go/router/web/index"
 	web_test "github.com/foxiswho/shop-go/router/example/test"
 	example_admin "github.com/foxiswho/shop-go/router/example/admin"
-	"github.com/foxiswho/shop-go/router/base"
 	"github.com/foxiswho/shop-go/router/example/api"
 	"github.com/foxiswho/shop-go/middleware/authadapter"
 	"github.com/casbin/casbin"
@@ -27,6 +26,7 @@ import (
 	rbac2 "github.com/foxiswho/shop-go/router/example/admin/rbac"
 	"github.com/foxiswho/shop-go/router/web/design"
 	"github.com/foxiswho/shop-go/module/auth/admin_auth"
+	"github.com/foxiswho/shop-go/module/context"
 )
 
 //---------
@@ -37,7 +37,7 @@ func Routers() *echo.Echo {
 	e := echo.New()
 
 	// Context自定义
-	e.Use(base.NewBaseContext())
+	e.Use(context.NewBaseContext())
 	// Customization
 	if Conf.ReleaseMode {
 		e.Debug = false
@@ -82,7 +82,7 @@ func Routers() *echo.Echo {
 	////////////////////////////
 	j := e.Group("/jwt")
 	{
-		j.POST("/login", base.Handler(api.JwtLoginPostHandler))
+		j.POST("/login", context.Handler(api.JwtLoginPostHandler))
 		i := j.Group("/restricted")
 		{
 			config := mw.JWTConfig{
@@ -113,59 +113,59 @@ func Routers() *echo.Echo {
 	index := e.Group("")
 	{
 		index.Use(auth.New(serviceAuth.GenerateAnonymousUser))
-		index.GET("/", base.Handler(web_index.HomeHandler))
+		index.GET("/", context.Handler(web_index.HomeHandler))
 		//
 		about := index.Group("/about")
 		about.Use(auth.LoginRequired())
 		{
-			about.GET("", base.Handler(web_index.AboutHandler))
+			about.GET("", context.Handler(web_index.AboutHandler))
 		}
 		//
 		test := index.Group("/example/test")
 		{
-			test.GET("/jwt/tester", base.Handler(web_test.JwtTesterHandler))
-			test.GET("/jwt/login", base.Handler(web_test.JwtLoginHandler))
-			//test.POST("/jwt/login", base.Handler(web_test.JwtLoginPostHandler))
-			test.GET("/ws", base.Handler(web_test.WsHandler))
-			test.GET("/cache", base.Handler(web_test.CacheHandler))
-			test.GET("/cookie", base.Handler(web_test.NewCookie().IndexHandler))
-			test.GET("/session", base.Handler(web_test.NewSession().IndexHandler))
-			test.GET("/orm", base.Handler(web_test.NewOrm().IndexHandler))
-			test.GET("/login", base.Handler(web_test.LoginHandler))
-			test.POST("/login", base.Handler(web_test.LoginPostHandler))
-			test.GET("/logout", base.Handler(web_test.LogoutHandler))
-			test.GET("/register", base.Handler(web_test.RegisterHandler))
-			test.POST("/register", base.Handler(web_test.RegisterPostHandler))
+			test.GET("/jwt/tester", context.Handler(web_test.JwtTesterHandler))
+			test.GET("/jwt/login", context.Handler(web_test.JwtLoginHandler))
+			//test.POST("/jwt/login", context.Handler(web_test.JwtLoginPostHandler))
+			test.GET("/ws", context.Handler(web_test.WsHandler))
+			test.GET("/cache", context.Handler(web_test.CacheHandler))
+			test.GET("/cookie", context.Handler(web_test.NewCookie().IndexHandler))
+			test.GET("/session", context.Handler(web_test.NewSession().IndexHandler))
+			test.GET("/orm", context.Handler(web_test.NewOrm().IndexHandler))
+			test.GET("/login", context.Handler(web_test.LoginHandler))
+			test.POST("/login", context.Handler(web_test.LoginPostHandler))
+			test.GET("/logout", context.Handler(web_test.LogoutHandler))
+			test.GET("/register", context.Handler(web_test.RegisterHandler))
+			test.POST("/register", context.Handler(web_test.RegisterPostHandler))
 			user := test.Group("/user_service")
 			user.Use(auth.LoginRequired())
 			{
-				user.GET("/:id", base.Handler(web_test.UserHandler))
+				user.GET("/:id", context.Handler(web_test.UserHandler))
 			}
-			test.GET("/upload", base.Handler(web_test.NewUpload().UploadIndex))
-			test.POST("/upload", base.Handler(web_test.UploadPostIndex))
-			test.POST("/upload-more", base.Handler(web_test.UploadMorePostIndex))
-			test.POST("/upload-db", base.Handler(web_test.UploadDbHandler))
-			test.GET("/jsonp", base.Handler(web_test.JsonpIndexHandler))
+			test.GET("/upload", context.Handler(web_test.NewUpload().UploadIndex))
+			test.POST("/upload", context.Handler(web_test.UploadPostIndex))
+			test.POST("/upload-more", context.Handler(web_test.UploadMorePostIndex))
+			test.POST("/upload-db", context.Handler(web_test.UploadDbHandler))
+			test.GET("/jsonp", context.Handler(web_test.JsonpIndexHandler))
 		}
 	}
 	////////////////////////////
 	/////admin
 	admin_login := e.Group("/admin_login")
 	{
-		admin_login.Use(base.SetContextTypeAdmin())
+		admin_login.Use(context.SetContextTypeAdmin())
 		admin_login.Use(admin_auth.New(serviceAdminAuth.GenerateAnonymousUser))
-		admin_login.GET("/", base.Handler(example_admin.DefaultHandler))
-		admin_login.GET("/login", base.Handler(example_admin.LoginHandler))
-		admin_login.POST("/login", base.Handler(example_admin.LoginPostHandler))
-		admin_login.GET("/logout", base.Handler(example_admin.LogoutHandler))
+		admin_login.GET("/", context.Handler(example_admin.DefaultHandler))
+		admin_login.GET("/login", context.Handler(example_admin.LoginHandler))
+		admin_login.POST("/login", context.Handler(example_admin.LoginPostHandler))
+		admin_login.GET("/logout", context.Handler(example_admin.LogoutHandler))
 	}
 	admin := e.Group("/admin")
 	{
-		admin.Use(base.SetContextTypeAdmin())
+		admin.Use(context.SetContextTypeAdmin())
 		admin.Use(admin_auth.New(serviceAdminAuth.GenerateAnonymousUser))
 		admin.Use(admin_auth.LoginRequired())
 		{
-			admin.GET("", base.Handler(example_admin.IndexHandler))
+			admin.GET("", context.Handler(example_admin.IndexHandler))
 		}
 		rbac := admin.Group("/rbac")
 		{
@@ -177,13 +177,13 @@ func Routers() *echo.Echo {
 			ce.LoadPolicy()
 			//中间件
 			rbac.Use(auth_casbin.Middleware(ce))
-			rbac.GET("/index", base.Handler(rbac2.IndexHandler))
+			rbac.GET("/index", context.Handler(rbac2.IndexHandler))
 		}
 		//设计
 		des := admin.Group("/design")
 		{
 			//根据数据库生成 service
-			des.GET("/service", base.Handler(design.ServiceMakeHandler))
+			des.GET("/service", context.Handler(design.ServiceMakeHandler))
 		}
 	}
 	return e

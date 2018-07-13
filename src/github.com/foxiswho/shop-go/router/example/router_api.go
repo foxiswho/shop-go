@@ -8,9 +8,9 @@ import (
 	. "github.com/foxiswho/shop-go/conf"
 	"github.com/foxiswho/shop-go/middleware/opentracing"
 	"github.com/foxiswho/shop-go/module/cache"
-	"github.com/foxiswho/shop-go/router/base"
 	"github.com/foxiswho/shop-go/router/example/api"
 	"net/http"
+	"github.com/foxiswho/shop-go/module/context"
 )
 
 //-----
@@ -21,7 +21,7 @@ func RoutersApi() *echo.Echo {
 	e := echo.New()
 
 	// Context自定义
-	e.Use(base.NewBaseContext())
+	e.Use(context.NewBaseContext())
 
 	// Customization
 	if Conf.ReleaseMode {
@@ -70,13 +70,13 @@ func RoutersApi() *echo.Echo {
 	e.GET("/", accessible)
 	json := e.Group("/json")
 	{
-		json.GET("/jsonp",base.Handler(api.JsonpHandler))
+		json.GET("/jsonp",context.Handler(api.JsonpHandler))
 	}
 	// JWT
 	j := e.Group("/jwt")
 	{
 		// Login route
-		j.POST("/login", base.Handler(api.JwtLoginPostHandler))
+		j.POST("/login", context.Handler(api.JwtLoginPostHandler))
 		i:=j.Group("/restricted")
 		{
 			// Configure middleware with the custom claims type
@@ -106,7 +106,7 @@ func RoutersApi() *echo.Echo {
 			TokenLookup: "header:" + echo.HeaderAuthorization,
 		}))
 
-		r.GET("/login-in", base.Handler(api.JwtTesterApiHandler))
+		r.GET("/login-in", context.Handler(api.JwtTesterApiHandler))
 	}
 
 	//post := r.Group("/post")

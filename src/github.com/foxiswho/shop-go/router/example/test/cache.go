@@ -1,13 +1,13 @@
 package test
 
 import (
-	"github.com/foxiswho/shop-go/router/base"
 	"github.com/foxiswho/shop-go/module/cache"
 	"time"
 	"fmt"
+	"github.com/foxiswho/shop-go/module/context"
 )
 
-func CacheHandler(c *base.BaseContext) error {
+func CacheHandler(c *context.BaseContext) error {
 
 	err := cache.Client().Set("test", time.Now(), 10*time.Minute)
 	fmt.Println("err", err)

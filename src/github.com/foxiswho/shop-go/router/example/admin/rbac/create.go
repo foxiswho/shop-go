@@ -1,13 +1,13 @@
 package rbac
 
 import (
-	"github.com/foxiswho/shop-go/router/base"
 	"github.com/foxiswho/shop-go/middleware/authadapter"
 	"github.com/casbin/casbin"
 	"fmt"
+	"github.com/foxiswho/shop-go/module/context"
 )
 
-func CreateHandler(c *base.BaseContext) error {
+func CreateHandler(c *context.BaseContext) error {
 	a := authadapter.NewAdapter("mysql", "")
 	e := casbin.NewEnforcer("template/casbin/rbac_model.conf", a)
 	//添加

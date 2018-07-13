@@ -2,14 +2,14 @@ package api
 
 
 import (
-	"github.com/foxiswho/shop-go/router/base"
 	"time"
 	"math/rand"
 	"net/http"
+	"github.com/foxiswho/shop-go/module/context"
 )
 
 
-func JsonpHandler(c *base.BaseContext) error {
+func JsonpHandler(c *context.BaseContext) error {
 	callback := c.QueryParam("callback")
 	var content struct {
 		Response  string    `json:"response"`

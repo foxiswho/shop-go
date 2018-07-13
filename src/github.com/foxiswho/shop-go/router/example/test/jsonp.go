@@ -1,7 +1,7 @@
 package test
 
 import (
-	"github.com/foxiswho/shop-go/router/base"
+	"github.com/foxiswho/shop-go/module/context"
 )
 
 type Json struct {
@@ -34,7 +34,7 @@ type C struct {
 	F2 string `json:"f_2,filter:b2"`
 }
 
-func JsonpIndexHandler(c *base.BaseContext) error {
+func JsonpIndexHandler(c *context.BaseContext) error {
 	c.Set("tmpl", "example/test/jsonp")
 	c.Set("data", map[string]interface{}{
 		"title": "jsonp",

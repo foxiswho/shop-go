@@ -1,10 +1,10 @@
 package admin
 
 import (
-	"github.com/foxiswho/shop-go/router/base"
+	"github.com/foxiswho/shop-go/module/context"
 )
 
-func IndexHandler(c *base.BaseContext) error {
+func IndexHandler(c *context.BaseContext) error {
 	c.Set("tmpl", "example/admin/index")
 	c.Set("data", map[string]interface{}{
 		"title": "Home",

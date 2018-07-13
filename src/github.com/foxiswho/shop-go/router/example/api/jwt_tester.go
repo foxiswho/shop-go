@@ -8,13 +8,13 @@ import (
 	"github.com/foxiswho/shop-go/middleware/session"
 	"github.com/foxiswho/shop-go/service/user_service/auth"
 	userService "github.com/foxiswho/shop-go/service/example_service"
-	"github.com/foxiswho/shop-go/router/base"
 	"time"
 	"fmt"
 	"github.com/dgrijalva/jwt-go"
+	"github.com/foxiswho/shop-go/module/context"
 )
 
-func JwtTesterApiHandler(c *base.BaseContext) error {
+func JwtTesterApiHandler(c *context.BaseContext) error {
 	log.Debugf("JwtApiHandler")
 	log.Debugf("JwtApiHandler")
 	log.Debugf("JwtApiHandler")

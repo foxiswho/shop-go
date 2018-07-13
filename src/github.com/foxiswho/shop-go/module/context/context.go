@@ -1,4 +1,4 @@
-package base
+package context
 
 import (
 	"github.com/labstack/echo"
@@ -11,7 +11,6 @@ import (
 	ot "github.com/foxiswho/shop-go/middleware/opentracing"
 	"net/http"
 	"fmt"
-	"github.com/foxiswho/shop-go/consts/context"
 	"github.com/foxiswho/shop-go/module/auth/admin_auth"
 )
 
@@ -23,7 +22,7 @@ type BaseContext struct {
 func NewBaseContext() echo.MiddlewareFunc {
 	return func(h echo.HandlerFunc) echo.HandlerFunc {
 		return func(c echo.Context) error {
-			ctx := &BaseContext{c, context.Type_User}
+			ctx := &BaseContext{c, Type_User}
 			return h(ctx)
 		}
 	}
