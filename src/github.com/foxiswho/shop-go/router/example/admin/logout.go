@@ -3,15 +3,15 @@ package admin
 import (
 	"net/http"
 	"github.com/foxiswho/shop-go/router/base"
-	"github.com/foxiswho/shop-go/module/auth/user_auth"
+	"github.com/foxiswho/shop-go/module/auth/admin_auth"
 )
 
 func LogoutHandler(c *base.BaseContext) error {
 	session := c.Session()
-	a := c.Auth()
-	user_auth.Logout(session, a.User)
+	a := c.AuthAdmin()
+	admin_auth.Logout(session, a.User)
 
-	redirect := c.QueryParam(user_auth.RedirectParam)
+	redirect := c.QueryParam(admin_auth.RedirectParam)
 	if redirect == "" {
 		redirect = "/admin_login/login"
 	}

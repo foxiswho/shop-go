@@ -18,7 +18,7 @@ type LoginForm struct {
 func LoginHandler(c *base.BaseContext) error {
 	redirect := c.QueryParam(user_auth.RedirectParam)
 
-	a := c.Auth()
+	a := c.AuthUser()
 	if a.User.IsAuthenticated() {
 		if redirect == "" {
 			redirect = "/"
@@ -54,7 +54,7 @@ func LoginPostHandler(c *base.BaseContext) error {
 		redirect = "/"
 	}
 
-	a := c.Auth()
+	a := c.AuthUser()
 	if a.User.IsAuthenticated() {
 		fmt.Println("已经验证过了")
 		c.Redirect(http.StatusMovedPermanently, redirect)

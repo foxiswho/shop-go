@@ -37,7 +37,7 @@ func (ctx *BaseContext) Session() session.Session {
 }
 
 //user
-func (ctx *BaseContext) Auth() user_auth.AuthUser {
+func (ctx *BaseContext) AuthUser() user_auth.AuthUser {
 	return user_auth.Default(ctx)
 }
 
