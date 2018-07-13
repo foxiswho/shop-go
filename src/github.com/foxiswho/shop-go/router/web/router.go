@@ -26,6 +26,7 @@ import (
 	auth_casbin "github.com/foxiswho/shop-go/middleware/auth"
 	rbac2 "github.com/foxiswho/shop-go/router/example/admin/rbac"
 	"github.com/foxiswho/shop-go/router/web/design"
+	"github.com/foxiswho/shop-go/module/auth/admin_auth"
 )
 
 //---------
@@ -152,7 +153,7 @@ func Routers() *echo.Echo {
 	admin_login := e.Group("/admin_login")
 	{
 		admin_login.Use(base.SetContextTypeAdmin())
-		admin_login.Use(auth.New(serviceAdminAuth.GenerateAnonymousUser))
+		admin_login.Use(admin_auth.New(serviceAdminAuth.GenerateAnonymousUser))
 		admin_login.GET("/", base.Handler(example_admin.DefaultHandler))
 		admin_login.GET("/login", base.Handler(example_admin.LoginHandler))
 		admin_login.POST("/login", base.Handler(example_admin.LoginPostHandler))
@@ -161,7 +162,7 @@ func Routers() *echo.Echo {
 	admin := e.Group("/admin")
 	{
 		admin.Use(base.SetContextTypeAdmin())
-		admin.Use(auth.New(serviceAdminAuth.GenerateAnonymousUser))
+		admin.Use(admin_auth.New(serviceAdminAuth.GenerateAnonymousUser))
 		admin.GET("", base.Handler(example_admin.IndexHandler))
 		rbac := admin.Group("/rbac")
 		{

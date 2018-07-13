@@ -3,7 +3,7 @@ package admin
 import (
 	"net/http"
 	"github.com/foxiswho/shop-go/router/base"
-	"github.com/foxiswho/shop-go/module/auth/user_auth"
+	"github.com/foxiswho/shop-go/module/auth/admin_auth"
 	"github.com/foxiswho/shop-go/module/log"
 	userService "github.com/foxiswho/shop-go/service/example_service"
 	"fmt"
@@ -40,7 +40,7 @@ func LoginHandler(c *base.BaseContext) error {
 func LoginPostHandler(c *base.BaseContext) error {
 	loginURL := c.Request().RequestURI
 
-	redirect := c.QueryParam(user_auth.RedirectParam)
+	redirect := c.QueryParam(admin_auth.RedirectParam)
 	if redirect == "" {
 		redirect = "/admin"
 	}
@@ -59,7 +59,7 @@ func LoginPostHandler(c *base.BaseContext) error {
 		fmt.Println("db=>u",u)
 		if u != nil {
 			session := c.Session()
-			err := user_auth.AuthenticateSession(session, u)
+			err := admin_auth.AuthenticateSession(session, u)
 			if err != nil {
 				c.JSON(http.StatusBadRequest, err)
 			}

@@ -6,7 +6,7 @@ import (
 	"github.com/labstack/echo/middleware"
 	"github.com/foxiswho/shop-go/module/log"
 	"strconv"
-	"github.com/foxiswho/shop-go/module/auth/admin"
+	"github.com/foxiswho/shop-go/module/auth/admin_auth"
 )
 
 type (
@@ -58,7 +58,7 @@ func MiddlewareWithConfig(config Config) echo.MiddlewareFunc {
 // GetRoleId gets the user name from the request.
 // Currently, only HTTP basic authentication is supported
 func (a *Config) GetRoleId(c echo.Context) int {
-	user := admin.Default(c)
+	user := admin_auth.Default(c)
 	return user.RoleId()
 }
 

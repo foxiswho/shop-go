@@ -4,7 +4,7 @@ import (
 	"github.com/labstack/echo"
 	"github.com/foxiswho/shop-go/consts/context"
 	"github.com/foxiswho/shop-go/module/auth/user_auth"
-	"github.com/foxiswho/shop-go/module/auth/admin"
+	"github.com/foxiswho/shop-go/module/auth/admin_auth"
 )
 
 //设置 为管理员
@@ -40,6 +40,6 @@ func GetAuthUser(c echo.Context) user_auth.AuthUser {
 }
 
 //admin 后台
-func GetAuthAdmin(c echo.Context) admin.AuthAdmin {
-	return admin.Default(c)
+func GetAuthAdmin(c echo.Context) admin_auth.AuthAdmin {
+	return admin_auth.Default(c)
 }

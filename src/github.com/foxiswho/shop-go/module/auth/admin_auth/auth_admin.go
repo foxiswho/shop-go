@@ -1,6 +1,6 @@
 // Base on https://github.com/martini-contrib/sessionauth
 //这里不能随便自定义，否则，需要改的好多地方，如 模板
-package admin
+package admin_auth
 
 import (
 	"fmt"
@@ -49,7 +49,7 @@ func New(newAdmin func() user_auth.User) echo.MiddlewareFunc {
 			} else {
 				c.Logger().Debugf("Login status: No UserId")
 			}
-
+			fmt.Println("admin user=>",user)
 			auth := AuthAdmin{user}
 			c.Set(DefaultKey, auth)
 			return next(c)

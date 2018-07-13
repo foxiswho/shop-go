@@ -2,10 +2,11 @@ package auth
 
 import (
 	"github.com/foxiswho/shop-go/module/db"
-	"github.com/foxiswho/shop-go/module/auth/user_auth"
+	"github.com/foxiswho/shop-go/module/auth/admin_auth"
 	"github.com/foxiswho/shop-go/module/auth"
 	"github.com/foxiswho/shop-go/module/model"
 	"github.com/foxiswho/shop-go/models"
+	"github.com/foxiswho/shop-go/module/auth/user_auth"
 )
 
 type Admin struct {
@@ -20,7 +21,7 @@ type Admin struct {
 // for all sessions. This should be an unauthenticated 0 value struct.
 func GenerateAnonymousUser() user_auth.User {
 	//默认跳转URL地址
-	user_auth.RedirectUrl = "/admin/login"
+	admin_auth.RedirectUrl = "/admin/login"
 	return &Admin{}
 }
 
@@ -73,7 +74,7 @@ func (u *Admin) TraceGetUserById(id uint64) *Admin {
 	}
 
 	user := new(Admin)
-	_, err := db.DB().Engine.Where("username = ?", "admin").Get(user)
+	_, err := db.DB().Engine.Where("username = ?", "admin_auth").Get(user)
 	if err != nil {
 		panic(err.Error())
 	}

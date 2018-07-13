@@ -82,7 +82,7 @@ func getCommonContext(c echo.Context) map[string]interface{} {
 	// 公共模板数据
 	commonDatas := make(map[string]interface{})
 	commonDatas["_user"] = auth.GetAuthData(c) // 获取用户数据
-
+	fmt.Println("_user",commonDatas["_user"])
 	// 配置
 	commonDatas["_conf"] = Conf
 
