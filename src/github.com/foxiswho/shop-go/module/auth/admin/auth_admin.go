@@ -8,6 +8,7 @@ import (
 
 	"github.com/foxiswho/shop-go/middleware/session"
 	"github.com/labstack/echo"
+	"github.com/foxiswho/shop-go/module/auth/user_auth"
 )
 
 const (
@@ -28,30 +29,11 @@ var (
 	SessionKey string = "ADMINAUTHUNIQUEID"
 )
 
-type Admin interface {
-	// Return whether this user_service is logged in or not
-	IsAuthenticated() bool
-
-	// Set any flags or extra data that should be available
-	Login()
-
-	// Clear any sensitive data out of the user_service
-	Logout()
-
-	// Return the unique identifier of this user_service object
-	UniqueId() interface{}
-
-	RoleId() int
-
-	// Populate this user_service object with values
-	GetById(id interface{}) error
-}
-
 type AuthAdmin struct {
-	Admin
+	user_auth.User
 }
 
-func New(newAdmin func() Admin) echo.MiddlewareFunc {
+func New(newAdmin func() user_auth.User) echo.MiddlewareFunc {
 	return func(next echo.HandlerFunc) echo.HandlerFunc {
 		return func(c echo.Context) error {
 			s := session.Default(c)
@@ -81,27 +63,27 @@ func Default(c echo.Context) AuthAdmin {
 }
 
 // shortcut to get AuthAdmin
-func DefaultGetAdmin(c echo.Context) Admin {
+func DefaultGetAdmin(c echo.Context) user_auth.User {
 	user := c.Get(DefaultKey).(AuthAdmin)
-	return user.Admin
+	return user.User
 }
 
 // AuthenticateSession will mark the session and user_service object as authenticated. Then
 // the Login() user_service function will be called. This function should be called after
 // you have validated a user_service.
-func AuthenticateSession(s session.Session, user Admin) error {
+func AuthenticateSession(s session.Session, user user_auth.User) error {
 	user.Login()
 	return UpdateUser(s, user)
 }
 
 func (a AuthAdmin) LogoutTest(s session.Session) {
-	a.Admin.Logout()
+	a.User.Logout()
 	s.Delete(SessionKey)
 	s.Save()
 }
 
 // Logout will clear out the session and call the Logout() user_service function.
-func Logout(s session.Session, user Admin) {
+func Logout(s session.Session, user user_auth.User) {
 	user.Logout()
 	s.Delete(SessionKey)
 	s.Save()
@@ -115,7 +97,7 @@ func LoginRequired() echo.MiddlewareFunc {
 	return func(next echo.HandlerFunc) echo.HandlerFunc {
 		return func(c echo.Context) error {
 			a := Default(c)
-			if a.Admin.IsAuthenticated() == false {
+			if a.User.IsAuthenticated() == false {
 				uri := c.Request().RequestURI
 				path := fmt.Sprintf("%s?%s=%s", RedirectUrl, RedirectParam, uri)
 				c.Redirect(http.StatusMovedPermanently, path)
@@ -129,7 +111,7 @@ func LoginRequired() echo.MiddlewareFunc {
 
 // UpdateUser updates the Admin object stored in the session. This is useful incase a change
 // is made to the user_service model that needs to persist across requests.
-func UpdateUser(s session.Session, user Admin) error {
+func UpdateUser(s session.Session, user user_auth.User) error {
 	s.Set(SessionKey, user.UniqueId())
 	s.Save()
 	return nil
