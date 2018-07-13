@@ -1,7 +1,7 @@
 package auth
 
 import (
-	"github.com/foxiswho/shop-go/module/auth"
+	auth "github.com/foxiswho/shop-go/module/auth/user_auth"
 	"github.com/foxiswho/shop-go/module/log"
 	"github.com/foxiswho/shop-go/module/db"
 	"fmt"

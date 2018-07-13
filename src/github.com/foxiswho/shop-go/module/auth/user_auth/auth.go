@@ -1,5 +1,5 @@
 // Base on https://github.com/martini-contrib/sessionauth
-package auth
+package user_auth
 
 import (
 	"fmt"

@@ -4,7 +4,7 @@ import (
 	"net/http"
 	"github.com/dchest/captcha"
 	"github.com/foxiswho/shop-go/router/base"
-	"github.com/foxiswho/shop-go/module/auth"
+	"github.com/foxiswho/shop-go/module/auth/user_auth"
 	"github.com/foxiswho/shop-go/module/log"
 	userService "github.com/foxiswho/shop-go/service/example_service"
 	"fmt"
@@ -16,7 +16,7 @@ type LoginForm struct {
 }
 
 func LoginHandler(c *base.BaseContext) error {
-	redirect := c.QueryParam(auth.RedirectParam)
+	redirect := c.QueryParam(user_auth.RedirectParam)
 
 	a := c.Auth()
 	if a.User.IsAuthenticated() {
@@ -30,7 +30,7 @@ func LoginHandler(c *base.BaseContext) error {
 	c.Set("tmpl", "example/test/login")
 	c.Set("data", map[string]interface{}{
 		"title":         "Login",
-		"redirectParam": auth.RedirectParam,
+		"redirectParam": user_auth.RedirectParam,
 		"redirect":      redirect,
 		"CaptchaId":     captcha.NewLen(6),
 	})
@@ -49,7 +49,7 @@ func LoginPostHandler(c *base.BaseContext) error {
 		log.Debugf("Great job, human! You solved the captcha.")
 	}
 
-	redirect := c.QueryParam(auth.RedirectParam)
+	redirect := c.QueryParam(user_auth.RedirectParam)
 	if redirect == "" {
 		redirect = "/"
 	}
@@ -67,7 +67,7 @@ func LoginPostHandler(c *base.BaseContext) error {
 		u := userService.GetUserByNicknamePwd(form.Nickname, form.Password)
 		if u != nil {
 			session := c.Session()
-			err := auth.AuthenticateSession(session, u)
+			err := user_auth.AuthenticateSession(session, u)
 			if err != nil {
 				c.JSON(http.StatusBadRequest, err)
 			}

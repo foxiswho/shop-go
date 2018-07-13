@@ -4,9 +4,9 @@ import (
 	"github.com/casbin/casbin"
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
-	"github.com/foxiswho/shop-go/module/auth"
 	"github.com/foxiswho/shop-go/module/log"
 	"strconv"
+	"github.com/foxiswho/shop-go/module/auth/admin"
 )
 
 type (
@@ -58,7 +58,7 @@ func MiddlewareWithConfig(config Config) echo.MiddlewareFunc {
 // GetRoleId gets the user name from the request.
 // Currently, only HTTP basic authentication is supported
 func (a *Config) GetRoleId(c echo.Context) int {
-	user := auth.Default(c)
+	user := admin.Default(c)
 	return user.RoleId()
 }
 

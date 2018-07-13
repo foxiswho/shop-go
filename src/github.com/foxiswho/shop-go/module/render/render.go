@@ -16,6 +16,7 @@ import (
 
 	. "github.com/foxiswho/shop-go/conf"
 	"github.com/foxiswho/shop-go/module/auth"
+	"github.com/foxiswho/shop-go/module/auth/user_auth"
 	"github.com/foxiswho/shop-go/module/log"
 	MT "github.com/foxiswho/shop-go/template"
 )
@@ -80,7 +81,7 @@ func getContext(c echo.Context) (tmpl string, context map[string]interface{}, er
 func getCommonContext(c echo.Context) map[string]interface{} {
 	// 公共模板数据
 	commonDatas := make(map[string]interface{})
-	commonDatas["_user"] = getAuthData(c) // 获取用户数据
+	commonDatas["_user"] = auth.GetAuthData(c) // 获取用户数据
 
 	// 配置
 	commonDatas["_conf"] = Conf
@@ -99,7 +100,7 @@ func getCommonContext(c echo.Context) map[string]interface{} {
 	uri := c.Request().RequestURI
 
 	// 登录、注册、退出页面取已有RedirectParam
-	redirect := c.QueryParam(auth.RedirectParam)
+	redirect := c.QueryParam(user_auth.RedirectParam)
 	switch path {
 	case "/login":
 		uri = redirect

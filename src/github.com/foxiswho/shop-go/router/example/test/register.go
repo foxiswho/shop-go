@@ -3,14 +3,14 @@ package test
 import (
 	"net/http"
 
-	"github.com/foxiswho/shop-go/module/auth"
+	"github.com/foxiswho/shop-go/module/auth/user_auth"
 	"github.com/foxiswho/shop-go/module/log"
 	userService "github.com/foxiswho/shop-go/service/example_service"
 	"github.com/foxiswho/shop-go/router/base"
 )
 
 func RegisterHandler(c *base.BaseContext) error {
-	redirect := c.QueryParam(auth.RedirectParam)
+	redirect := c.QueryParam(user_auth.RedirectParam)
 
 	a := c.Auth()
 	if a.User.IsAuthenticated() {
@@ -24,7 +24,7 @@ func RegisterHandler(c *base.BaseContext) error {
 	c.Set("tmpl", "example/test/register")
 	c.Set("data", map[string]interface{}{
 		"title":         "Register",
-		"redirectParam": auth.RedirectParam,
+		"redirectParam": user_auth.RedirectParam,
 		"redirect":      redirect,
 	})
 
@@ -32,7 +32,7 @@ func RegisterHandler(c *base.BaseContext) error {
 }
 
 func RegisterPostHandler(c *base.BaseContext) error {
-	redirect := c.QueryParam(auth.RedirectParam)
+	redirect := c.QueryParam(user_auth.RedirectParam)
 	if redirect == "" {
 		redirect = "/"
 	}
@@ -48,7 +48,7 @@ func RegisterPostHandler(c *base.BaseContext) error {
 		u := userService.AddUserWithNicknamePwd(form.Nickname, form.Password)
 		if u != nil {
 			session := c.Session()
-			err := auth.AuthenticateSession(session, u)
+			err := user_auth.AuthenticateSession(session, u)
 			if err != nil {
 				c.JSON(http.StatusBadRequest, err)
 			}
@@ -65,7 +65,7 @@ func RegisterPostHandler(c *base.BaseContext) error {
 			c.Set("tmpl", "web/register")
 			c.Set("data", map[string]interface{}{
 				"title":         "Register",
-				"redirectParam": auth.RedirectParam,
+				"redirectParam": user_auth.RedirectParam,
 				"redirect":      redirect,
 			})
 			return nil
@@ -81,7 +81,7 @@ func RegisterPostHandler(c *base.BaseContext) error {
 		c.Set("tmpl", "example/test/register")
 		c.Set("data", map[string]interface{}{
 			"title":         "Register",
-			"redirectParam": auth.RedirectParam,
+			"redirectParam": user_auth.RedirectParam,
 			"redirect":      redirect,
 		})
 		return nil

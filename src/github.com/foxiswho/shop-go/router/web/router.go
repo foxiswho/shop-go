@@ -10,7 +10,7 @@ import (
 	"github.com/foxiswho/shop-go/assets"
 	. "github.com/foxiswho/shop-go/conf"
 	"github.com/foxiswho/shop-go/middleware/opentracing"
-	"github.com/foxiswho/shop-go/module/auth"
+	auth "github.com/foxiswho/shop-go/module/auth/user_auth"
 	"github.com/foxiswho/shop-go/module/cache"
 	"github.com/foxiswho/shop-go/module/render"
 	"github.com/foxiswho/shop-go/module/session"

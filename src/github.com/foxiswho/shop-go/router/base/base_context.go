@@ -6,7 +6,7 @@ import (
 	"github.com/foxiswho/shop-go/middleware/session"
 
 	"github.com/opentracing/opentracing-go"
-	"github.com/foxiswho/shop-go/module/auth"
+	"github.com/foxiswho/shop-go/module/auth/user_auth"
 	"github.com/foxiswho/shop-go/util/json"
 	ot "github.com/foxiswho/shop-go/middleware/opentracing"
 	"net/http"
@@ -37,8 +37,8 @@ func (ctx *BaseContext) Session() session.Session {
 }
 
 //user
-func (ctx *BaseContext) Auth() auth.Auth {
-	return auth.Default(ctx)
+func (ctx *BaseContext) Auth() user_auth.Auth {
+	return user_auth.Default(ctx)
 }
 
 //admin 后台
