@@ -12,6 +12,7 @@ import (
 	"net/http"
 	"fmt"
 	"github.com/foxiswho/shop-go/consts/context"
+	"github.com/foxiswho/shop-go/module/auth/admin"
 )
 
 type BaseContext struct {
@@ -35,8 +36,14 @@ func (ctx *BaseContext) Session() session.Session {
 	return session.Default(ctx)
 }
 
+//user
 func (ctx *BaseContext) Auth() auth.Auth {
 	return auth.Default(ctx)
+}
+
+//admin 后台
+func (ctx *BaseContext) AuthAdmin() admin.AuthAdmin {
+	return admin.Default(ctx)
 }
 
 func (ctx *BaseContext) OpenTracingSpan() opentracing.Span {
