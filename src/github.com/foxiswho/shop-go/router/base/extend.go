@@ -11,7 +11,7 @@ import (
 func SetContextTypeAdmin() echo.MiddlewareFunc {
 	return func(next echo.HandlerFunc) echo.HandlerFunc {
 		return func(c echo.Context) error {
-			x := c.(BaseContext)
+			x := c.(*BaseContext)
 			x.ContextType = context.Type_Admin
 			return next(x)
 		}
@@ -22,7 +22,7 @@ func SetContextTypeAdmin() echo.MiddlewareFunc {
 func SetContextTypeUser() echo.MiddlewareFunc {
 	return func(next echo.HandlerFunc) echo.HandlerFunc {
 		return func(c echo.Context) error {
-			x := c.(BaseContext)
+			x := c.(*BaseContext)
 			x.ContextType = context.Type_Admin
 			return next(x)
 		}
@@ -30,7 +30,7 @@ func SetContextTypeUser() echo.MiddlewareFunc {
 }
 
 func GetContextType(c echo.Context) string {
-	x := c.(BaseContext)
+	x := c.(*BaseContext)
 	return x.ContextType
 }
 
