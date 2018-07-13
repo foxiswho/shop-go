@@ -1,7 +1,8 @@
 package auth
 
 import (
-	auth "github.com/foxiswho/shop-go/module/auth/user_auth"
+	"github.com/foxiswho/shop-go/module/auth/user_auth"
+	"github.com/foxiswho/shop-go/module/auth"
 	"github.com/foxiswho/shop-go/module/log"
 	"github.com/foxiswho/shop-go/module/db"
 	"fmt"
@@ -19,7 +20,7 @@ type User struct {
 
 // GetAnonymousUser should generate an anonymous user_service model
 // for all sessions. This should be an unauthenticated 0 value struct.
-func GenerateAnonymousUser() auth.User {
+func GenerateAnonymousUser() user_auth.User {
 	return &User{}
 }
 
