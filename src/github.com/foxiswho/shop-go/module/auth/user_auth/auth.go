@@ -48,7 +48,7 @@ type User interface {
 	Module() string
 }
 
-type Auth struct {
+type AuthUser struct {
 	User
 }
 
@@ -69,23 +69,23 @@ func New(newUser func() User) echo.MiddlewareFunc {
 				c.Logger().Debugf("Login status: No UserId")
 			}
 
-			auth := Auth{user}
+			auth := AuthUser{user}
 			c.Set(DefaultKey, auth)
 			return next(c)
 		}
 	}
 }
 
-// shortcut to get Auth
-func Default(c echo.Context) Auth {
+// shortcut to get AuthUser
+func Default(c echo.Context) AuthUser {
 	// return c.MustGet(DefaultKey).(auth)
-	return c.Get(DefaultKey).(Auth)
+	return c.Get(DefaultKey).(AuthUser)
 }
 
-// shortcut to get Auth
+// shortcut to get AuthUser
 func DefaultGetUser(c echo.Context) User {
 	// return c.MustGet(DefaultKey).(auth)
-	auth := c.Get(DefaultKey).(Auth)
+	auth := c.Get(DefaultKey).(AuthUser)
 	return auth.User
 }
 
@@ -97,7 +97,7 @@ func AuthenticateSession(s session.Session, user User) error {
 	return UpdateUser(s, user)
 }
 
-func (a Auth) LogoutTest(s session.Session) {
+func (a AuthUser) LogoutTest(s session.Session) {
 	a.User.Logout()
 	s.Delete(SessionKey)
 	s.Save()

@@ -17,7 +17,7 @@ type LoginForm struct {
 func LoginHandler(c *base.BaseContext) error {
 	//redirect := c.QueryParam(auth.RedirectParam)
 	//
-	//a := c.Auth()
+	//a := c.AuthUser()
 	//if a.Admin.IsAuthenticated() {
 	//	if redirect == "" {
 	//		redirect = "/"

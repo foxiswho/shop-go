@@ -35,7 +35,7 @@ func GetContextType(c echo.Context) string {
 }
 
 //user
-func GetAuthUser(c echo.Context) user_auth.Auth {
+func GetAuthUser(c echo.Context) user_auth.AuthUser {
 	return user_auth.Default(c)
 }
 

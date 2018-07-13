@@ -105,7 +105,7 @@ func Routers() *echo.Echo {
 
 	// Cache
 	e.Use(cache.Cache())
-	// Auth
+	// AuthUser
 	//e.Use(auth.New(model.GenerateAnonymousUser))
 	//e.Use(auth.New(serviceAuth.GenerateAnonymousUser))
 	// Routers
