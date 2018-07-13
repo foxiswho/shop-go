@@ -163,7 +163,10 @@ func Routers() *echo.Echo {
 	{
 		admin.Use(base.SetContextTypeAdmin())
 		admin.Use(admin_auth.New(serviceAdminAuth.GenerateAnonymousUser))
-		admin.GET("", base.Handler(example_admin.IndexHandler))
+		admin.Use(admin_auth.LoginRequired())
+		{
+			admin.GET("", base.Handler(example_admin.IndexHandler))
+		}
 		rbac := admin.Group("/rbac")
 		{
 			//数据库驱动

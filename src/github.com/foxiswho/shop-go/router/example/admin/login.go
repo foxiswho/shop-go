@@ -45,7 +45,7 @@ func LoginPostHandler(c *base.BaseContext) error {
 		redirect = "/admin"
 	}
 
-	a := c.Auth()
+	a := c.AuthAdmin()
 	if a.User.IsAuthenticated() {
 		fmt.Println("已经验证过了")
 		c.Redirect(http.StatusMovedPermanently, redirect)

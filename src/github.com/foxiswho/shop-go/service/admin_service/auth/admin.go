@@ -21,7 +21,7 @@ type Admin struct {
 // for all sessions. This should be an unauthenticated 0 value struct.
 func GenerateAnonymousUser() user_auth.User {
 	//默认跳转URL地址
-	admin_auth.RedirectUrl = "/admin/login"
+	admin_auth.RedirectUrl = "/admin_login/login"
 	return &Admin{}
 }
 

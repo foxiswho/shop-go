@@ -18,7 +18,7 @@ const (
 
 var (
 	// RedirectUrl should be the relative URL for your login route
-	RedirectUrl string = "/admin/login"
+	RedirectUrl string = "/admin_login/login"
 
 	// RedirectParam is the query string parameter that will be set
 	// with the page the user_service was trying to visit before they were
@@ -38,6 +38,7 @@ func New(newAdmin func() user_auth.User) echo.MiddlewareFunc {
 		return func(c echo.Context) error {
 			s := session.Default(c)
 			userId := s.Get(SessionKey)
+			fmt.Println("admin userId =>", userId)
 			user := newAdmin()
 			if userId != nil {
 				err := user.GetById(userId)
@@ -49,7 +50,7 @@ func New(newAdmin func() user_auth.User) echo.MiddlewareFunc {
 			} else {
 				c.Logger().Debugf("Login status: No UserId")
 			}
-			fmt.Println("admin user=>",user)
+			fmt.Println("admin user=>", user)
 			auth := AuthAdmin{user}
 			c.Set(DefaultKey, auth)
 			return next(c)

@@ -117,6 +117,9 @@ server{
 ##### 用户名和密码
 可以到数据库表中查看，`user` 和`admin` 表
 
+
+> 后台 用户名:`admin` 密码:`admin`
+
 ## 运行
 ```shell
 # 首次运行必须带 -a -t，更新assets.go、template.go的资源路径为本地
