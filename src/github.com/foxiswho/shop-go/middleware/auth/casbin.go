@@ -4,9 +4,9 @@ import (
 	"github.com/casbin/casbin"
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
-	"github.com/foxiswho/shop-go/module/log"
+	m_ac "github.com/foxiswho/shop-go/module/auth/casbin"
 	"strconv"
-	"github.com/foxiswho/shop-go/module/auth"
+	"github.com/foxiswho/shop-go/module/log"
 )
 
 type (
@@ -58,7 +58,7 @@ func MiddlewareWithConfig(config Config) echo.MiddlewareFunc {
 // CheckPermission checks the user/method/path combination from the request.
 // Returns true (permission granted) or false (permission forbidden)
 func (a *Config) CheckPermission(c echo.Context) bool {
-	role_id := auth.GetAuthDataRoleId(c)
+	role_id := m_ac.GetRoleId(c)
 	method := c.Request().Method
 	path := c.Request().URL.Path
 	role := strconv.Itoa(role_id)
