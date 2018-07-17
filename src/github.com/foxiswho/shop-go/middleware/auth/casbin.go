@@ -6,7 +6,7 @@ import (
 	"github.com/labstack/echo/middleware"
 	"github.com/foxiswho/shop-go/module/log"
 	"strconv"
-	"github.com/foxiswho/shop-go/module/auth/admin_auth"
+	"github.com/foxiswho/shop-go/module/auth"
 )
 
 type (
@@ -55,17 +55,10 @@ func MiddlewareWithConfig(config Config) echo.MiddlewareFunc {
 	}
 }
 
-// GetRoleId gets the user name from the request.
-// Currently, only HTTP basic authentication is supported
-func (a *Config) GetRoleId(c echo.Context) int {
-	user := admin_auth.Default(c)
-	return user.RoleId()
-}
-
 // CheckPermission checks the user/method/path combination from the request.
 // Returns true (permission granted) or false (permission forbidden)
 func (a *Config) CheckPermission(c echo.Context) bool {
-	role_id := a.GetRoleId(c)
+	role_id := auth.GetAuthDataRoleId(c)
 	method := c.Request().Method
 	path := c.Request().URL.Path
 	role := strconv.Itoa(role_id)

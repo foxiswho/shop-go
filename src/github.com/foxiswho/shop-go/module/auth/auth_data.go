@@ -15,3 +15,12 @@ func GetAuthData(c echo.Context) interface{} {
 		return user_auth.DefaultGetUser(c)
 	}
 }
+
+func GetAuthDataRoleId(c echo.Context) int {
+	context_type := context.GetContextType(c)
+	if context.Type_Admin == context_type {
+		return admin_auth.GetRoleId(c)
+	} else {
+		return user_auth.GetRoleId(c)
+	}
+}
