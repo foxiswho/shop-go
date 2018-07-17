@@ -63,5 +63,23 @@ func (a *Config) CheckPermission(c echo.Context) bool {
 	path := c.Request().URL.Path
 	role := strconv.Itoa(role_id)
 	log.Debugf("role_id ? ,method ?, ?", role, path, method)
-	return a.Enforcer.Enforce(role, path, method)
+	if a.Enforcer.Enforce(role, path, method) {
+		return true
+	}
+	// 更多 角色权限判断
+	more := m_ac.GetRoleExtend(c)
+	if more != nil {
+		if len(more) > 0 {
+			for _, v := range more {
+				if v > 0 {
+					role = strconv.Itoa(v)
+					log.Debugf("role_id ? ,method ?, ?", role, path, method)
+					if a.Enforcer.Enforce(role, path, method) {
+						return true
+					}
+				}
+			}
+		}
+	}
+	return false
 }

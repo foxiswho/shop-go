@@ -8,3 +8,7 @@ import (
 func GetRoleId(c echo.Context) int {
 	return auth.GetAuthDataRoleId(c)
 }
+
+func GetRoleExtend(c echo.Context) []int {
+	return auth.GetAuthDataRoleExtend(c)
+}
