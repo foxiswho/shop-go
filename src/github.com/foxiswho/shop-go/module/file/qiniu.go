@@ -10,7 +10,7 @@ import (
 	"strings"
 	"time"
 	"github.com/foxiswho/shop-go/module/cache"
-	"github.com/foxiswho/shop-go/conf"
+	"github.com/foxiswho/shop-go/module/conf"
 	"github.com/foxiswho/shop-go/util"
 )
 

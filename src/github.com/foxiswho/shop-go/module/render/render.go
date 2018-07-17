@@ -14,7 +14,7 @@ import (
 	"github.com/foxiswho/shop-go/middleware/pongo2echo"
 	"github.com/foxiswho/shop-go/middleware/session"
 
-	. "github.com/foxiswho/shop-go/conf"
+	. "github.com/foxiswho/shop-go/module/conf"
 	"github.com/foxiswho/shop-go/module/auth"
 	"github.com/foxiswho/shop-go/module/auth/user_auth"
 	"github.com/foxiswho/shop-go/module/log"

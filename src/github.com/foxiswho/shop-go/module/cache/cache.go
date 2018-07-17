@@ -6,7 +6,7 @@ import (
 	ec "github.com/foxiswho/shop-go/middleware/cache"
 	"github.com/labstack/echo"
 
-	. "github.com/foxiswho/shop-go/conf"
+	. "github.com/foxiswho/shop-go/module/conf"
 )
 
 const (

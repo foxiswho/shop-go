@@ -5,7 +5,7 @@ import (
 
 	es "github.com/foxiswho/shop-go/middleware/session"
 
-	. "github.com/foxiswho/shop-go/conf"
+	. "github.com/foxiswho/shop-go/module/conf"
 )
 
 func Session() echo.MiddlewareFunc {

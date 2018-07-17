@@ -9,7 +9,7 @@ import (
 	"github.com/foxiswho/shop-go/router/example/test"
 	"github.com/foxiswho/shop-go/service/example_service"
 	"github.com/foxiswho/shop-go/module/log"
-	"github.com/foxiswho/shop-go/conf"
+	"github.com/foxiswho/shop-go/module/conf"
 	"github.com/foxiswho/shop-go/module/context"
 )
 

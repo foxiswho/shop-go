@@ -6,7 +6,7 @@ import (
 	"text/template"
 	"os"
 	"strings"
-	"github.com/foxiswho/shop-go/conf"
+	"github.com/foxiswho/shop-go/module/conf"
 	"net/http"
 	"github.com/foxiswho/shop-go/module/context"
 )

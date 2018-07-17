@@ -10,7 +10,7 @@ import (
 	"strconv"
 	"strings"
 	"time"
-	"github.com/foxiswho/shop-go/conf"
+	"github.com/foxiswho/shop-go/module/conf"
 	"github.com/foxiswho/shop-go/util"
 	"github.com/foxiswho/shop-go/util/datetime"
 	"github.com/foxiswho/shop-go/util/crypt"

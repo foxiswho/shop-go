@@ -2,7 +2,7 @@ package cache
 
 import (
 	ec "github.com/foxiswho/shop-go/middleware/cache"
-	. "github.com/foxiswho/shop-go/conf"
+	. "github.com/foxiswho/shop-go/module/conf"
 	"time"
 )
 

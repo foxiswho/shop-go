@@ -8,7 +8,7 @@ import (
 	"github.com/foxiswho/shop-go/middleware/staticbin"
 
 	"github.com/foxiswho/shop-go/assets"
-	. "github.com/foxiswho/shop-go/conf"
+	. "github.com/foxiswho/shop-go/module/conf"
 	"github.com/foxiswho/shop-go/middleware/opentracing"
 	auth "github.com/foxiswho/shop-go/module/auth/user_auth"
 	"github.com/foxiswho/shop-go/module/cache"

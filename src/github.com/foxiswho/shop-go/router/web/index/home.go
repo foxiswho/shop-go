@@ -7,7 +7,7 @@ import (
 	//"github.com/foxiswho/shop-go/model"
 	"github.com/foxiswho/shop-go/module/model"
 	"github.com/foxiswho/shop-go/module/log"
-	. "github.com/foxiswho/shop-go/conf"
+	. "github.com/foxiswho/shop-go/module/conf"
 	sauth "github.com/foxiswho/shop-go/service/user_service/auth"
 	"github.com/foxiswho/shop-go/module/context"
 )

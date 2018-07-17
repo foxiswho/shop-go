@@ -8,7 +8,7 @@ import (
 
 	"github.com/labstack/echo"
 
-	. "github.com/foxiswho/shop-go/conf"
+	. "github.com/foxiswho/shop-go/module/conf"
 	"github.com/foxiswho/shop-go/module/log"
 	bdTmpl "github.com/foxiswho/shop-go/template"
 )

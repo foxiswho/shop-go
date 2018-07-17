@@ -5,7 +5,7 @@ import (
 	"github.com/foxiswho/shop-go/util/conv"
 	"github.com/foxiswho/shop-go/util/crypt"
 	"github.com/foxiswho/shop-go/util"
-	"github.com/foxiswho/shop-go/conf"
+	"github.com/foxiswho/shop-go/module/conf"
 )
 
 //令牌生成

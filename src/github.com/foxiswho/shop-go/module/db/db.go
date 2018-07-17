@@ -7,7 +7,7 @@ import (
 
 	"fmt"
 	"github.com/xormplus/xorm"
-	. "github.com/foxiswho/shop-go/conf"
+	. "github.com/foxiswho/shop-go/module/conf"
 	"github.com/foxiswho/shop-go/module/log"
 	"reflect"
 	"strconv"

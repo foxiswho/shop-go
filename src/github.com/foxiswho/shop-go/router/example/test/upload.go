@@ -5,7 +5,7 @@ import (
 	"io"
 	"net/http"
 	"fmt"
-	"github.com/foxiswho/shop-go/conf"
+	"github.com/foxiswho/shop-go/module/conf"
 	"github.com/foxiswho/shop-go/module/file"
 	"github.com/foxiswho/shop-go/util/conv"
 	"github.com/foxiswho/shop-go/module/context"
