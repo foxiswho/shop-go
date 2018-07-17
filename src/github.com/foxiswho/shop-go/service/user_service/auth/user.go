@@ -53,6 +53,11 @@ func (u *User) RoleId() int {
 	return u.User.GroupId
 }
 
+func (u *User) RoleExtend() []int {
+	arr := []int{}
+	return arr
+}
+
 func (u *User) Module() string {
 	return auth.MODULE_USER
 }

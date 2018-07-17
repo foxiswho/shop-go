@@ -53,6 +53,10 @@ func (u *Admin) UniqueId() interface{} {
 func (u *Admin) RoleId() int {
 	return u.Admin.RoleId
 }
+func (u *Admin) RoleExtend() []int {
+	arr := []int{}
+	return arr
+}
 
 func (u *Admin) Module() string {
 	return auth.MODULE_ADMIN

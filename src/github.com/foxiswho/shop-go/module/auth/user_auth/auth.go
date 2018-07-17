@@ -42,6 +42,9 @@ type User interface {
 
 	RoleId() int
 
+	//MORE ROLE ID
+	RoleExtend() []int
+
 	// Populate this user_service object with values
 	GetById(id interface{}) error
 
