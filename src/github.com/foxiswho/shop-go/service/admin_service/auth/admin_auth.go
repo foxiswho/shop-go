@@ -26,6 +26,7 @@ func NewAdminAuth() *AdminAuth {
 	return c
 }
 
+// 设置登录类型
 func (c *AdminAuth) SetTypeLogin(type_login int) {
 	c.TypeLogin = type_login
 }
@@ -37,10 +38,12 @@ func (c *AdminAuth) SetPassword(password string) {
 	c.Password = password
 }
 
+//验证码
 func (c *AdminAuth) SetVerificationCode(verificationCode string) {
 	c.VerificationCode = verificationCode
 }
 
+//是否验证验证码
 func (c *AdminAuth) SetIsVerificationCode(isVerificationCode bool) {
 	c.IsVerificationCode = isVerificationCode
 }
@@ -51,6 +54,9 @@ func (c *AdminAuth) Process() (*models.Admin, error) {
 	}
 	if len(c.Password) < 1 {
 		return nil, util.NewError("密码 不能为空")
+	}
+	if true == c.IsVerificationCode && len(c.VerificationCode) < 1 {
+		return nil, util.NewError("验证码 不能为空")
 	}
 	admin, err := c.loginTypeProcess()
 	if err != nil {
