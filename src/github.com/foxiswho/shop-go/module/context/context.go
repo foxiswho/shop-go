@@ -156,17 +156,3 @@ func (ctx *BaseContext) CookieDel(name string) {
 	cookie.MaxAge = -1
 	http.SetCookie(ctx.Response(), cookie)
 }
-
-//func (c *BaseContext) GetUserId() int {
-//	return session_type.GetUserId(c)
-//}
-
-//user
-//func (c *BaseContext) AuthUser() user_auth.AuthUser {
-//	return user_auth.Default(c)
-//}
-
-//admin 后台
-//func (c *BaseContext) AuthAdmin() admin_auth.AuthAdmin {
-//	return admin_auth.Default(c)
-//}

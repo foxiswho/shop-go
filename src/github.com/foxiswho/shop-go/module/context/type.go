@@ -2,8 +2,6 @@ package context
 
 import (
 	"github.com/labstack/echo"
-	"github.com/foxiswho/shop-go/module/auth/user_auth"
-	"github.com/foxiswho/shop-go/module/auth/admin_auth"
 	"github.com/foxiswho/shop-go/consts/context"
 )
 
@@ -29,17 +27,36 @@ func SetContextTypeUser() echo.MiddlewareFunc {
 	}
 }
 
+// 获取 用户登录类别 user  admin
 func GetContextType(c echo.Context) string {
 	x := c.(*BaseContext)
 	return x.ContextType
 }
 
-//user
-func GetAuthUser(c echo.Context) user_auth.AuthUser {
-	return user_auth.Default(c)
+//设置会话 为 jwt方式
+func SetSessionTypeJwt() echo.MiddlewareFunc {
+	return func(next echo.HandlerFunc) echo.HandlerFunc {
+		return func(c echo.Context) error {
+			x := c.(*BaseContext)
+			x.SessionType = context.Session_jwt
+			return next(x)
+		}
+	}
 }
 
-//admin 后台
-func GetAuthAdmin(c echo.Context) admin_auth.AuthAdmin {
-	return admin_auth.Default(c)
+//设置会话 为  cookie
+func SetSessionTypeCookie() echo.MiddlewareFunc {
+	return func(next echo.HandlerFunc) echo.HandlerFunc {
+		return func(c echo.Context) error {
+			x := c.(*BaseContext)
+			x.SessionType = context.Session_cookie
+			return next(x)
+		}
+	}
+}
+
+// 获取用户号会话类别
+func GetSessionType(c echo.Context) string {
+	x := c.(*BaseContext)
+	return x.SessionType
 }
