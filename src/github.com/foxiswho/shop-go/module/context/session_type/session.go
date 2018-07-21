@@ -11,14 +11,17 @@ import (
 )
 
 //获取用户ID
-func GetUserId(c *context2.BaseContext) int {
+func GetUserId(c context2.BaseContext) int {
 	//会话方式 jwt
 	if context.Session_jwt == c.SessionType {
 		//admin 后台
 		if c.ContextType == jwt.ContextKey_admin {
 			claims := JwtTokenGetAdmin(c)
 			if claims != nil {
-				return claims["id"]
+				if id, ok := claims["id"]; ok {
+					id2, _ := conv.ObjToInt(id)
+					return id2
+				}
 			}
 		} else if jwt.ContextKey_user == c.ContextType {
 			//user 前台

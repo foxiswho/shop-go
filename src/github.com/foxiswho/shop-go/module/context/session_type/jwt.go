@@ -6,7 +6,8 @@ import (
 	"github.com/foxiswho/shop-go/module/context"
 )
 
-func JwtTokenGetAdmin(c *context.BaseContext) map[string]*interface{} {
+func JwtTokenGetAdmin(c context.BaseContext) map[string]interface{} {
+	myMap := make(map[string]interface{})
 	val := c.Get(jwt2.ContextKey_admin)
 	if val != nil {
 		info := val.(*jwt.Token)
@@ -14,5 +15,5 @@ func JwtTokenGetAdmin(c *context.BaseContext) map[string]*interface{} {
 			return jwt2.GetJwtClaims(info)
 		}
 	}
-	return nil
+	return myMap
 }

@@ -6,7 +6,7 @@ import (
 	"github.com/foxiswho/shop-go/module/auth"
 	"github.com/foxiswho/shop-go/module/model"
 	"github.com/foxiswho/shop-go/models"
-	"github.com/foxiswho/shop-go/module/auth/user_auth"
+	auth2 "github.com/foxiswho/shop-go/models/auth"
 )
 
 type Admin struct {
@@ -19,7 +19,7 @@ type Admin struct {
 
 // GetAnonymousUser should generate an anonymous user_service model
 // for all sessions. This should be an unauthenticated 0 value struct.
-func GenerateAnonymousUser() user_auth.User {
+func GenerateAnonymousUser() auth2.User {
 	//默认跳转URL地址
 	admin_auth.RedirectUrl = "/admin_login/login"
 	return &Admin{}

@@ -44,8 +44,8 @@ func GetJwtMiddleware(ContextKey string) mw.JWTConfig {
 	return config
 }
 
-func GetJwtClaims(token *jwt.Token) map[string]*interface{} {
-	myMap := make(map[string]*interface{})
+func GetJwtClaims(token *jwt.Token) map[string]interface{} {
+	myMap := make(map[string]interface{})
 	if token.Claims != nil {
 		return myMap
 	}
