@@ -29,7 +29,7 @@ type SessionSerializer interface {
 	Serialize(ss *sessions.Session) ([]byte, error)
 }
 
-// JSONSerializer encode the session map to JSON.
+// JSONSerializer encode the session_type map to JSON.
 type JSONSerializer struct{}
 
 // Serialize to JSON. Will err if there are unmarshalable key values
@@ -38,7 +38,7 @@ func (s JSONSerializer) Serialize(ss *sessions.Session) ([]byte, error) {
 	for k, v := range ss.Values {
 		ks, ok := k.(string)
 		if !ok {
-			err := fmt.Errorf("Non-string key value, cannot serialize session to JSON: %v", k)
+			err := fmt.Errorf("Non-string key value, cannot serialize session_type to JSON: %v", k)
 			fmt.Printf("redistore.JSONSerializer.serialize() Error: %v", err)
 			return nil, err
 		}
@@ -61,7 +61,7 @@ func (s JSONSerializer) Deserialize(d []byte, ss *sessions.Session) error {
 	return nil
 }
 
-// GobSerializer uses gob package to encode the session map
+// GobSerializer uses gob package to encode the session_type map
 type GobSerializer struct{}
 
 // Serialize using gob
@@ -86,7 +86,7 @@ type RediStore struct {
 	Pool          *redis.Pool
 	Codecs        []securecookie.Codec
 	Options       *sessions.Options // default configuration
-	DefaultMaxAge int               // default Redis TTL for a MaxAge == 0 session
+	DefaultMaxAge int               // default Redis TTL for a MaxAge == 0 session_type
 	maxLength     int
 	keyPrefix     string
 	serializer    SessionSerializer
@@ -94,7 +94,7 @@ type RediStore struct {
 
 // SetMaxLength sets RediStore.maxLength if the `l` argument is greater or equal 0
 // maxLength restricts the maximum length of new sessions to l.
-// If l is 0 there is no limit to the size of a session, use with caution.
+// If l is 0 there is no limit to the size of a session_type, use with caution.
 // The default for a new RediStore is 4096. Redis allows for max.
 // value sizes of up to 512MB (http://redis.io/topics/data-types)
 // Default: 4096,
@@ -114,9 +114,9 @@ func (s *RediStore) SetSerializer(ss SessionSerializer) {
 	s.serializer = ss
 }
 
-// SetMaxAge restricts the maximum age, in seconds, of the session record
-// both in database and a browser. This is to change session storage configuration.
-// If you want just to remove session use your session `s` object and change it's
+// SetMaxAge restricts the maximum age, in seconds, of the session_type record
+// both in database and a browser. This is to change session_type storage configuration.
+// If you want just to remove session_type use your session_type `s` object and change it's
 // `Options.MaxAge` to -1, as specified in
 //    http://godoc.org/github.com/gorilla/sessions#Options
 //
@@ -219,14 +219,14 @@ func (s *RediStore) Close() error {
 	return s.Pool.Close()
 }
 
-// Get returns a session for the given name after adding it to the registry.
+// Get returns a session_type for the given name after adding it to the registry.
 //
 // See gorilla/sessions FilesystemStore.Get().
 func (s *RediStore) Get(r *http.Request, name string) (*sessions.Session, error) {
 	return sessions.GetRegistry(r).Get(s, name)
 }
 
-// New returns a session for the given name without adding it to the registry.
+// New returns a session_type for the given name without adding it to the registry.
 //
 // See gorilla/sessions FilesystemStore.New().
 func (s *RediStore) New(r *http.Request, name string) (*sessions.Session, error) {
@@ -249,7 +249,7 @@ func (s *RediStore) New(r *http.Request, name string) (*sessions.Session, error)
 	return session, err
 }
 
-// Save adds a single session to the response.
+// Save adds a single session_type to the response.
 func (s *RediStore) Save(r *http.Request, w http.ResponseWriter, session *sessions.Session) error {
 	// Marked for deletion.
 	if session.Options.MaxAge < 0 {
@@ -274,10 +274,10 @@ func (s *RediStore) Save(r *http.Request, w http.ResponseWriter, session *sessio
 	return nil
 }
 
-// Delete removes the session from redis, and sets the cookie to expire.
+// Delete removes the session_type from redis, and sets the cookie to expire.
 //
 // WARNING: This method should be considered deprecated since it is not exposed via the gorilla/sessions interface.
-// Set session.Options.MaxAge = -1 and call Save instead. - July 18th, 2013
+// Set session_type.Options.MaxAge = -1 and call Save instead. - July 18th, 2013
 func (s *RediStore) Delete(r *http.Request, w http.ResponseWriter, session *sessions.Session) error {
 	conn := s.Pool.Get()
 	defer conn.Close()
@@ -288,7 +288,7 @@ func (s *RediStore) Delete(r *http.Request, w http.ResponseWriter, session *sess
 	options := *session.Options
 	options.MaxAge = -1
 	http.SetCookie(w, sessions.NewCookie(session.Name(), "", &options))
-	// Clear session values.
+	// Clear session_type values.
 	for k := range session.Values {
 		delete(session.Values, k)
 	}
@@ -306,7 +306,7 @@ func (s *RediStore) ping() (bool, error) {
 	return (data == "PONG"), nil
 }
 
-// save stores the session in redis.
+// save stores the session_type in redis.
 func (s *RediStore) save(session *sessions.Session) error {
 	b, err := s.serializer.Serialize(session)
 	if err != nil {
@@ -328,7 +328,7 @@ func (s *RediStore) save(session *sessions.Session) error {
 	return err
 }
 
-// load reads the session from redis.
+// load reads the session_type from redis.
 // returns true if there is a sessoin data in DB
 func (s *RediStore) load(session *sessions.Session) (bool, error) {
 	conn := s.Pool.Get()

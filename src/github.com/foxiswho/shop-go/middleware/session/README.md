@@ -49,8 +49,8 @@ func index(c *echo.Context) error {
 
 func main() {
     store := session.NewCookieStore([]byte("secret-key"))
-    // store := session.NewFilesystemStore("", []byte("secret-key"))
-    // store, err := session.NewRedisStore(32, "tcp", "localhost:6379", "", []byte("secret-key"))
+    session_type
+    session_type
     // if err != nil {
     //     panic(err)
     // }

@@ -713,7 +713,7 @@ CREATE TABLE `order_ext` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='扩展订单信息';
 
 -- ----------------------------
--- Table structure for session
+-- Table structure for session_type
 -- ----------------------------
 DROP TABLE IF EXISTS `session`;
 CREATE TABLE `session` (

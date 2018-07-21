@@ -15,7 +15,7 @@ import (
 )
 
 const (
-	DefaultKey  = "github.com/syntaqx/echo-middleware/session"
+	DefaultKey  = "github.com/syntaqx/echo-middleware/session_type"
 	errorFormat = "[sessions] ERROR! %s\n"
 )
 
@@ -24,7 +24,7 @@ type Store interface {
 	Options(Options)
 }
 
-// Options stores configuration for a session or session store.
+// Options stores configuration for a session_type or session_type store.
 // Fields are a subset of http.Cookie fields.
 type Options struct {
 	Path   string
@@ -37,26 +37,26 @@ type Options struct {
 	HttpOnly bool
 }
 
-// Wraps thinly gorilla-session methods.
-// Session stores the values and optional configuration for a session.
+// Wraps thinly gorilla-session_type methods.
+// Session stores the values and optional configuration for a session_type.
 type Session interface {
-	// Get returns the session value associated to the given key.
+	// Get returns the session_type value associated to the given key.
 	Get(key interface{}) interface{}
-	// Set sets the session value associated to the given key.
+	// Set sets the session_type value associated to the given key.
 	Set(key interface{}, val interface{})
-	// Delete removes the session value associated to the given key.
+	// Delete removes the session_type value associated to the given key.
 	Delete(key interface{})
-	// Clear deletes all values in the session.
+	// Clear deletes all values in the session_type.
 	Clear()
-	// AddFlash adds a flash message to the session.
+	// AddFlash adds a flash message to the session_type.
 	// A single variadic argument is accepted, and it is optional: it defines the flash key.
 	// If not defined "_flash" is used by default.
 	AddFlash(value interface{}, vars ...string)
-	// Flashes returns a slice of flash messages from the session.
+	// Flashes returns a slice of flash messages from the session_type.
 	// A single variadic argument is accepted, and it is optional: it defines the flash key.
 	// If not defined "_flash" is used by default.
 	Flashes(vars ...string) []interface{}
-	// Options sets confuguration for a session.
+	// Options sets confuguration for a session_type.
 	Options(Options)
 	// Save saves all sessions used during the current request.
 	Save() error
@@ -159,7 +159,7 @@ func (s *session) Written() bool {
 	return s.written
 }
 
-// shortcut to get session
+// shortcut to get session_type
 func Default(c echo.Context) Session {
 	session := c.Get(DefaultKey)
 	if session == nil {

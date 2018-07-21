@@ -10,7 +10,7 @@ import (
 	ot "github.com/foxiswho/shop-go/middleware/opentracing"
 	"net/http"
 	"fmt"
-	"github.com/foxiswho/shop-go/consts/context"
+	context2 "github.com/foxiswho/shop-go/consts/context"
 )
 
 type BaseContext struct {
@@ -22,7 +22,7 @@ type BaseContext struct {
 func NewBaseContext() echo.MiddlewareFunc {
 	return func(h echo.HandlerFunc) echo.HandlerFunc {
 		return func(c echo.Context) error {
-			ctx := &BaseContext{c, context.Type_User, context.Session_jwt}
+			ctx := &BaseContext{c, context2.Type_User, context2.Session_jwt}
 			return h(ctx)
 		}
 	}
@@ -156,3 +156,17 @@ func (ctx *BaseContext) CookieDel(name string) {
 	cookie.MaxAge = -1
 	http.SetCookie(ctx.Response(), cookie)
 }
+
+//func (c *BaseContext) GetUserId() int {
+//	return session_type.GetUserId(c)
+//}
+
+//user
+//func (c *BaseContext) AuthUser() user_auth.AuthUser {
+//	return user_auth.Default(c)
+//}
+
+//admin 后台
+//func (c *BaseContext) AuthAdmin() admin_auth.AuthAdmin {
+//	return admin_auth.Default(c)
+//}

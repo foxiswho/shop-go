@@ -10,6 +10,7 @@ import (
 	"github.com/labstack/echo"
 	"github.com/foxiswho/shop-go/module/auth/user_auth"
 	"github.com/foxiswho/shop-go/module/context"
+	"github.com/foxiswho/shop-go/module/context/session_type"
 )
 
 const (
@@ -37,7 +38,7 @@ type AuthAdmin struct {
 func New(newAdmin func() user_auth.User) echo.MiddlewareFunc {
 	return func(next echo.HandlerFunc) echo.HandlerFunc {
 		return func(c context.BaseContext) error {
-			userId := c.GetUserId()
+			userId := session_type.GetUserId(c)
 			user := newAdmin()
 			if userId > 0 {
 				err := user.GetById(userId)

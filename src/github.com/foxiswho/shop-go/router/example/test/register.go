@@ -12,7 +12,7 @@ import (
 func RegisterHandler(c *context.BaseContext) error {
 	redirect := c.QueryParam(user_auth.RedirectParam)
 
-	a := c.AuthUser()
+	a := user_auth.Default(c)
 	if a.User.IsAuthenticated() {
 		if redirect == "" {
 			redirect = "/"
@@ -37,7 +37,7 @@ func RegisterPostHandler(c *context.BaseContext) error {
 		redirect = "/"
 	}
 
-	a := c.AuthUser()
+	a := user_auth.Default(c)
 	if a.User.IsAuthenticated() {
 		c.Redirect(http.StatusMovedPermanently, redirect)
 		return nil

@@ -8,7 +8,7 @@ import (
 
 func LogoutHandler(c *context.BaseContext) error {
 	session := c.Session()
-	a := c.AuthUser()
+	a := user_auth.Default(c)
 	user_auth.Logout(session, a.User)
 
 	redirect := c.QueryParam(user_auth.RedirectParam)

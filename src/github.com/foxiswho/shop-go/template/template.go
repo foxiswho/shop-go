@@ -29,7 +29,7 @@
 // template/pongo2/example/test/login.html
 // template/pongo2/example/test/orm.html
 // template/pongo2/example/test/register.html
-// template/pongo2/example/test/session.html
+// template/pongo2/example/test/session_type.html
 // template/pongo2/example/test/upload.html
 // template/pongo2/example/test/user.html
 // template/pongo2/example/test/ws.html
@@ -586,8 +586,8 @@ func templatePongo2ExampleTestRegisterHtml() (*asset, error) {
 
 // templatePongo2ExampleTestSessionHtml reads file data from disk. It returns an error on failure.
 func templatePongo2ExampleTestSessionHtml() (*asset, error) {
-	path := "/Users/fox/go/mypath/src/github.com/foxiswho/shop-go/template/pongo2/example/test/session.html"
-	name := "template/pongo2/example/test/session.html"
+	path := "/Users/fox/go/mypath/src/github.com/foxiswho/shop-go/template/pongo2/example/test/session_type.html"
+	name := "template/pongo2/example/test/session_type.html"
 	bytes, err := bindataRead(path, name)
 	if err != nil {
 		return nil, err
@@ -791,7 +791,7 @@ var _bindata = map[string]func() (*asset, error){
 	"template/pongo2/example/test/login.html": templatePongo2ExampleTestLoginHtml,
 	"template/pongo2/example/test/orm.html": templatePongo2ExampleTestOrmHtml,
 	"template/pongo2/example/test/register.html": templatePongo2ExampleTestRegisterHtml,
-	"template/pongo2/example/test/session.html": templatePongo2ExampleTestSessionHtml,
+	"template/pongo2/example/test/session_type.html": templatePongo2ExampleTestSessionHtml,
 	"template/pongo2/example/test/upload.html": templatePongo2ExampleTestUploadHtml,
 	"template/pongo2/example/test/user.html": templatePongo2ExampleTestUserHtml,
 	"template/pongo2/example/test/ws.html": templatePongo2ExampleTestWsHtml,
@@ -891,7 +891,7 @@ var _bintree = &bintree{nil, map[string]*bintree{
 					"login.html": &bintree{templatePongo2ExampleTestLoginHtml, map[string]*bintree{}},
 					"orm.html": &bintree{templatePongo2ExampleTestOrmHtml, map[string]*bintree{}},
 					"register.html": &bintree{templatePongo2ExampleTestRegisterHtml, map[string]*bintree{}},
-					"session.html": &bintree{templatePongo2ExampleTestSessionHtml, map[string]*bintree{}},
+					"session_type.html": &bintree{templatePongo2ExampleTestSessionHtml, map[string]*bintree{}},
 					"upload.html": &bintree{templatePongo2ExampleTestUploadHtml, map[string]*bintree{}},
 					"user.html": &bintree{templatePongo2ExampleTestUserHtml, map[string]*bintree{}},
 					"ws.html": &bintree{templatePongo2ExampleTestWsHtml, map[string]*bintree{}},
