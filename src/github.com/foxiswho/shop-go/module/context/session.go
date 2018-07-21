@@ -2,7 +2,7 @@ package context
 
 import (
 	"github.com/foxiswho/shop-go/consts/context"
-	"github.com/foxiswho/shop-go/module/jwt"
+	"github.com/foxiswho/shop-go/consts/session/jwt"
 	"github.com/foxiswho/shop-go/module/auth/admin_auth"
 	"github.com/foxiswho/shop-go/module/auth/user_auth"
 	"github.com/foxiswho/shop-go/middleware/session"

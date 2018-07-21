@@ -2,7 +2,8 @@ package context
 
 import (
 	"github.com/dgrijalva/jwt-go"
-	jwt2 "github.com/foxiswho/shop-go/module/jwt"
+	jwt2 "github.com/foxiswho/shop-go/consts/session/jwt"
+	jwt3 "github.com/foxiswho/shop-go/module/jwt"
 )
 
 func (c *BaseContext) JwtTokenGetAdmin() map[string]interface{} {
@@ -11,7 +12,7 @@ func (c *BaseContext) JwtTokenGetAdmin() map[string]interface{} {
 	if val != nil {
 		info := val.(*jwt.Token)
 		if info != nil {
-			return jwt2.GetJwtClaims(info)
+			return jwt3.GetJwtClaims(info)
 		}
 	}
 	return myMap

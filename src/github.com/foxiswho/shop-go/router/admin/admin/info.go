@@ -5,10 +5,11 @@ import (
 
 	"github.com/labstack/echo"
 	"net/http"
+	"fmt"
 )
 
 func AdminGetHandler(c *context.BaseContext) error {
-	//fmt.Println("admin.Claims id=", c.GetUserId())
+	fmt.Println("admin.Claims id=", c.GetUserId())
 	//fmt.Println("admin.Claims", maps["id"])
 	return c.JSON(http.StatusOK, echo.Map{
 		"code":    http.StatusOK,
