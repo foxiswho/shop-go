@@ -5,7 +5,7 @@ import (
 	"time"
 	"github.com/foxiswho/shop-go/module/conf"
 	"github.com/labstack/echo"
-	mw "github.com/labstack/echo/middleware"
+	"github.com/labstack/echo/middleware"
 	"github.com/foxiswho/shop-go/util/conv"
 )
 
@@ -34,9 +34,9 @@ func GetJwtToken(id int, type_jwt string) (string, error) {
 	return t, nil
 }
 
-func GetJwtMiddleware(ContextKey string) mw.JWTConfig {
+func GetJwtMiddleware(ContextKey string) middleware.JWTConfig {
 	// Configure middleware with the custom claims type
-	config := mw.JWTConfig{
+	config := middleware.JWTConfig{
 		SigningKey:  []byte(conf.Conf.SessionSecretKey),
 		ContextKey:  ContextKey,
 		TokenLookup: "header:" + echo.HeaderAuthorization,

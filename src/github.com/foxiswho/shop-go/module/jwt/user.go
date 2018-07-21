@@ -1,10 +1,15 @@
 package jwt
 
 import (
-	mw "github.com/labstack/echo/middleware"
-	"github.com/foxiswho/shop-go/consts/session/jwt"
+	"github.com/labstack/echo/middleware"
+	jwt2 "github.com/foxiswho/shop-go/consts/session/jwt"
+	"github.com/labstack/echo"
 )
 
-func GetJwtMiddlewareAdmin() mw.JWTConfig {
-	return GetJwtMiddleware(jwt.ContextKey_admin)
+func GetJwtMiddlewareAdminConfig() middleware.JWTConfig {
+	return GetJwtMiddleware(jwt2.ContextKey_admin)
+}
+
+func GetJwtMiddlewareAdmin() echo.MiddlewareFunc {
+	return middleware.JWTWithConfig(GetJwtMiddleware(jwt2.ContextKey_admin))
 }
