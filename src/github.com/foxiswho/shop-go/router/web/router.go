@@ -27,6 +27,7 @@ import (
 	"github.com/foxiswho/shop-go/router/web/design"
 	"github.com/foxiswho/shop-go/module/auth/admin_auth"
 	"github.com/foxiswho/shop-go/module/context"
+	"github.com/foxiswho/shop-go/module/auth/auth_middleware"
 )
 
 //---------
@@ -112,7 +113,7 @@ func Routers() *echo.Echo {
 	// Routers
 	index := e.Group("")
 	{
-		index.Use(auth.New(serviceAuth.GenerateAnonymousUser))
+		index.Use(auth_middleware.NewUser(serviceAuth.GenerateAnonymousUser))
 		index.GET("/", context.Handler(web_index.HomeHandler))
 		//
 		about := index.Group("/about")
@@ -153,7 +154,7 @@ func Routers() *echo.Echo {
 	admin_login := e.Group("/admin_login")
 	{
 		admin_login.Use(context.SetContextTypeAdmin())
-		admin_login.Use(admin_auth.New(serviceAdminAuth.GenerateAnonymousUser))
+		admin_login.Use(auth_middleware.NewAdmin(serviceAdminAuth.GenerateAnonymousUser))
 		admin_login.GET("/", context.Handler(example_admin.DefaultHandler))
 		admin_login.GET("/login", context.Handler(example_admin.LoginHandler))
 		admin_login.POST("/login", context.Handler(example_admin.LoginPostHandler))
@@ -162,7 +163,7 @@ func Routers() *echo.Echo {
 	admin := e.Group("/admin")
 	{
 		admin.Use(context.SetContextTypeAdmin())
-		admin.Use(admin_auth.New(serviceAdminAuth.GenerateAnonymousUser))
+		admin_login.Use(auth_middleware.NewAdmin(serviceAdminAuth.GenerateAnonymousUser))
 		admin.Use(admin_auth.LoginRequired())
 		{
 			admin.GET("", context.Handler(example_admin.IndexHandler))

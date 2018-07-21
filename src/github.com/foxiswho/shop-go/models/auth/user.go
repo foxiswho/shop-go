@@ -1,15 +1,5 @@
 package auth
 
-////user
-//func AuthUser(c *context.Context) user_auth.AuthUser {
-//	return user_auth.Default(c)
-//}
-//
-////admin 后台
-//func AuthAdmin(c *context.Context) admin_auth.AuthAdmin {
-//	return admin_auth.Default(c)
-//}
-
 type User interface {
 	// Return whether this user_service is logged in or not
 	IsAuthenticated() bool
@@ -32,4 +22,12 @@ type User interface {
 	GetById(id interface{}) error
 
 	Module() string
+}
+
+type AuthAdmin struct {
+	User
+}
+
+type AuthUser struct {
+	User
 }

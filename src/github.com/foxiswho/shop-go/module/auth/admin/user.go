@@ -1,16 +1,17 @@
-package admin_auth
+package admin
 
 import (
 	"github.com/labstack/echo"
+	"github.com/foxiswho/shop-go/module/auth/admin_auth"
 )
 
 //
 func GetRoleId(c echo.Context) int {
-	user := DefaultGetAdmin(c)
+	user := admin_auth.DefaultGetAdmin(c)
 	return user.RoleId()
 }
 
 func GetRoleExtend(c echo.Context) []int {
-	user := DefaultGetAdmin(c)
+	user := admin_auth.DefaultGetAdmin(c)
 	return user.RoleExtend()
 }

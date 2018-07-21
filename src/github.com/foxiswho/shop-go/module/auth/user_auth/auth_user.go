@@ -1,4 +1,3 @@
-// Base on https://github.com/martini-contrib/sessionauth
 package user_auth
 
 import (
@@ -7,8 +6,7 @@ import (
 
 	"github.com/foxiswho/shop-go/middleware/session"
 	"github.com/labstack/echo"
-	"github.com/foxiswho/shop-go/module/context"
-	"github.com/foxiswho/shop-go/module/context/session_type"
+	"github.com/foxiswho/shop-go/models/auth"
 )
 
 const (
@@ -29,55 +27,8 @@ var (
 	SessionKey string = "AUTHUNIQUEID"
 )
 
-type User interface {
-	// Return whether this user_service is logged in or not
-	IsAuthenticated() bool
-
-	// Set any flags or extra data that should be available
-	Login()
-
-	// Clear any sensitive data out of the user_service
-	Logout()
-
-	// Return the unique identifier of this user_service object
-	UniqueId() interface{}
-
-	RoleId() int
-
-	//MORE ROLE ID
-	RoleExtend() []int
-
-	// Populate this user_service object with values
-	GetById(id interface{}) error
-
-	Module() string
-}
-
 type AuthUser struct {
-	User
-}
-
-func New(newUser func() User) echo.MiddlewareFunc {
-	return func(next echo.HandlerFunc) echo.HandlerFunc {
-		return func(c context.BaseContext) error {
-			userId := session_type.GetUserId(c)
-			user := newUser()
-			if userId > 0 {
-				err := user.GetById(userId)
-				if err != nil {
-					c.Logger().Errorf("Login Error: %v", err)
-				} else {
-					user.Login()
-				}
-			} else {
-				c.Logger().Debugf("Login status: No UserId")
-			}
-
-			auth := AuthUser{user}
-			c.Set(DefaultKey, auth)
-			return next(c)
-		}
-	}
+	auth.User
 }
 
 // shortcut to get AuthUser
@@ -87,7 +38,7 @@ func Default(c echo.Context) AuthUser {
 }
 
 // shortcut to get AuthUser
-func DefaultGetUser(c echo.Context) User {
+func DefaultGetUser(c echo.Context) auth.User {
 	// return c.MustGet(DefaultKey).(auth)
 	auth := c.Get(DefaultKey).(AuthUser)
 	return auth.User
@@ -96,7 +47,7 @@ func DefaultGetUser(c echo.Context) User {
 // AuthenticateSession will mark the session and user_service object as authenticated. Then
 // the Login() user_service function will be called. This function should be called after
 // you have validated a user_service.
-func AuthenticateSession(s session.Session, user User) error {
+func AuthenticateSession(s session.Session, user auth.User) error {
 	user.Login()
 	return UpdateUser(s, user)
 }
@@ -108,7 +59,7 @@ func (a AuthUser) LogoutTest(s session.Session) {
 }
 
 // Logout will clear out the session and call the Logout() user_service function.
-func Logout(s session.Session, user User) {
+func Logout(s session.Session, user auth.User) {
 	user.Logout()
 	s.Delete(SessionKey)
 	s.Save()
@@ -136,7 +87,7 @@ func LoginRequired() echo.MiddlewareFunc {
 
 // UpdateUser updates the Admin object stored in the session. This is useful incase a change
 // is made to the user_service model that needs to persist across requests.
-func UpdateUser(s session.Session, user User) error {
+func UpdateUser(s session.Session, user auth.User) error {
 	s.Set(SessionKey, user.UniqueId())
 	s.Save()
 	return nil

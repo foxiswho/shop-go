@@ -10,8 +10,6 @@ import (
 	"github.com/foxiswho/shop-go/middleware/opentracing"
 	"net/http"
 	"github.com/foxiswho/shop-go/router/admin/login"
-	admin2 "github.com/foxiswho/shop-go/router/admin/admin"
-	"github.com/foxiswho/shop-go/module/jwt"
 )
 
 func RoutersAdmin() *echo.Echo {
@@ -65,13 +63,13 @@ func RoutersAdmin() *echo.Echo {
 		admin_login.POST("/login", context.Handler(login.LoginPostHandler))
 		admin_login.POST("/logout", context.Handler(login.LogoutPostHandler))
 	}
-	admin := e.Group("/admin")
-	{
-		admin.Use(mw.JWTWithConfig(jwt.GetJwtMiddlewareAdmin))
-
-		admin.GET("/admin/info", context.Handler(admin2.AdminGetHandler))
-		//admin.GET("/index", context.Handler(api.JwtTesterApiHandler))
-	}
+	//admin := e.Group("/admin")
+	//{
+	//	//admin.Use(mw.JWTWithConfig(jwt.GetJwtMiddlewareAdmin))
+	//
+	//	//admin.GET("/admin/info", context.Handler(admin2.AdminGetHandler))
+	//	//admin.GET("/index", context.Handler(api.JwtTesterApiHandler))
+	//}
 	return e
 }
 

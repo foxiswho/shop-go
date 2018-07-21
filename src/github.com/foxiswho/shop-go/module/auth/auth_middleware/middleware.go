@@ -1,0 +1,54 @@
+package auth_middleware
+
+import (
+	"github.com/labstack/echo"
+	"github.com/foxiswho/shop-go/module/context"
+	"github.com/foxiswho/shop-go/module/context/session_type"
+	"github.com/foxiswho/shop-go/module/auth/admin_auth"
+	"github.com/foxiswho/shop-go/module/auth/user_auth"
+	"github.com/foxiswho/shop-go/models/auth"
+)
+
+func NewAdmin(newAdmin func() auth.User) echo.MiddlewareFunc {
+	return func(next echo.HandlerFunc) echo.HandlerFunc {
+		return func(c context.BaseContext) error {
+			userId := session_type.GetUserId(c)
+			user := newAdmin()
+			if userId > 0 {
+				err := user.GetById(userId)
+				if err != nil {
+					c.Logger().Errorf("Login Error: %v", err)
+				} else {
+					user.Login()
+				}
+			} else {
+				c.Logger().Debugf("Login status: No UserId")
+			}
+			auth := admin_auth.AuthAdmin{user}
+			c.Set(admin_auth.DefaultKey, auth)
+			return next(c)
+		}
+	}
+}
+
+func NewUser(newUser func() auth.User) echo.MiddlewareFunc {
+	return func(next echo.HandlerFunc) echo.HandlerFunc {
+		return func(c context.BaseContext) error {
+			userId := session_type.GetUserId(c)
+			user := newUser()
+			if userId > 0 {
+				err := user.GetById(userId)
+				if err != nil {
+					c.Logger().Errorf("Login Error: %v", err)
+				} else {
+					user.Login()
+				}
+			} else {
+				c.Logger().Debugf("Login status: No UserId")
+			}
+			auth := user_auth.AuthUser{user}
+			c.Set(user_auth.DefaultKey, auth)
+			return next(c)
+		}
+	}
+}
