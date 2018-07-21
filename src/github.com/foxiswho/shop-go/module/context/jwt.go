@@ -1,12 +1,11 @@
-package session_type
+package context
 
 import (
 	"github.com/dgrijalva/jwt-go"
 	jwt2 "github.com/foxiswho/shop-go/module/jwt"
-	"github.com/foxiswho/shop-go/module/context"
 )
 
-func JwtTokenGetAdmin(c context.BaseContext) map[string]interface{} {
+func (c *BaseContext) JwtTokenGetAdmin() map[string]interface{} {
 	myMap := make(map[string]interface{})
 	val := c.Get(jwt2.ContextKey_admin)
 	if val != nil {

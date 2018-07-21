@@ -1,22 +1,21 @@
-package session_type
+package context
 
 import (
 	"github.com/foxiswho/shop-go/consts/context"
 	"github.com/foxiswho/shop-go/module/jwt"
 	"github.com/foxiswho/shop-go/module/auth/admin_auth"
 	"github.com/foxiswho/shop-go/module/auth/user_auth"
-	context2 "github.com/foxiswho/shop-go/module/context"
 	"github.com/foxiswho/shop-go/middleware/session"
 	"github.com/foxiswho/shop-go/util/conv"
 )
 
 //获取用户ID
-func GetUserId(c context2.BaseContext) int {
+func (c *BaseContext) GetUserId() int {
 	//会话方式 jwt
 	if context.Session_jwt == c.SessionType {
 		//admin 后台
 		if c.ContextType == jwt.ContextKey_admin {
-			claims := JwtTokenGetAdmin(c)
+			claims := c.JwtTokenGetAdmin()
 			if claims != nil {
 				if id, ok := claims["id"]; ok {
 					id2, _ := conv.ObjToInt(id)
