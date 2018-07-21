@@ -52,10 +52,8 @@ func AuthenticateSession(s session.Session, user auth.User) error {
 	return UpdateUser(s, user)
 }
 
-func (a AuthAdmin) LogoutTest(s session.Session) {
-	a.User.Logout()
-	s.Delete(SessionKey)
-	s.Save()
+func (a AuthAdmin) Logout(s session.Session) {
+	Logout(s, a.User)
 }
 
 // Logout will clear out the session and call the Logout() user_service function.
@@ -91,4 +89,14 @@ func UpdateUser(s session.Session, user auth.User) error {
 	s.Set(SessionKey, user.UniqueId())
 	s.Save()
 	return nil
+}
+
+func GetRoleId(c echo.Context) int {
+	user := DefaultGetAdmin(c)
+	return user.RoleId()
+}
+
+func GetRoleExtend(c echo.Context) []int {
+	user := DefaultGetAdmin(c)
+	return user.RoleExtend()
 }
