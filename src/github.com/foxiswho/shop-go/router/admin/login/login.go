@@ -20,12 +20,15 @@ func LoginPostHandler(c *context.BaseContext) error {
 		log.Debugf("post form :%v", form)
 		token, err := admin_service.Login(form.Username, form.Password)
 		if err != nil {
-			return c.JSON(http.StatusOK, echo.Map{
+			return c.JSON(http.StatusUnauthorized, echo.Map{
+				"code": http.StatusUnauthorized,
 				"message": err.Error(),
 			})
 
 		} else {
 			return c.JSON(http.StatusOK, echo.Map{
+				"code":   http.StatusOK,
+				"message":   "登录成功",
 				"token": token,
 			})
 		}
@@ -33,7 +36,8 @@ func LoginPostHandler(c *context.BaseContext) error {
 		params, _ := c.FormParams()
 		log.Debugf("Login form params: %v", params)
 		log.Debugf("Login form bind Error: %v", err)
-		return c.JSON(http.StatusOK, echo.Map{
+		return c.JSON(http.StatusUnauthorized, echo.Map{
+			"code":     http.StatusUnauthorized,
 			"message": "错误",
 		})
 	}

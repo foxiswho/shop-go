@@ -76,6 +76,7 @@ func (c *AdminAuth) loginTypeProcess() (*models.Admin, error) {
 			log.Debugf("GetUserByNicknamePwd error: %v", err)
 			return nil, util.NewError("匹配错误")
 		}
+		log.Debugf("Password make: %v == %v", c.Password, password.SaltMake(c.Password, user.Salt))
 		if user.Password != password.SaltMake(c.Password, user.Salt) {
 			log.Debugf("user_service.Password error: %v", c.Password)
 			return nil, util.NewError("密码 匹配不成功")

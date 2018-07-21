@@ -11,9 +11,10 @@ import (
 	"net/http"
 	"github.com/foxiswho/shop-go/router/admin/login"
 	"github.com/foxiswho/shop-go/service/admin_service/jwt"
+	admin2 "github.com/foxiswho/shop-go/router/admin/admin"
 )
 
-func RoutersApi() *echo.Echo {
+func RoutersAdmin() *echo.Echo {
 	// Echo instance
 	e := echo.New()
 
@@ -36,9 +37,7 @@ func RoutersApi() *echo.Echo {
 	}
 
 	// CSRF
-	e.Use(mw.CSRFWithConfig(mw.CSRFConfig{
-		TokenLookup: "form:X-XSRF-TOKEN",
-	}))
+	//e.Use(csrf.CSRFWithConfig())
 
 	// Gzip
 	e.Use(mw.GzipWithConfig(mw.GzipConfig{
@@ -64,11 +63,13 @@ func RoutersApi() *echo.Echo {
 		//admin_login.Use(admin_auth.New(auth.GenerateAnonymousUser()))
 		admin_login.GET("/", accessible)
 		admin_login.POST("/login", context.Handler(login.LoginPostHandler))
+		admin_login.POST("/logout", context.Handler(login.LogoutPostHandler))
 	}
 	admin := e.Group("/admin")
 	{
 		admin.Use(mw.JWTWithConfig(jwt.GetJwtMiddleware()))
 
+		admin.GET("/admin", context.Handler(admin2.AdminGetHandler))
 		//admin.GET("/index", context.Handler(api.JwtTesterApiHandler))
 	}
 	return e

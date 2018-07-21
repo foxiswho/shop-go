@@ -16,6 +16,7 @@ import (
 	"github.com/foxiswho/shop-go/router/example"
 	"github.com/foxiswho/shop-go/router/example/socket"
 	"github.com/foxiswho/shop-go/router/web"
+	"github.com/foxiswho/shop-go/router/admin"
 )
 
 type (
@@ -31,6 +32,7 @@ func InitRoutes() map[string]*Host {
 	hosts[Conf.Server.DomainWeb] = &Host{web.Routers()}
 	hosts[Conf.Server.DomainApi] = &Host{example.RoutersApi()}
 	hosts[Conf.Server.DomainSocket] = &Host{socket.Routers()}
+	hosts[Conf.Server.DomainAdmin] = &Host{admin.RoutersAdmin()}
 
 	return hosts
 }

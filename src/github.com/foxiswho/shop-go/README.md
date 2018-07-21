@@ -118,7 +118,8 @@ server{
 可以到数据库表中查看，`user` 和`admin` 表
 
 
-> 后台 用户名:`admin` 密码:`admin`
+> 后台 用户名:`admin` 密码:`admin` SALT:`admin`
+数据库密码字符串：`4aa5d9db91b596af1824ad20478e077e`
 
 ## 运行
 ```shell
