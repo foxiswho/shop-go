@@ -11,7 +11,7 @@ import (
 	"net/http"
 	"github.com/foxiswho/shop-go/router/admin/login"
 	admin2 "github.com/foxiswho/shop-go/router/admin/admin"
-	"github.com/foxiswho/shop-go/service/admin_service"
+	"github.com/foxiswho/shop-go/module/jwt"
 )
 
 func RoutersAdmin() *echo.Echo {
@@ -67,7 +67,7 @@ func RoutersAdmin() *echo.Echo {
 	}
 	admin := e.Group("/admin")
 	{
-		admin.Use(mw.JWTWithConfig(admin_service.GetJwtMiddleware()))
+		admin.Use(mw.JWTWithConfig(jwt.GetJwtMiddlewareAdmin))
 
 		admin.GET("/admin/info", context.Handler(admin2.AdminGetHandler))
 		//admin.GET("/index", context.Handler(api.JwtTesterApiHandler))

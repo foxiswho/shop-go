@@ -6,12 +6,13 @@ import (
 	"github.com/foxiswho/shop-go/module/jwt"
 	"github.com/foxiswho/shop-go/middleware/session"
 	"github.com/foxiswho/shop-go/util/conv"
+	"github.com/foxiswho/shop-go/consts/context"
 )
 
 //获取用户ID
 func (c *BaseContext) GetUserId() int {
 	//会话方式 jwt
-	if session_jwt == c.SessionType {
+	if context.Session_jwt == c.SessionType {
 		//admin 后台
 		if c.ContextType == jwt.ContextKey_admin {
 			claims := c.JwtTokenGetAdmin()
@@ -21,7 +22,7 @@ func (c *BaseContext) GetUserId() int {
 		} else if jwt.ContextKey_user == c.ContextType {
 			//user 前台
 		}
-	} else if session_cookie == c.SessionType {
+	} else if context.Session_cookie == c.SessionType {
 		//会话方式 cookie
 		s := session.Default(c)
 		//admin 后台

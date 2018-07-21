@@ -10,6 +10,7 @@ import (
 	ot "github.com/foxiswho/shop-go/middleware/opentracing"
 	"net/http"
 	"fmt"
+	"github.com/foxiswho/shop-go/consts/context"
 )
 
 type BaseContext struct {
@@ -21,7 +22,7 @@ type BaseContext struct {
 func NewBaseContext() echo.MiddlewareFunc {
 	return func(h echo.HandlerFunc) echo.HandlerFunc {
 		return func(c echo.Context) error {
-			ctx := &BaseContext{c, Type_User, session_jwt}
+			ctx := &BaseContext{c, context.Type_User, context.Session_jwt}
 			return h(ctx)
 		}
 	}

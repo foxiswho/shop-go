@@ -9,11 +9,7 @@ import (
 )
 
 func AdminGetHandler(c *context.BaseContext) error {
-	claims := c.JwtTokenGetAdmin()
-	if claims == nil {
-		return echo.ErrUnauthorized
-	}
-	fmt.Println("admin.Claims id=", claims["id"])
+	fmt.Println("admin.Claims id=", c.GetUserId())
 	//fmt.Println("admin.Claims", maps["id"])
 	return c.JSON(http.StatusOK, echo.Map{
 		"code":    http.StatusOK,
