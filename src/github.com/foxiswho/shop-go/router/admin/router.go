@@ -69,7 +69,7 @@ func RoutersAdmin() *echo.Echo {
 	{
 		admin.Use(mw.JWTWithConfig(jwt.GetJwtMiddleware()))
 
-		admin.GET("/admin", context.Handler(admin2.AdminGetHandler))
+		admin.GET("/admin/info", context.Handler(admin2.AdminGetHandler))
 		//admin.GET("/index", context.Handler(api.JwtTesterApiHandler))
 	}
 	return e

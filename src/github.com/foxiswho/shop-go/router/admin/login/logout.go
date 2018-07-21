@@ -11,5 +11,6 @@ func LogoutPostHandler(c *context.BaseContext) error {
 	
 	return c.JSON(http.StatusOK, echo.Map{
 		"message": "退出成功",
+		"code": http.StatusOK,
 	})
 }
