@@ -6,43 +6,39 @@ import (
 	"github.com/foxiswho/shop-go/middleware/session"
 
 	"github.com/opentracing/opentracing-go"
-	"github.com/foxiswho/shop-go/module/auth/user_auth"
 	"github.com/foxiswho/shop-go/util/json"
 	ot "github.com/foxiswho/shop-go/middleware/opentracing"
 	"net/http"
 	"fmt"
-	"github.com/foxiswho/shop-go/module/auth/admin_auth"
 )
 
 type BaseContext struct {
 	echo.Context
-	ContextType string
+	ContextType string //登录类型 前台，后台
+	SessionType string //会话类型 session  cookie jwt
 }
 
 func NewBaseContext() echo.MiddlewareFunc {
 	return func(h echo.HandlerFunc) echo.HandlerFunc {
 		return func(c echo.Context) error {
-			ctx := &BaseContext{c, Type_User}
+			ctx := &BaseContext{c, Type_User, session_jwt}
 			return h(ctx)
 		}
 	}
 }
+
+//登录类型 前台，后台
 func (ctx *BaseContext) SetContextType(contextType string) {
 	ctx.ContextType = contextType
 }
 
+//会话类型
+func (ctx *BaseContext) SetSessionType(sessionType string) {
+	ctx.SessionType = sessionType
+}
+
 func (ctx *BaseContext) Session() session.Session {
 	return session.Default(ctx)
-}
-
-//user
-func (ctx *BaseContext) AuthUser() user_auth.AuthUser {
-	return user_auth.Default(ctx)
-}
-
-//admin 后台
-func (ctx *BaseContext) AuthAdmin() admin_auth.AuthAdmin {
-	return admin_auth.Default(ctx)
 }
 
 func (ctx *BaseContext) OpenTracingSpan() opentracing.Span {

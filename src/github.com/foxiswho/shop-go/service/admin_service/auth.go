@@ -3,7 +3,6 @@ package admin_service
 import (
 	"github.com/foxiswho/shop-go/service/admin_service/auth"
 	"github.com/foxiswho/shop-go/util"
-	"github.com/foxiswho/shop-go/service/admin_service/jwt"
 )
 
 func Login(username, password string) (string, error) {
@@ -16,7 +15,7 @@ func Login(username, password string) (string, error) {
 		return "", err
 	}
 	if admin != nil {
-		token, err := jwt.GetJwtToken(admin.Id)
+		token, err := GetJwtToken(admin.Id)
 		if err != nil {
 			return "", err
 		}

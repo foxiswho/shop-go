@@ -7,6 +7,7 @@ import (
 
 	"github.com/foxiswho/shop-go/middleware/session"
 	"github.com/labstack/echo"
+	"github.com/foxiswho/shop-go/module/context"
 )
 
 const (
@@ -57,11 +58,10 @@ type AuthUser struct {
 
 func New(newUser func() User) echo.MiddlewareFunc {
 	return func(next echo.HandlerFunc) echo.HandlerFunc {
-		return func(c echo.Context) error {
-			s := session.Default(c)
-			userId := s.Get(SessionKey)
+		return func(c context.BaseContext) error {
+			userId := c.GetUserId()
 			user := newUser()
-			if userId != nil {
+			if userId > 0 {
 				err := user.GetById(userId)
 				if err != nil {
 					c.Logger().Errorf("Login Error: %v", err)

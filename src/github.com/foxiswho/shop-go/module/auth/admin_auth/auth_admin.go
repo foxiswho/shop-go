@@ -9,6 +9,7 @@ import (
 	"github.com/foxiswho/shop-go/middleware/session"
 	"github.com/labstack/echo"
 	"github.com/foxiswho/shop-go/module/auth/user_auth"
+	"github.com/foxiswho/shop-go/module/context"
 )
 
 const (
@@ -35,12 +36,10 @@ type AuthAdmin struct {
 
 func New(newAdmin func() user_auth.User) echo.MiddlewareFunc {
 	return func(next echo.HandlerFunc) echo.HandlerFunc {
-		return func(c echo.Context) error {
-			s := session.Default(c)
-			userId := s.Get(SessionKey)
-			fmt.Println("admin userId =>", userId)
+		return func(c context.BaseContext) error {
+			userId := c.GetUserId()
 			user := newAdmin()
-			if userId != nil {
+			if userId > 0 {
 				err := user.GetById(userId)
 				if err != nil {
 					c.Logger().Errorf("Login Error: %v", err)
@@ -50,7 +49,6 @@ func New(newAdmin func() user_auth.User) echo.MiddlewareFunc {
 			} else {
 				c.Logger().Debugf("Login status: No UserId")
 			}
-			fmt.Println("admin user=>", user)
 			auth := AuthAdmin{user}
 			c.Set(DefaultKey, auth)
 			return next(c)

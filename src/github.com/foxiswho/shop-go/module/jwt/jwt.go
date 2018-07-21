@@ -4,30 +4,28 @@ import (
 	"github.com/dgrijalva/jwt-go"
 	"time"
 	"github.com/foxiswho/shop-go/module/conf"
-	mw "github.com/labstack/echo/middleware"
 	"github.com/labstack/echo"
+	mw "github.com/labstack/echo/middleware"
+	"github.com/foxiswho/shop-go/util/conv"
 )
 
 // jwtCustomClaims are custom claims extending default ones.
 type JwtCustomClaims struct {
-	Id    int  `json:"id"`
-	Admin bool `json:"admin"`
+	Id   int    `json:"id"`
+	Type string `json:"type"`
 	jwt.StandardClaims
 }
 
-func GetJwtToken(id int) (string, error) {
+func GetJwtToken(id int, type_jwt string) (string, error) {
 	// Set custom claims
-	claims := &JwtCustomClaims{
-		id,
-		true,
-		jwt.StandardClaims{
-			ExpiresAt: time.Now().Add(time.Hour * 72).Unix(),
-		},
+	claims := &JwtCustomClaims{}
+	claims.Id = id
+	claims.Type = type_jwt
+	claims.StandardClaims = jwt.StandardClaims{
+		ExpiresAt: time.Now().Add(time.Hour * 72).Unix(),
 	}
-
 	// Create token with claims
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-
 	// Generate encoded token and send it as response.
 	t, err := token.SignedString([]byte(conf.Conf.SessionSecretKey))
 	if err != nil {
@@ -36,12 +34,24 @@ func GetJwtToken(id int) (string, error) {
 	return t, nil
 }
 
-func GetJwtMiddleware() mw.JWTConfig {
+func GetJwtMiddleware(ContextKey string) mw.JWTConfig {
 	// Configure middleware with the custom claims type
 	config := mw.JWTConfig{
 		SigningKey:  []byte(conf.Conf.SessionSecretKey),
-		ContextKey:  "_user",
+		ContextKey:  ContextKey,
 		TokenLookup: "header:" + echo.HeaderAuthorization,
 	}
 	return config
+}
+
+func GetJwtClaims(token *jwt.Token) map[string]*interface{} {
+	myMap := make(map[string]*interface{})
+	if token.Claims != nil {
+		return myMap
+	}
+	maps, _ := conv.ObjToMap(token.Claims)
+	for index, value := range maps {
+		myMap[index] = &value
+	}
+	return myMap
 }
