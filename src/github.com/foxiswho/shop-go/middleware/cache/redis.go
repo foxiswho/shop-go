@@ -331,10 +331,6 @@ func (c *RedisStore) HMSet(key string, fvs map[string]interface{}) (bool, error)
 func (c *RedisStore) HMSetObject(key string, fvs interface{}) (bool, error) {
 	conn := c.pool.Get()
 	defer conn.Close()
-	args := []interface{}{}
-	for key, value := range fvs {
-		args = append(args, key, value)
-	}
 	_, err := conn.Do("HMSET", redis.Args{}.Add(key).AddFlat(&fvs)...)
 	if err != nil {
 		return false, err

@@ -8,6 +8,7 @@ import (
 	"github.com/foxiswho/shop-go/consts/cache/cacheCache"
 	"fmt"
 	"github.com/foxiswho/shop-go/module/log"
+	"github.com/foxiswho/shop-go/util/conv"
 )
 
 var (
@@ -19,7 +20,9 @@ var (
 func LoadOneCache() {
 	//只执行一次
 	err := loadOneCache()
-	log.Debugf("LoadOneCache error: %v", err)
+	if err != nil {
+		log.Debugf("LoadOneCache error: %v", err)
+	}
 }
 
 func loadOneCache() error {
@@ -27,12 +30,13 @@ func loadOneCache() error {
 	redis := client.(*cache2.RedisStore)
 	//获取所有键值
 	fields := MemoryFields()
+	//获取所有系统缓存
 	arr, err := redis.HGetAll(cacheCache.System_Cache)
 	if err != nil {
 		return err
 	}
 	fmt.Println("HGetAll System_Cache", arr)
-	//读取缓存中，同步的时间戳
+	//获取系统缓存最后更新时间戳 读取缓存中，同步的时间戳
 	arrSystem, err := redis.HGetAll(cacheCache.System_Cache_Memory_Sync)
 	if err != nil {
 		return err
@@ -40,13 +44,21 @@ func loadOneCache() error {
 	fmt.Println("HGetAll", arrSystem)
 	if arr != nil && len(arr) > 0 {
 		memory := make(map[string]int)
-		for i, key := range fields {
-			if arr[i] != nil {
+		for _, key := range fields {
+			if _, ok := arr[key]; ok {
 				//设置 缓存
-				MemorySet(key, arr[i], Memory_Second)
+				MemorySet(key, arr[key], Memory_Second)
 				//memory[key]=arrSystem["XX"]
-				memory[key] = 0
+				if _, is := arrSystem[key]; is {
+					i, _ := conv.ObjToInt(arrSystem[key])
+					memory[key] = i
+				} else {
+					memory[key] = 0
+				}
 			}
+			var tmp interface{}
+			err := MemoryGet(key, &tmp)
+			log.Debugf("MemoryGet %v => %v |||err=> %v ", key, tmp, err)
 		}
 		// 存储 更新时间戳
 		err = MemorySet(cacheCache.System_Cache_Memory_Sync, memory, Memory_Second)

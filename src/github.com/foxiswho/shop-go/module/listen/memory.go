@@ -7,6 +7,7 @@ import (
 	"github.com/foxiswho/shop-go/consts/cache/cacheCache"
 	"github.com/foxiswho/shop-go/module/cache/cacheMemory"
 	"github.com/foxiswho/shop-go/module/log"
+	"github.com/foxiswho/shop-go/util/conv"
 )
 
 var (
@@ -17,11 +18,11 @@ func ListenMemory() {
 	client := cache.ClientRedis()
 	redis := client.(*cache2.RedisStore)
 	//读取缓存中，同步的时间戳
-	arr, err := redis.HGetAll(cacheCache.System_Cache_Memory_Sync)
+	systemCache, err := redis.HGetAll(cacheCache.System_Cache_Memory_Sync_Time_Stamp)
 	if err != nil {
 		return nil, err
 	}
-	if arr != nil && len(arr) > 0 {
+	if systemCache != nil && len(systemCache) > 0 {
 		memory_cache := make(map[string]int)
 		//获取内存中 该键最后更新时间
 		err := cacheMemory.MemoryGet(cacheCache.System_Cache_Memory_Sync, &memory_cache)
@@ -30,11 +31,11 @@ func ListenMemory() {
 			memory_cache = make(map[string]int)
 		}
 		update_fields := []string{}
-		for key, val := range arr {
-			if val != nil {
-				i := val.(int)
-				if _, ok := memory_cache["xx"]; ok {
-					if memory_cache["xx"] < i {
+		for key, val := range systemCache {
+			intVal, _ := conv.ObjToInt(val)
+			if intVal > 0 {
+				if _, ok := memory_cache[key]; ok {
+					if memory_cache[key] < intVal {
 						//更新指定缓存
 						update_fields = append(update_fields, key)
 					}
