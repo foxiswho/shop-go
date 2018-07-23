@@ -3,7 +3,6 @@ package cache
 import (
 	"github.com/gomodule/redigo/redis"
 	"time"
-	"fmt"
 )
 
 // Wraps the Redis client to meet the Cache interface.
@@ -288,32 +287,55 @@ func (c *RedisStore) HDel(key string, field string) bool {
 }
 
 //获取多个值
-func (c *RedisStore) HGetAll(key string) ([]interface{}, error) {
+func (c *RedisStore) HGetAll(key string) (map[string]string, error) {
 	conn := c.pool.Get()
 	defer conn.Close()
-	result, err := redis.Values(conn.Do("hgetall", key))
+	result, err := redis.StringMap(conn.Do("hgetall", key))
 	if err != nil {
 		return nil, err
 	} else {
-		arr := []interface{}{}
-		fmt.Println("hgetall",result)
-		for _, v := range result {
-			fmt.Printf("hgetall %s ", v.([]byte))
-			arr = append(arr, v)
+		return result, nil
+	}
+}
+
+//获取多个值
+func (c *RedisStore) HGetAllResultObject(key string, obj interface{}) (error) {
+	conn := c.pool.Get()
+	defer conn.Close()
+	v, err := redis.Values(conn.Do("hgetall", key))
+	if err != nil {
+		return err
+	} else {
+		if err := redis.ScanStruct(v, &obj); err != nil {
+			return err
 		}
-		return arr, nil
+		return nil
 	}
 }
 
 //设置多个值
-func (c *RedisStore) HMSet(fvs map[string]interface{}) (bool, error) {
+func (c *RedisStore) HMSet(key string, fvs map[string]interface{}) (bool, error) {
 	conn := c.pool.Get()
 	defer conn.Close()
 	args := []interface{}{}
 	for key, value := range fvs {
 		args = append(args, key, value)
 	}
-	_, err := conn.Do("HMSET", args)
+	_, err := conn.Do("HMSET", redis.Args{}.Add(key).AddFlat(fvs)...)
+	if err != nil {
+		return false, err
+	} else {
+		return true, nil
+	}
+}
+func (c *RedisStore) HMSetObject(key string, fvs interface{}) (bool, error) {
+	conn := c.pool.Get()
+	defer conn.Close()
+	args := []interface{}{}
+	for key, value := range fvs {
+		args = append(args, key, value)
+	}
+	_, err := conn.Do("HMSET", redis.Args{}.Add(key).AddFlat(&fvs)...)
 	if err != nil {
 		return false, err
 	} else {
@@ -322,17 +344,13 @@ func (c *RedisStore) HMSet(fvs map[string]interface{}) (bool, error) {
 }
 
 //获取多个值
-func (c *RedisStore) HMGet(keys []string) ([]interface{}, error) {
+func (c *RedisStore) HMGet(keys []string) (map[string]string, error) {
 	conn := c.pool.Get()
 	defer conn.Close()
-	result, err := redis.Values(conn.Do("hmget", keys))
+	result, err := redis.StringMap(conn.Do("hmget", keys))
 	if err != nil {
 		return nil, err
 	} else {
-		arr := []interface{}{}
-		for _, v := range result {
-			arr = append(arr, v)
-		}
-		return arr, nil
+		return result, nil
 	}
 }
