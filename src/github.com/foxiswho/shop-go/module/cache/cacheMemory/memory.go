@@ -12,12 +12,15 @@ import (
 )
 
 var (
+	//只执行一次
+	Is_Load_Once = false
 	//缓存时间
 	Memory_Second = time.Hour * 24 * 365
 )
 
 //初始化加载缓存
 func LoadOneCache() {
+	Is_Load_Once = true
 	//只执行一次
 	err := loadOneCache()
 	if err != nil {

@@ -18,6 +18,7 @@ import (
 	"github.com/foxiswho/shop-go/router/web"
 	"github.com/foxiswho/shop-go/router/admin"
 	"github.com/foxiswho/shop-go/module/system/initialization"
+	"github.com/foxiswho/shop-go/module/crontab"
 )
 
 type (
@@ -99,6 +100,8 @@ func RunSubdomains(confFilePath string) {
 
 		return
 	})
+	//线程执行另外的任务
+	go crontab.Task()
 
 	if !Conf.Server.Graceful {
 		e.Logger.Fatal(e.Start(Conf.Server.Addr))
@@ -118,6 +121,8 @@ func RunSubdomains(confFilePath string) {
 		<-quit
 		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 		defer cancel()
+		//任务关闭
+		crontab.TaskClosed()
 		if err := e.Shutdown(ctx); err != nil {
 			e.Logger.Fatal(err)
 		}
