@@ -17,6 +17,7 @@ import (
 	"github.com/foxiswho/shop-go/router/example/socket"
 	"github.com/foxiswho/shop-go/router/web"
 	"github.com/foxiswho/shop-go/router/admin"
+	"github.com/foxiswho/shop-go/module/system/initialization"
 )
 
 type (
@@ -75,6 +76,8 @@ func RunSubdomains(confFilePath string) {
 		AllowOrigins: []string{"http://" + Conf.Server.DomainWeb, "http://" + Conf.Server.DomainApi},
 		AllowHeaders: []string{echo.HeaderOrigin, echo.HeaderContentType, echo.HeaderAcceptEncoding, echo.HeaderAuthorization},
 	}))
+	//系统初始化
+	initialization.InitSystem()
 
 	hosts := InitRoutes()
 	e.Any("/*", func(c echo.Context) (err error) {

@@ -1,8 +1,9 @@
 package cache
 
 import (
-	"github.com/garyburd/redigo/redis"
+	"github.com/gomodule/redigo/redis"
 	"time"
+	"fmt"
 )
 
 // Wraps the Redis client to meet the Cache interface.
@@ -29,6 +30,10 @@ func NewRedisCache(host string, password string, defaultExpiration time.Duration
 					c.Close()
 					return nil, err
 				}
+				//if _, err := c.Do("SELECT",1); err != nil {
+				// c.Close()
+				// return nil, err
+				//}
 			} else {
 				// check with PING
 				if _, err := c.Do("PING"); err != nil {
@@ -179,5 +184,155 @@ func (c *RedisStore) invoke(f func(string, ...interface{}) (interface{}, error),
 	} else {
 		_, err := f("SET", key, b)
 		return err
+	}
+}
+
+func (c *RedisStore) invokeHash(f func(string, ...interface{}) (interface{}, error),
+	key string, field string, value interface{}, expires time.Duration) error {
+
+	switch expires {
+	case DEFAULT:
+		expires = c.defaultExpiration
+	case FOREVER:
+		expires = time.Duration(0)
+	}
+
+	b, err := serialize(value)
+	if err != nil {
+		return err
+	}
+	conn := c.pool.Get()
+	defer conn.Close()
+	_, err = f("hset", key, field, b)
+	if err != nil {
+		return err
+	}
+	if expires > 0 {
+		// 设置过期时间为24小时
+		_, err = f("EXPIRE", key, expires)
+		if err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+func (c *RedisStore) HGet(key string, field string, ptrValue interface{}) error {
+	conn := c.pool.Get()
+	defer conn.Close()
+	res, err := conn.Do("hget", key, field)
+	if err != nil {
+		return err
+	}
+	item, err := redis.Bytes(res, err)
+	return deserialize(item, ptrValue)
+}
+
+func (c *RedisStore) HSet(key string, field string, value interface{}, expires time.Duration) error {
+	return c.invokeHash(c.pool.Get().Do, key, field, value, expires)
+}
+
+func (c *RedisStore) HExists(key string, field string) bool {
+	conn := c.pool.Get()
+	defer conn.Close()
+	isExist, err := redis.Bool(conn.Do("hexists", key, field))
+	if err != nil {
+		return false
+	}
+	return isExist
+}
+
+func (c *RedisStore) HLen(key string) int {
+	conn := c.pool.Get()
+	defer conn.Close()
+	ilen, err := redis.Int(conn.Do("hlen", key))
+	if err != nil {
+		return 0
+	}
+	return ilen
+}
+
+func (c *RedisStore) HKeys(key string) ([]string, error) {
+	arr := []string{}
+	conn := c.pool.Get()
+	defer conn.Close()
+	res, err := conn.Do("hkeys", key)
+	if err != nil {
+		return arr, err
+	}
+	resKeys, err := redis.Strings(res, err)
+	if err != nil {
+		return arr, err
+	}
+	return resKeys, nil
+}
+func (c *RedisStore) HVals(key string) ([]interface{}, error) {
+	arr := []interface{}{}
+	conn := c.pool.Get()
+	defer conn.Close()
+	res, err := redis.Values(conn.Do("hvals", key))
+	if err != nil {
+		return arr, err
+	}
+	return res, nil
+}
+
+func (c *RedisStore) HDel(key string, field string) bool {
+	conn := c.pool.Get()
+	defer conn.Close()
+	isExist, err := redis.Bool(conn.Do("HDEL", key, field))
+	if err != nil {
+		return false
+	}
+	return isExist
+}
+
+//获取多个值
+func (c *RedisStore) HGetAll(key string) ([]interface{}, error) {
+	conn := c.pool.Get()
+	defer conn.Close()
+	result, err := redis.Values(conn.Do("hgetall", key))
+	if err != nil {
+		return nil, err
+	} else {
+		arr := []interface{}{}
+		fmt.Println("hgetall",result)
+		for _, v := range result {
+			fmt.Printf("hgetall %s ", v.([]byte))
+			arr = append(arr, v)
+		}
+		return arr, nil
+	}
+}
+
+//设置多个值
+func (c *RedisStore) HMSet(fvs map[string]interface{}) (bool, error) {
+	conn := c.pool.Get()
+	defer conn.Close()
+	args := []interface{}{}
+	for key, value := range fvs {
+		args = append(args, key, value)
+	}
+	_, err := conn.Do("HMSET", args)
+	if err != nil {
+		return false, err
+	} else {
+		return true, nil
+	}
+}
+
+//获取多个值
+func (c *RedisStore) HMGet(keys []string) ([]interface{}, error) {
+	conn := c.pool.Get()
+	defer conn.Close()
+	result, err := redis.Values(conn.Do("hmget", keys))
+	if err != nil {
+		return nil, err
+	} else {
+		arr := []interface{}{}
+		for _, v := range result {
+			arr = append(arr, v)
+		}
+		return arr, nil
 	}
 }

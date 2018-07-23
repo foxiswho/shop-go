@@ -19,6 +19,5 @@ func CacheHandler(c *context.BaseContext) error {
 		"title":      "测试 缓存",
 		"cache_test": cache_test,
 	})
-
 	return nil
 }

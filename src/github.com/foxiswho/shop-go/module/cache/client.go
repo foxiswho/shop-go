@@ -6,12 +6,13 @@ import (
 	"time"
 )
 
-var client ec.CacheStore
+var client map[string]ec.CacheStore
 
-func NewClient() ec.CacheStore {
+//新客户端
+func NewClient(cacheStore string) ec.CacheStore {
 	var store ec.CacheStore
 
-	switch Conf.CacheStore {
+	switch cacheStore {
 	case MEMCACHED:
 		store = ec.NewMemcachedStore([]string{Conf.Memcached.Server}, time.Hour)
 	case REDIS:
@@ -21,10 +22,33 @@ func NewClient() ec.CacheStore {
 	}
 	return store
 }
-
-func Client() ec.CacheStore {
+func clientInit(cacheStore string) ec.CacheStore {
 	if client == nil {
-		client = NewClient()
+		client = make(map[string]ec.CacheStore)
 	}
-	return client
+	if _, ok := client[cacheStore]; ok {
+		return client[cacheStore]
+	}
+	client[cacheStore] = NewClient(cacheStore)
+	return client[cacheStore]
+}
+
+// 缓存
+func Client() ec.CacheStore {
+	return clientInit(Conf.CacheStore)
+}
+
+// 内存 缓存
+func ClientMemory() ec.CacheStore {
+	return clientInit(IN_MEMORY)
+}
+
+// Redis 缓存
+func ClientRedis() ec.CacheStore {
+	return clientInit(REDIS)
+}
+
+// Redis 缓存
+func ClientRedisStore() *ec.RedisStore {
+	return clientInit(REDIS).(*ec.RedisStore)
 }
