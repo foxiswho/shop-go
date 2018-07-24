@@ -10,15 +10,9 @@ import (
 	. "github.com/foxiswho/shop-go/module/conf"
 	sauth "github.com/foxiswho/shop-go/service/user_service/auth"
 	"github.com/foxiswho/shop-go/module/context"
-	"github.com/foxiswho/shop-go/module/cache/cacheCache"
-	"time"
-	"github.com/foxiswho/shop-go/module/cache"
 )
 
 func HomeHandler(c *context.BaseContext) error {
-	err := cache.Client().Set("test", time.Now(), 10*time.Minute)
-	fmt.Println("err", err)
-	cacheCache.LoadOneCache()
 	// OpenTracing层级监控示例，API层通过中间件已支持
 	span := c.OpenTracingSpan()
 	if span != nil {

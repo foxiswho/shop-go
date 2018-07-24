@@ -13,15 +13,17 @@ var (
 )
 //初始化
 func InitSystem() {
-	//缓存
-	cacheCache.LoadOneCache()
 	//只执行一次
 	once.Do(onces)
 }
 
 //只执行一次
 func onces() {
-	log.Debugf("sync.Once 只加载一次缓存 cacheMemory.LoadOneCache,")
+	log.Debugf("sync.Once 只加载一次缓存 cacheCache.LoadOneCache,cacheMemory.LoadOneCache,")
+	//缓存
+	cacheCache.LoadOneCache()
 	//内存缓存
 	cacheMemory.LoadOneCache()
+	//
+	log.Debugf("sync.Once 只加载一次缓存 END")
 }
