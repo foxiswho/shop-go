@@ -9,6 +9,7 @@ import (
 	"github.com/foxiswho/shop-go/util/conv"
 )
 
+//列表
 func AdminListHandler(c *context.BaseContext) error {
 	idStr := c.Param("id")
 	page, _ := conv.ObjToInt(idStr)

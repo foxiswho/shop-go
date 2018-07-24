@@ -8,6 +8,7 @@ import (
 	"fmt"
 )
 
+//详情信息
 func AdminInfoGetHandler(c *context.BaseContext) error {
 	fmt.Println("admin.Claims id=", c.GetUserId())
 	//fmt.Println("admin.Claims", maps["id"])
@@ -16,7 +17,7 @@ func AdminInfoGetHandler(c *context.BaseContext) error {
 		"message":      "获取数据",
 		"name":         "管理员",
 		"introduction": "我是超级管理员",
-		"avatar":       "https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif",
+		"avatar":       "/uploads/image/9358d109b3de9c82bb32fd2d6081800a19d84338.jpg",
 		"roles":        []string{"admin"},
 	})
 	return echo.ErrUnauthorized
