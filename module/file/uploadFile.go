@@ -322,7 +322,7 @@ func (c *UploadFile) SaveDataBase(maps map[string]interface{}) {
 	}
 	c.Attachment = att
 	//fmt.Println("att",att)
-	_, err := db.DB().Engine.Insert(c.Attachment)
+	_, err := db.Db().Engine.Insert(c.Attachment)
 	if err != nil {
 		fmt.Println("保存到数据库失败", err)
 	}

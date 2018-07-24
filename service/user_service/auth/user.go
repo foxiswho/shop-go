@@ -66,8 +66,8 @@ func (u *User) Module() string {
 // a matching id.
 func (u *User) GetById(id interface{}) error {
 	//newu:=new(Admin)
-	//newdb.DB().Engine.Id(id).Get(&u)
-	_, err := db.DB().Engine.Id(id).Get(u)
+	//newdb.Db().Engine.Id(id).Get(&u)
+	_, err := db.Db().Engine.Id(id).Get(u)
 	fmt.Println("GetById=>")
 	fmt.Println("GetById=>")
 	fmt.Println("GetById=>id", id)
@@ -79,7 +79,7 @@ func (u *User) GetById(id interface{}) error {
 	if err != nil {
 		return err
 	}
-	//if err := DB().Where("id = ?", id).First(&u).Error; err != nil {
+	//if err := Db().Where("id = ?", id).First(&u).Error; err != nil {
 	//	return err
 	//}
 	log.Debugf("GetUserById USER:", u)
@@ -93,7 +93,7 @@ func (u *User) TraceGetUserById(id uint64) *User {
 	}
 
 	user := new(User)
-	ok, err := db.DB().Engine.Where("username = ?", "admin").Get(user)
+	ok, err := db.Db().Engine.Where("username = ?", "admin").Get(user)
 	fmt.Println("TraceGetUserById err:", err)
 	fmt.Println("TraceGetUserById :", ok, user)
 	return user

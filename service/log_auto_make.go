@@ -61,7 +61,7 @@ func (s *LogService) GetAll(where []*db.QueryCondition, fields []string, orderBy
 func (s *LogService) GetById(id int) (*models.Log, error) {
     m:=new(models.Log)
 	m.Id = id
-	ok, err := db.DB().Engine.Get(m)
+	ok, err := db.Db().Engine.Get(m)
     if err != nil {
         return nil, err
     }
@@ -75,7 +75,7 @@ func (s *LogService) GetById(id int) (*models.Log, error) {
 func (s *LogService) Delete(id int) (int64, error) {
 	m:=new(models.Log)
 	m.Id = id
-	num, err := db.DB().Engine.Delete(m)
+	num, err := db.Db().Engine.Delete(m)
 	if err == nil {
 		return num, nil
 	}

@@ -74,7 +74,7 @@ func NewAdapter(driverName string, dataSourceName string, dbSpecified ...bool) *
 
 func (a *Adapter) createDatabase() error {
 	var err error
-	engine := db.DB().Engine
+	engine := db.Db().Engine
 	if a.driverName == "postgres" {
 		if _, err = engine.Exec("CREATE DATABASE casbin"); err != nil {
 			// 42P04 is	duplicate_database
@@ -98,14 +98,14 @@ func (a *Adapter) close() {
 }
 
 func (a *Adapter) createTable() {
-	err := db.DB().Engine.Sync2(new(CasbinRule))
+	err := db.Db().Engine.Sync2(new(CasbinRule))
 	if err != nil {
 		panic(err)
 	}
 }
 
 func (a *Adapter) dropTable() {
-	err := db.DB().Engine.DropTables(new(CasbinRule))
+	err := db.Db().Engine.DropTables(new(CasbinRule))
 	if err != nil {
 		panic(err)
 	}
@@ -138,7 +138,7 @@ func loadPolicyLine(line CasbinRule, model model.Model) {
 // LoadPolicy loads policy from database.
 func (a *Adapter) LoadPolicy(model model.Model) error {
 	var lines []CasbinRule
-	err := db.DB().Engine.Find(&lines)
+	err := db.Db().Engine.Find(&lines)
 	if err != nil {
 		return err
 	}
@@ -197,21 +197,21 @@ func (a *Adapter) SavePolicy(model model.Model) error {
 		}
 	}
 
-	_, err := db.DB().Engine.Insert(&lines)
+	_, err := db.Db().Engine.Insert(&lines)
 	return err
 }
 
 // AddPolicy adds a policy rule to the storage.
 func (a *Adapter) AddPolicy(sec string, ptype string, rule []string) error {
 	line := savePolicyLine(ptype, rule)
-	_, err := db.DB().Engine.Insert(line)
+	_, err := db.Db().Engine.Insert(line)
 	return err
 }
 
 // RemovePolicy removes a policy rule from the storage.
 func (a *Adapter) RemovePolicy(sec string, ptype string, rule []string) error {
 	line := savePolicyLine(ptype, rule)
-	_, err := db.DB().Engine.Delete(line)
+	_, err := db.Db().Engine.Delete(line)
 	return err
 }
 
@@ -239,6 +239,6 @@ func (a *Adapter) RemoveFilteredPolicy(sec string, ptype string, fieldIndex int,
 		line.V5 = fieldValues[5-fieldIndex]
 	}
 
-	_, err := db.DB().Engine.Delete(line)
+	_, err := db.Db().Engine.Delete(line)
 	return err
 }

@@ -61,7 +61,7 @@ func (s *AdminStatusService) GetAll(where []*db.QueryCondition, fields []string,
 func (s *AdminStatusService) GetById(id int) (*models.AdminStatus, error) {
     m:=new(models.AdminStatus)
 	m.Id = id
-	ok, err := db.DB().Engine.Get(m)
+	ok, err := db.Db().Engine.Get(m)
     if err != nil {
         return nil, err
     }
@@ -75,7 +75,7 @@ func (s *AdminStatusService) GetById(id int) (*models.AdminStatus, error) {
 func (s *AdminStatusService) Delete(id int) (int64, error) {
 	m:=new(models.AdminStatus)
 	m.Id = id
-	num, err := db.DB().Engine.Delete(m)
+	num, err := db.Db().Engine.Delete(m)
 	if err == nil {
 		return num, nil
 	}

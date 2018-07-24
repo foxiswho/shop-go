@@ -65,7 +65,7 @@ func (u *Admin) Module() string {
 // GetById will populate a user_service object from a database model with
 // a matching id.
 func (u *Admin) GetById(id interface{}) error {
-	_, err := db.DB().Engine.Id(id).Get(u)
+	_, err := db.Db().Engine.Id(id).Get(u)
 	if err != nil {
 		return err
 	}
@@ -78,7 +78,7 @@ func (u *Admin) TraceGetUserById(id uint64) *Admin {
 	}
 
 	user := new(Admin)
-	_, err := db.DB().Engine.Where("username = ?", "admin_auth").Get(user)
+	_, err := db.Db().Engine.Where("username = ?", "admin_auth").Get(user)
 	if err != nil {
 		panic(err.Error())
 	}

@@ -61,7 +61,7 @@ func (s *AdminRoleAccessService) GetAll(where []*db.QueryCondition, fields []str
 func (s *AdminRoleAccessService) GetById(id int) (*models.AdminRoleAccess, error) {
     m:=new(models.AdminRoleAccess)
 	m.Id = id
-	ok, err := db.DB().Engine.Get(m)
+	ok, err := db.Db().Engine.Get(m)
     if err != nil {
         return nil, err
     }
@@ -75,7 +75,7 @@ func (s *AdminRoleAccessService) GetById(id int) (*models.AdminRoleAccess, error
 func (s *AdminRoleAccessService) Delete(id int) (int64, error) {
 	m:=new(models.AdminRoleAccess)
 	m.Id = id
-	num, err := db.DB().Engine.Delete(m)
+	num, err := db.Db().Engine.Delete(m)
 	if err == nil {
 		return num, nil
 	}

@@ -18,7 +18,7 @@ func NewUserService() *User {
 
 func GetUserByNicknamePwd(nickname string, pwd string) *auth.User {
 	user := new(auth.User)
-	ok, err := db.DB().Engine.Where("username = ?", nickname).Get(user)
+	ok, err := db.Db().Engine.Where("username = ?", nickname).Get(user)
 	fmt.Println("GetUserByNicknamePwd :", ok, user)
 	if err != nil {
 		fmt.Println("GetUserByNicknamePwd error:", err)
@@ -39,7 +39,7 @@ func AddUserWithNicknamePwd(nickname string, pwd string) *auth.User {
 	user.Username=nickname
 	user.Password=pwd
 	user.RegTime=time.Now()
-	if _,err:=db.DB().Engine.Insert(user); err != nil {
+	if _,err:=db.Db().Engine.Insert(user); err != nil {
 		return nil
 	}
 	return user
@@ -48,13 +48,13 @@ func AddUserWithNicknamePwd(nickname string, pwd string) *auth.User {
 func GetUserById(id uint64) *auth.User {
 	user := new(auth.User)
 	//var count int64
-	//db := DB().Where("id = ?", id)
+	//db := Db().Where("id = ?", id)
 	//if err := Cache(db).First(&user_service).Count(&count).Error; err != nil {
 	//	log.Debugf("GetUserById error: %v", err)
 	//	return nil
 	//}
 
-	if _, err := db.DB().Engine.Id(id).Get(user); err != nil {
+	if _, err := db.Db().Engine.Id(id).Get(user); err != nil {
 		log.Debugf("GetUserById error: %v", err)
 		return nil
 	}

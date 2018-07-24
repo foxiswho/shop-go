@@ -61,7 +61,7 @@ func (s *AreaExtService) GetAll(where []*db.QueryCondition, fields []string, ord
 func (s *AreaExtService) GetById(id int) (*models.AreaExt, error) {
     m:=new(models.AreaExt)
 	m.Id = id
-	ok, err := db.DB().Engine.Get(m)
+	ok, err := db.Db().Engine.Get(m)
     if err != nil {
         return nil, err
     }
@@ -75,7 +75,7 @@ func (s *AreaExtService) GetById(id int) (*models.AreaExt, error) {
 func (s *AreaExtService) Delete(id int) (int64, error) {
 	m:=new(models.AreaExt)
 	m.Id = id
-	num, err := db.DB().Engine.Delete(m)
+	num, err := db.Db().Engine.Delete(m)
 	if err == nil {
 		return num, nil
 	}

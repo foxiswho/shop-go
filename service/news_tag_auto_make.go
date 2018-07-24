@@ -61,7 +61,7 @@ func (s *NewsTagService) GetAll(where []*db.QueryCondition, fields []string, ord
 func (s *NewsTagService) GetById(id int) (*models.NewsTag, error) {
     m:=new(models.NewsTag)
 	m.Id = id
-	ok, err := db.DB().Engine.Get(m)
+	ok, err := db.Db().Engine.Get(m)
     if err != nil {
         return nil, err
     }
@@ -75,7 +75,7 @@ func (s *NewsTagService) GetById(id int) (*models.NewsTag, error) {
 func (s *NewsTagService) Delete(id int) (int64, error) {
 	m:=new(models.NewsTag)
 	m.Id = id
-	num, err := db.DB().Engine.Delete(m)
+	num, err := db.Db().Engine.Delete(m)
 	if err == nil {
 		return num, nil
 	}

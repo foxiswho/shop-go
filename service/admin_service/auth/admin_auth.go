@@ -69,7 +69,7 @@ func (c *AdminAuth) Process() (*models.Admin, error) {
 func (c *AdminAuth) loginTypeProcess() (*models.Admin, error) {
 	if login.Type_default == c.TypeLogin {
 		user := new(models.Admin)
-		ok, err := db.DB().Engine.Where("username = ?", c.Username).Get(user)
+		ok, err := db.Db().Engine.Where("username = ?", c.Username).Get(user)
 		fmt.Println("GetUserByNicknamePwd :", ok, user)
 		if err != nil {
 			fmt.Println("GetUserByNicknamePwd error:", err)
@@ -84,7 +84,7 @@ func (c *AdminAuth) loginTypeProcess() (*models.Admin, error) {
 		return user, nil
 	} else if login.Type_uid == c.TypeLogin {
 		user := new(models.Admin)
-		ok, err := db.DB().Engine.Id(conv.StrToInt(c.Username)).Get(user)
+		ok, err := db.Db().Engine.Id(conv.StrToInt(c.Username)).Get(user)
 		fmt.Println("GetUserByNicknamePwd :", ok, user)
 		if err != nil {
 			fmt.Println("GetUserByNicknamePwd error:", err)
@@ -98,7 +98,7 @@ func (c *AdminAuth) loginTypeProcess() (*models.Admin, error) {
 		return user, nil
 	} else if login.Type_mail == c.TypeLogin {
 		user := new(models.Admin)
-		ok, err := db.DB().Engine.Where("mail = ?", c.Username).Get(user)
+		ok, err := db.Db().Engine.Where("mail = ?", c.Username).Get(user)
 		fmt.Println("GetUserByNicknamePwd :", ok, user)
 		if err != nil {
 			fmt.Println("GetUserByNicknamePwd error:", err)
@@ -112,7 +112,7 @@ func (c *AdminAuth) loginTypeProcess() (*models.Admin, error) {
 		return user, nil
 	} else if login.Type_mobile == c.TypeLogin {
 		user := new(models.Admin)
-		ok, err := db.DB().Engine.Where("mail = ?", c.Username).Get(user)
+		ok, err := db.Db().Engine.Where("mail = ?", c.Username).Get(user)
 		fmt.Println("GetUserByNicknamePwd :", ok, user)
 		if err != nil {
 			fmt.Println("GetUserByNicknamePwd error:", err)
@@ -126,7 +126,7 @@ func (c *AdminAuth) loginTypeProcess() (*models.Admin, error) {
 		return user, nil
 	}
 	user := new(models.Admin)
-	ok, err := db.DB().Engine.Where("username = ?", c.Username).Get(user)
+	ok, err := db.Db().Engine.Where("username = ?", c.Username).Get(user)
 	fmt.Println("GetUserByNicknamePwd :", ok, user)
 	if err != nil {
 		fmt.Println("GetUserByNicknamePwd error:", err)

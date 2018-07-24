@@ -61,7 +61,7 @@ func (s *TagService) GetAll(where []*db.QueryCondition, fields []string, orderBy
 func (s *TagService) GetById(id int) (*models.Tag, error) {
     m:=new(models.Tag)
 	m.Id = id
-	ok, err := db.DB().Engine.Get(m)
+	ok, err := db.Db().Engine.Get(m)
     if err != nil {
         return nil, err
     }
@@ -75,7 +75,7 @@ func (s *TagService) GetById(id int) (*models.Tag, error) {
 func (s *TagService) Delete(id int) (int64, error) {
 	m:=new(models.Tag)
 	m.Id = id
-	num, err := db.DB().Engine.Delete(m)
+	num, err := db.Db().Engine.Delete(m)
 	if err == nil {
 		return num, nil
 	}

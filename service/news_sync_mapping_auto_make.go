@@ -61,7 +61,7 @@ func (s *NewsSyncMappingService) GetAll(where []*db.QueryCondition, fields []str
 func (s *NewsSyncMappingService) GetById(id int) (*models.NewsSyncMapping, error) {
     m:=new(models.NewsSyncMapping)
 	m.Id = id
-	ok, err := db.DB().Engine.Get(m)
+	ok, err := db.Db().Engine.Get(m)
     if err != nil {
         return nil, err
     }
@@ -75,7 +75,7 @@ func (s *NewsSyncMappingService) GetById(id int) (*models.NewsSyncMapping, error
 func (s *NewsSyncMappingService) Delete(id int) (int64, error) {
 	m:=new(models.NewsSyncMapping)
 	m.Id = id
-	num, err := db.DB().Engine.Delete(m)
+	num, err := db.Db().Engine.Delete(m)
 	if err == nil {
 		return num, nil
 	}

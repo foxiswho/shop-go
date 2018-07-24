@@ -61,7 +61,7 @@ func (s *UserGroupService) GetAll(where []*db.QueryCondition, fields []string, o
 func (s *UserGroupService) GetById(id int) (*models.UserGroup, error) {
     m:=new(models.UserGroup)
 	m.Id = id
-	ok, err := db.DB().Engine.Get(m)
+	ok, err := db.Db().Engine.Get(m)
     if err != nil {
         return nil, err
     }
@@ -75,7 +75,7 @@ func (s *UserGroupService) GetById(id int) (*models.UserGroup, error) {
 func (s *UserGroupService) Delete(id int) (int64, error) {
 	m:=new(models.UserGroup)
 	m.Id = id
-	num, err := db.DB().Engine.Delete(m)
+	num, err := db.Db().Engine.Delete(m)
 	if err == nil {
 		return num, nil
 	}

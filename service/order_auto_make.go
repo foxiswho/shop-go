@@ -61,7 +61,7 @@ func (s *OrderService) GetAll(where []*db.QueryCondition, fields []string, order
 func (s *OrderService) GetById(id int) (*models.Order, error) {
     m:=new(models.Order)
 	m.Id = id
-	ok, err := db.DB().Engine.Get(m)
+	ok, err := db.Db().Engine.Get(m)
     if err != nil {
         return nil, err
     }
@@ -75,7 +75,7 @@ func (s *OrderService) GetById(id int) (*models.Order, error) {
 func (s *OrderService) Delete(id int) (int64, error) {
 	m:=new(models.Order)
 	m.Id = id
-	num, err := db.DB().Engine.Delete(m)
+	num, err := db.Db().Engine.Delete(m)
 	if err == nil {
 		return num, nil
 	}

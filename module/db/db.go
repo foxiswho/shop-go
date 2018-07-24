@@ -14,13 +14,13 @@ import (
 )
 
 //结构体
-type Db struct {
+type dbEngine struct {
 	Engine        *xorm.Engine
 	FilterSession *xorm.Session
 }
 
 //全局变量
-var db *Db
+var db *dbEngine
 
 //数据库xiangg dsn 格式化
 func dsn() string {
@@ -34,9 +34,9 @@ func dsn() string {
 }
 
 //创建数据库连接
-func newDB() (*Db, error) {
+func newDb() (*dbEngine, error) {
 	var err error
-	db = new(Db)
+	db = new(dbEngine)
 	db.Engine, err = xorm.NewEngine("mysql", dsn())
 	if err != nil {
 		fmt.Println("NewEngine", err)
@@ -51,10 +51,10 @@ func newDB() (*Db, error) {
 }
 
 //快捷调研
-func DB() *Db {
+func Db() *dbEngine {
 	if db == nil {
 		log.Debugf("Model NewDB")
-		newDb, err := newDB()
+		newDb, err := newDb()
 		if err != nil {
 			panic(err)
 		}
@@ -73,7 +73,7 @@ func SqlMapFile(directory, extension string) (*xorm.XmlSqlMap) {
 
 //初始化
 //func Init() {
-//	DB()
+//	Db()
 //}
 
 type QuerySession struct {
@@ -83,7 +83,7 @@ type QuerySession struct {
 var Query *QuerySession
 
 func Filter(where []*QueryCondition) *xorm.Session {
-	db := DB()
+	db := Db()
 	Query = new(QuerySession)
 	if len(where) > 0 {
 		i := 1
@@ -148,18 +148,18 @@ func Filter(where []*QueryCondition) *xorm.Session {
 
 	return Query.Session
 }
-func FilterWhereAnd(db *Db, i int, key string, value ...interface{}) {
+func FilterWhereAnd(db *dbEngine, i int, key string, value ...interface{}) {
 	fmt.Println("key", key)
 	fmt.Println("value", value)
 	fmt.Println("TypeOf", reflect.TypeOf(value))
 	if i == 1 {
-		Query.Session = DB().Engine.Where(key, value...)
+		Query.Session = Db().Engine.Where(key, value...)
 	} else {
 		Query.Session = Query.Session.And(key, value...)
 	}
 }
 
-func objArrToIntArr(db *Db, i int, qc *QueryCondition) {
+func objArrToIntArr(db *dbEngine, i int, qc *QueryCondition) {
 	str := ""
 	arrCount := 0
 	switch qc.Condition.(type) {
@@ -216,7 +216,7 @@ func objArrToIntArr(db *Db, i int, qc *QueryCondition) {
 	}
 }
 
-func objArrToFloatArr(db *Db, i int, qc *QueryCondition) {
+func objArrToFloatArr(db *dbEngine, i int, qc *QueryCondition) {
 	str := ""
 	arrCount := 0
 	switch qc.Condition.(type) {

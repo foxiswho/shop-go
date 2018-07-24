@@ -14,7 +14,7 @@ import (
 func ServiceMakeHandler(c *context.BaseContext) error {
 
 	sql := "show tables"
-	result, err := db.DB().Engine.QueryString(sql)
+	result, err := db.Db().Engine.QueryString(sql)
 	fmt.Println("err", err)
 	fmt.Println("result", result)
 	if err != nil {
