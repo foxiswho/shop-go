@@ -27,6 +27,9 @@ type Admin struct {
 	LeaderId     int       `json:"leader_id" xorm:"not null comment('领导id') INT(11)"`
 	PostId       int       `json:"post_id" xorm:"not null comment('职务id') INT(11)"`
 	RoleId       int       `json:"role_id" xorm:"not null comment('角色id(主)') index INT(11)"`
+
+	//
+	ExtData      interface{} `json:"ExtData" xorm:"- <- ->"`
 }
 
 //初始化

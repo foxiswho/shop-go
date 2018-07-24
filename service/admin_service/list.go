@@ -21,6 +21,7 @@ func GetAll(where []*db.QueryCondition, page, limit int) (*db.Paginator, error) 
 			admin := x.(models.Admin)
 			admin.Password = ""
 			admin.Salt = ""
+			admin.ExtData=map[string]string{"role_id_name":"超级管理员","is_del_name":"正常"}
 			Query.Data[y] = admin
 		}
 	}
