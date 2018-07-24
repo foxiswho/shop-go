@@ -73,36 +73,26 @@ func loadOneCache() error {
 }
 
 //从cahce，更新指定缓存到内存中
-func MemoryUpdateByCache(fields []string, memory_cache map[string]int) {
-	client := cache.ClientRedis()
-	redis := client.(*cache2.RedisStore)
-	find := []string{}
-	//读取缓存中，同步的时间戳
-	arrSystem, err := redis.HGetAll(cacheCache.System_Cache_Memory_Sync)
+func MemoryUpdateByCache(fields []string, memoryCacheTime map[string]int) {
+	redis := cache.ClientRedisStore()
+	find := make(map[string]bool)
+	//获取缓存
+	redisCache, err := redis.HGetAll(cacheCache.System_Cache)
 	if err != nil {
-		log.Debugf("HGetAll error: %v", err)
+		log.Debugf("MemoryUpdateByCache HGetAll error: %v", err)
 	}
-	fmt.Println(arrSystem)
 	for _, key := range fields {
-		is_find := false
 		//查找是否在数组中
-		for _, k := range find {
-			if k == key {
-				is_find = true
-				break;
-			}
-		}
 		//如果不存在那么 进行更新
-		if is_find == false {
-			val := 0
-			//获取缓存
-			redis.HGet(cacheCache.System_Cache, key, val)
-			//更新 缓存
-			MemorySet(key, val, Memory_Second)
-			// 存储 更新时间戳
-			err = MemorySet(cacheCache.System_Cache_Memory_Sync, memory_cache, Memory_Second)
-			if err != nil {
-				log.Debugf("Listen Memory in cacheMemory error: %v", err)
+		if _, ok := find[key]; !ok {
+			if _, is := redisCache[key]; is {
+				//更新 缓存
+				MemorySet(key, redisCache[key], Memory_Second)
+				// 存储 更新时间戳
+				err = MemorySet(cacheCache.System_Cache_Memory_Sync, memoryCacheTime, Memory_Second)
+				if err != nil {
+					log.Debugf("Listen Memory in cacheMemory error: %v", err)
+				}
 			}
 		}
 	}

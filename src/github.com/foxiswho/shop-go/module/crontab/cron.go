@@ -3,8 +3,9 @@ package crontab
 import (
 	"github.com/robfig/cron"
 	"github.com/foxiswho/shop-go/module/log"
-	"time"
 	"github.com/foxiswho/shop-go/module/cache/cacheMemory"
+	"github.com/foxiswho/shop-go/util/datetime"
+	"github.com/foxiswho/shop-go/module/listen"
 )
 
 var c *cron.Cron
@@ -17,7 +18,7 @@ func TaskClosed() {
 		c.Stop()
 	}
 	c = nil
-	log.Debugf("cron closed:", time.Now())
+	log.Debugf("cron closed:", datetime.Now())
 }
 
 func Task() {
@@ -28,9 +29,13 @@ func Task() {
 	c.AddFunc(spec, func() {
 		//只有内存数据加载过了，才执行此任务
 		if cacheMemory.Is_Load_Once {
-			log.Debugf("cron time:", time.Now())
+			//开始执行定时任务
+			//定时更新内存缓存
+			listen.ListenMemory()
+		} else {
+			log.Debugf("cron waite:", datetime.Now())
 		}
 	})
 	c.Start()
-	log.Debugf("cron start:", time.Now())
+	//log.Debugf("cron start:", time.Now())
 }
