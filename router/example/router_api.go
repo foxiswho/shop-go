@@ -9,7 +9,6 @@ import (
 	"github.com/foxiswho/shop-go/middleware/opentracing"
 	"github.com/foxiswho/shop-go/module/cache"
 	"github.com/foxiswho/shop-go/router/example/api"
-	"net/http"
 	"github.com/foxiswho/shop-go/module/context"
 )
 
@@ -67,7 +66,7 @@ func RoutersApi() *echo.Echo {
 	//e.GET("/register", UserRegisterHandler)
 
 	// Unauthenticated route
-	e.GET("/", accessible)
+	e.GET("/", context.Accessible)
 	json := e.Group("/json")
 	{
 		json.GET("/jsonp",context.Handler(api.JsonpHandler))
@@ -117,7 +116,4 @@ func RoutersApi() *echo.Echo {
 	//}
 
 	return e
-}
-func accessible(c echo.Context) error {
-	return c.String(http.StatusOK, "Accessible")
 }

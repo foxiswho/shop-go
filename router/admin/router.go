@@ -8,7 +8,6 @@ import (
 	"github.com/foxiswho/shop-go/module/cache"
 	mw "github.com/labstack/echo/middleware"
 	"github.com/foxiswho/shop-go/middleware/opentracing"
-	"net/http"
 	"github.com/foxiswho/shop-go/router/admin/login"
 	admin2 "github.com/foxiswho/shop-go/router/admin/admin"
 	"github.com/foxiswho/shop-go/module/jwt"
@@ -54,14 +53,14 @@ func RoutersAdmin() *echo.Echo {
 	e.Use(cache.Cache())
 
 	// Unauthenticated route
-	e.GET("/", accessible)
+	e.GET("/", context.Accessible)
 	////////////////////////////
 	/////admin
 	admin_login := e.Group("/admin_login")
 	{
 		//admin_login.Use(context.SetContextTypeAdmin())
 		//admin_login.Use(admin_auth.New(auth.GenerateAnonymousUser()))
-		admin_login.GET("/", accessible)
+		admin_login.GET("/", context.Accessible)
 		admin_login.POST("/login", context.Handler(login.LoginPostHandler))
 		admin_login.POST("/logout", context.Handler(login.LogoutPostHandler))
 	}
@@ -75,8 +74,4 @@ func RoutersAdmin() *echo.Echo {
 		//admin.GET("/index", context.Handler(api.JwtTesterApiHandler))
 	}
 	return e
-}
-
-func accessible(c echo.Context) error {
-	return c.String(http.StatusOK, "Accessible")
 }
