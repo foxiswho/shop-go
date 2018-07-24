@@ -24,7 +24,6 @@ import (
 	"github.com/casbin/casbin"
 	auth_casbin "github.com/foxiswho/shop-go/middleware/auth"
 	rbac2 "github.com/foxiswho/shop-go/router/example/admin/rbac"
-	"github.com/foxiswho/shop-go/router/web/design"
 	"github.com/foxiswho/shop-go/module/auth/admin_auth"
 	"github.com/foxiswho/shop-go/module/context"
 	"github.com/foxiswho/shop-go/module/auth/auth_middleware"
@@ -179,12 +178,6 @@ func Routers() *echo.Echo {
 			//中间件
 			rbac.Use(auth_casbin.Middleware(ce))
 			rbac.GET("/index", context.Handler(rbac2.IndexHandler))
-		}
-		//设计
-		des := admin.Group("/design")
-		{
-			//根据数据库生成 service
-			des.GET("/service", context.Handler(design.ServiceMakeHandler))
 		}
 	}
 	return e

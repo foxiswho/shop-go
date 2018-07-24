@@ -11,6 +11,7 @@ import (
 	"github.com/foxiswho/shop-go/router/admin/login"
 	admin2 "github.com/foxiswho/shop-go/router/admin/admin"
 	"github.com/foxiswho/shop-go/module/jwt"
+	"github.com/foxiswho/shop-go/router/admin/design"
 )
 
 func RoutersAdmin() *echo.Echo {
@@ -66,12 +67,19 @@ func RoutersAdmin() *echo.Echo {
 	}
 	admin := e.Group("/admin")
 	{
+		//设计
+		des := admin.Group("/design")
+		{
+			//根据数据库生成 service
+			des.GET("/service", context.Handler(design.ServiceMakeHandler))
+		}
 		admin.Use(jwt.GetJwtMiddlewareAdmin())
 
 		admin.GET("/admin/info", context.Handler(admin2.AdminInfoGetHandler))
 		admin.GET("/admin", context.Handler(admin2.AdminListHandler))
 		admin.PUT("/admin", context.Handler(admin2.AdminPutHandler))
 		//admin.GET("/index", context.Handler(api.JwtTesterApiHandler))
+
 	}
 	return e
 }

@@ -8,22 +8,22 @@ import (
 	"github.com/foxiswho/shop-go/util"
 )
 
-type {{.tables_Camel_Case}}Crud struct {
+type OrderGoodsCrud struct {
 
 }
 
-func New{{.tables_Camel_Case}}Crud() *{{.tables_Camel_Case}}Crud {
-	return new({{.tables_Camel_Case}}Crud)
+func NewOrderGoodsCrud() *OrderGoodsCrud {
+	return new(OrderGoodsCrud)
 }
 
 //初始化列表
-func {{.tables}}NewMakeDataArr() []models.{{.tables_Camel_Case}} {
-	return make([]models.{{.tables_Camel_Case}}, 0)
+func order_goodsNewMakeDataArr() []models.OrderGoods {
+	return make([]models.OrderGoods, 0)
 }
 
 //列表查询
-func (s *{{.tables_Camel_Case}}Crud) GetAll(where []*db.QueryCondition, fields []string, orderBy string, page int, limit int) (*db.Paginator, error) {
-	m := models.New{{.tables_Camel_Case}}()
+func (s *OrderGoodsCrud) GetAll(where []*db.QueryCondition, fields []string, orderBy string, page int, limit int) (*db.Paginator, error) {
+	m := models.NewOrderGoods()
 	session := db.Filter(where)
 	count, err := session.Count(m)
 	if err != nil {
@@ -43,7 +43,7 @@ func (s *{{.tables_Camel_Case}}Crud) GetAll(where []*db.QueryCondition, fields [
 	if len(fields) == 0 {
 		session.AllCols()
 	}
-	data := {{.tables}}NewMakeDataArr()
+	data := order_goodsNewMakeDataArr()
 	err = session.Find(&data)
 	if err != nil {
 		fmt.Println(err)
@@ -58,8 +58,8 @@ func (s *{{.tables_Camel_Case}}Crud) GetAll(where []*db.QueryCondition, fields [
 
 
 // 获取 单条记录
-func (s *{{.tables_Camel_Case}}Crud) GetById(id int) (*models.{{.tables_Camel_Case}}, error) {
-    m:=new(models.{{.tables_Camel_Case}})
+func (s *OrderGoodsCrud) GetById(id int) (*models.OrderGoods, error) {
+    m:=new(models.OrderGoods)
 	m.Id = id
 	ok, err := db.Db().Engine.Get(m)
     if err != nil {
@@ -72,8 +72,8 @@ func (s *{{.tables_Camel_Case}}Crud) GetById(id int) (*models.{{.tables_Camel_Ca
 }
 
 // 删除 单条记录
-func (s *{{.tables_Camel_Case}}Crud) Delete(id int) (int64, error) {
-	m:=new(models.{{.tables_Camel_Case}})
+func (s *OrderGoodsCrud) Delete(id int) (int64, error) {
+	m:=new(models.OrderGoods)
 	m.Id = id
 	num, err := db.Db().Engine.Delete(m)
 	if err == nil {
