@@ -1,4 +1,13 @@
+SHOP-GO 还在完善中
+----------
 
+# WIKI 
+SHOP 说明介绍地址
+
+[SHOP-GO WIKI](https://github.com/foxiswho/shop-go/wiki)
+
+
+[https://github.com/foxiswho/shop-go/wiki](https://github.com/foxiswho/shop-go/wiki)
 
 # bindata安装
 
