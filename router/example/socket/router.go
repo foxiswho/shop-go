@@ -9,11 +9,13 @@ import (
 	"github.com/foxiswho/shop-go/module/session"
 	authService "github.com/foxiswho/shop-go/service/user_service/auth"
 	"github.com/foxiswho/shop-go/module/auth/auth_middleware"
+	"github.com/foxiswho/shop-go/module/context"
 )
 
 func Routers() *echo.Echo {
 	e := echo.New()
-
+	// Context自定义
+	e.Use(context.NewBaseContext())
 	// Session
 	e.Use(session.Session())
 
@@ -30,7 +32,7 @@ func Routers() *echo.Echo {
 	// AuthUser
 	e.Use(auth_middleware.NewUser(authService.GenerateAnonymousUser))
 
-	e.GET("/ws", socketHandler)
+	e.GET("/ws", context.Handler(socketHandler))
 
 	return e
 }

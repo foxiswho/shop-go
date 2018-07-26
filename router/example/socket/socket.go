@@ -1,13 +1,13 @@
 package socket
 
 import (
-	"github.com/labstack/echo"
 	"golang.org/x/net/websocket"
 
 	"github.com/foxiswho/shop-go/module/log"
+	"github.com/foxiswho/shop-go/module/context"
 )
 
-func socketHandler(c echo.Context) error {
+func socketHandler(c *context.BaseContext) error {
 	websocket.Handler(func(ws *websocket.Conn) {
 		defer ws.Close()
 		for {

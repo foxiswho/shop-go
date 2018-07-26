@@ -2,6 +2,9 @@ package test
 
 import (
 	"github.com/foxiswho/shop-go/module/context"
+	"time"
+	"math/rand"
+	"net/http"
 )
 
 type Json struct {
@@ -42,3 +45,16 @@ func JsonpIndexHandler(c *context.BaseContext) error {
 	return nil
 }
 
+func JsonpIndexShowHandler(c *context.BaseContext) error {
+	callback := c.QueryParam("callback")
+	var content struct {
+		Response  string    `json:"response"`
+		Timestamp time.Time `json:"timestamp"`
+		Random    int       `json:"random"`
+	}
+	content.Response = "Sent via JSONP"
+	content.Timestamp = time.Now().UTC()
+	content.Random = rand.Intn(1000)
+
+	return c.JSONP(http.StatusOK, callback, &content)
+}
