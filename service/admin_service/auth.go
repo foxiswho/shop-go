@@ -17,7 +17,7 @@ func Login(username, password string) (string, error) {
 		return "", err
 	}
 	if admin != nil {
-		token, err := jwt2.GetJwtToken(admin.Id, jwt.TYPE_ADMIN)
+		token, err := jwt2.GetJwtToken(admin.Id, jwt.Jwt_Type_Admin)
 		if err != nil {
 			return "", err
 		}

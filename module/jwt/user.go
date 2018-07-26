@@ -7,9 +7,9 @@ import (
 )
 
 func GetJwtMiddlewareUser() echo.MiddlewareFunc {
-	return middleware.JWTWithConfig(GetJwtMiddleware(jwt2.ContextKey_admin))
+	return middleware.JWTWithConfig(GetJwtMiddleware(jwt2.Jwt_Context_Key_admin))
 }
 
 func GetJwtMiddlewareAdmin() echo.MiddlewareFunc {
-	return middleware.JWTWithConfig(GetJwtMiddleware(jwt2.ContextKey_admin))
+	return middleware.JWTWithConfig(GetJwtMiddleware(jwt2.Jwt_Context_Key_admin))
 }

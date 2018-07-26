@@ -1,9 +1,9 @@
 package jwt
 
 const (
-	TYPE_USER  = "USER"
-	TYPE_ADMIN = "ADMIN"
+	Jwt_Type_user  = "USER"
+	Jwt_Type_Admin = "ADMIN"
 	//
-	ContextKey_user  = "_user"
-	ContextKey_admin = "_admin"
+	Jwt_Context_Key_user  = "_user"
+	Jwt_Context_Key_admin = "_admin"
 )

@@ -8,7 +8,7 @@ import (
 
 func (c *BaseContext) JwtTokenGetAdmin() map[string]interface{} {
 	myMap := make(map[string]interface{})
-	val := c.Get(jwt2.ContextKey_admin)
+	val := c.Get(jwt2.Jwt_Context_Key_admin)
 	if val != nil {
 		info := val.(*jwt.Token)
 		if info != nil {
@@ -20,7 +20,7 @@ func (c *BaseContext) JwtTokenGetAdmin() map[string]interface{} {
 
 func (c *BaseContext) JwtTokenGetUser() map[string]interface{} {
 	myMap := make(map[string]interface{})
-	val := c.Get(jwt2.ContextKey_user)
+	val := c.Get(jwt2.Jwt_Context_Key_user)
 	if val != nil {
 		info := val.(*jwt.Token)
 		if info != nil {

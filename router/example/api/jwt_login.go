@@ -29,7 +29,7 @@ func JwtLoginPostHandler(c *context.BaseContext) error {
 		u := example_service.GetUserByNicknamePwd(form.Nickname, form.Password)
 		if u != nil {
 			// Generate encoded token and send it as response.
-			t, err := jwt2.GetJwtToken(u.Id,jwt3.TYPE_USER)
+			t, err := jwt2.GetJwtToken(u.Id,jwt3.Jwt_Type_user)
 			if err != nil {
 				return err
 			}
