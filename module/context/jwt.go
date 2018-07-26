@@ -17,3 +17,15 @@ func (c *BaseContext) JwtTokenGetAdmin() map[string]interface{} {
 	}
 	return myMap
 }
+
+func (c *BaseContext) JwtTokenGetUser() map[string]interface{} {
+	myMap := make(map[string]interface{})
+	val := c.Get(jwt2.ContextKey_user)
+	if val != nil {
+		info := val.(*jwt.Token)
+		if info != nil {
+			return jwt3.GetJwtClaims(info)
+		}
+	}
+	return myMap
+}

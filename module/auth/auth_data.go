@@ -10,7 +10,7 @@ import (
 
 func GetAuthData(c echo.Context) interface{} {
 	context_type := context.GetContextType(c)
-	if context2.Type_Admin == context_type {
+	if context2.Context_Type_Admin == context_type {
 		return admin_auth.DefaultGetAdmin(c)
 	} else {
 		return user_auth.DefaultGetUser(c)
@@ -19,7 +19,7 @@ func GetAuthData(c echo.Context) interface{} {
 
 func GetAuthDataRoleId(c echo.Context) int {
 	context_type := context.GetContextType(c)
-	if context2.Type_Admin == context_type {
+	if context2.Context_Type_Admin == context_type {
 		return admin_auth.GetRoleId(c)
 	} else {
 		return user_auth.GetRoleId(c)
@@ -28,7 +28,7 @@ func GetAuthDataRoleId(c echo.Context) int {
 
 func GetAuthDataRoleExtend(c echo.Context) []int {
 	context_type := context.GetContextType(c)
-	if context2.Type_Admin == context_type {
+	if context2.Context_Type_Admin == context_type {
 		return admin_auth.GetRoleExtend(c)
 	} else {
 		return user_auth.GetRoleExtend(c)

@@ -27,6 +27,7 @@ import (
 	"github.com/foxiswho/shop-go/module/auth/admin_auth"
 	"github.com/foxiswho/shop-go/module/context"
 	"github.com/foxiswho/shop-go/module/auth/auth_middleware"
+	"github.com/foxiswho/shop-go/module/jwt"
 )
 
 //---------
@@ -82,15 +83,12 @@ func Routers() *echo.Echo {
 	////////////////////////////
 	j := e.Group("/jwt")
 	{
+		j.Use(context.SetSessionTypeJwt())
 		j.POST("/login", context.Handler(api.JwtLoginPostHandler))
 		i := j.Group("/restricted")
 		{
-			config := mw.JWTConfig{
-				Claims:     &api.JwtCustomClaims{},
-				SigningKey: []byte(Conf.SessionSecretKey),
-			}
-			i.Use(mw.JWTWithConfig(config))
-			i.GET("/xx", api.JwtApiHandler)
+			i.Use(jwt.GetJwtMiddlewareUser())
+			i.GET("/xx", context.Handler(api.JwtApiHandler))
 		}
 	}
 	////////////////////////////

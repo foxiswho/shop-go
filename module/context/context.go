@@ -23,7 +23,7 @@ type BaseContext struct {
 func NewBaseContext() echo.MiddlewareFunc {
 	return func(h echo.HandlerFunc) echo.HandlerFunc {
 		return func(c echo.Context) error {
-			ctx := &BaseContext{c, context2.Type_User, context2.Session_jwt}
+			ctx := &BaseContext{c, context2.Context_Type_User, context2.Session_Type_jwt}
 			return h(ctx)
 		}
 	}

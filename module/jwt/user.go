@@ -6,8 +6,8 @@ import (
 	"github.com/labstack/echo"
 )
 
-func GetJwtMiddlewareAdminConfig() middleware.JWTConfig {
-	return GetJwtMiddleware(jwt2.ContextKey_admin)
+func GetJwtMiddlewareUser() echo.MiddlewareFunc {
+	return middleware.JWTWithConfig(GetJwtMiddleware(jwt2.ContextKey_admin))
 }
 
 func GetJwtMiddlewareAdmin() echo.MiddlewareFunc {

@@ -2,15 +2,15 @@ package api
 
 import (
 	"github.com/dgrijalva/jwt-go"
-	"time"
 	"net/http"
 	"github.com/labstack/echo"
 	"fmt"
 	"github.com/foxiswho/shop-go/router/example/test"
 	"github.com/foxiswho/shop-go/service/example_service"
 	"github.com/foxiswho/shop-go/module/log"
-	"github.com/foxiswho/shop-go/module/conf"
 	"github.com/foxiswho/shop-go/module/context"
+	jwt2 "github.com/foxiswho/shop-go/module/jwt"
+	jwt3 "github.com/foxiswho/shop-go/consts/session/jwt"
 )
 
 // jwtCustomClaims are custom claims extending default ones.
@@ -27,27 +27,9 @@ func JwtLoginPostHandler(c *context.BaseContext) error {
 	if err := c.Bind(&form); err == nil {
 		fmt.Println("form",form)
 		u := example_service.GetUserByNicknamePwd(form.Nickname, form.Password)
-		fmt.Println("db=>u")
-		fmt.Println("db=>u")
-		fmt.Println("db=>u")
-		fmt.Println("db=>u")
-		fmt.Println("db=>u")
-		fmt.Println("db=>u",u)
 		if u != nil {
-			// Set custom claims
-			claims := &JwtCustomClaims{
-				form.Nickname,
-				true,
-				jwt.StandardClaims{
-					ExpiresAt: time.Now().Add(time.Hour * 72).Unix(),
-				},
-			}
-
-			// Create token with claims
-			token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-
 			// Generate encoded token and send it as response.
-			t, err := token.SignedString([]byte(conf.Conf.SessionSecretKey))
+			t, err := jwt2.GetJwtToken(u.Id,jwt3.TYPE_USER)
 			if err != nil {
 				return err
 			}

@@ -2,7 +2,6 @@ package api
 
 import (
 	"net/http"
-	"strconv"
 	"time"
 
 	"github.com/foxiswho/shop-go/middleware/session"
@@ -11,40 +10,26 @@ import (
 	"github.com/foxiswho/shop-go/module/log"
 	"github.com/foxiswho/shop-go/service/user_service/auth"
 	userService "github.com/foxiswho/shop-go/service/example_service"
-	"github.com/labstack/echo"
-	"github.com/dgrijalva/jwt-go"
 	"fmt"
+	"github.com/foxiswho/shop-go/module/context"
 )
 
-func JwtApiHandler(c echo.Context) error {
+func JwtApiHandler(c *context.BaseContext) error {
 	//
-	log.Debugf("JwtApiHandler")
-	log.Debugf("JwtApiHandler")
-	log.Debugf("JwtApiHandler")
-	log.Debugf("JwtApiHandler")
-	log.Debugf("JwtApiHandler")
-	user := c.Get("user").(*jwt.Token)
-	claims := user.Claims.(*JwtCustomClaims)
-	name := claims.Name
-	log.Debugf("Claims",claims)
-	log.Debugf("name",name)
-	fmt.Println("ClaimsClaimsClaimsClaims",claims)
-	fmt.Println("ClaimsClaimsClaimsClaims",claims)
-	fmt.Println("ClaimsClaimsClaimsClaims",claims)
-	fmt.Println("name",name)
-	idStr := c.QueryParam("id")
-	id, err := strconv.ParseUint(idStr, 10, 64)
+	fmt.Println("id", c.GetUserId())
+	fmt.Println("id", c.SessionType)
+	id := c.GetUserId()
 
 	u := &auth.User{}
-	if err != nil {
-		log.Debugf("Render Error: %v", err)
+	if id < 1 {
+		log.Debugf("Render Error id: %v", id)
 	} else {
-		u = userService.GetUserById(id)
+		u = userService.GetUserById(uint64(id))
 	}
 
 	// 缓存测试
 	value := -1
-	if err == nil {
+	if u != nil {
 		cacheStore := cache.Default(c)
 		if id == 1 {
 			value = 0
@@ -64,11 +49,11 @@ func JwtApiHandler(c echo.Context) error {
 	s.AddFlash("20", "key2")
 	s.AddFlash("21", "key2")
 	c.Response().Header().Del("Access-Control-Allow-Origin")
-	c.Response().Header().Add("Access-Control-Allow-Origin","*")
+	c.Response().Header().Add("Access-Control-Allow-Origin", "*")
 	request := c.Request()
 	return c.JSON(http.StatusOK, map[string]interface{}{
 		"title":        "Api Index",
-		"Admin":         u,
+		"Admin":        u,
 		"CacheValue":   value,
 		"URL":          request.URL,
 		"Scheme":       request.URL.Scheme,

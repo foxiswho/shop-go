@@ -10,7 +10,7 @@ func SetContextTypeAdmin() echo.MiddlewareFunc {
 	return func(next echo.HandlerFunc) echo.HandlerFunc {
 		return func(c echo.Context) error {
 			x := c.(*BaseContext)
-			x.ContextType = context.Type_Admin
+			x.ContextType = context.Context_Type_Admin
 			return next(x)
 		}
 	}
@@ -21,7 +21,7 @@ func SetContextTypeUser() echo.MiddlewareFunc {
 	return func(next echo.HandlerFunc) echo.HandlerFunc {
 		return func(c echo.Context) error {
 			x := c.(*BaseContext)
-			x.ContextType = context.Type_Admin
+			x.ContextType = context.Context_Type_Admin
 			return next(x)
 		}
 	}
@@ -38,7 +38,7 @@ func SetSessionTypeJwt() echo.MiddlewareFunc {
 	return func(next echo.HandlerFunc) echo.HandlerFunc {
 		return func(c echo.Context) error {
 			x := c.(*BaseContext)
-			x.SessionType = context.Session_jwt
+			x.SessionType = context.Session_Type_jwt
 			return next(x)
 		}
 	}
@@ -49,7 +49,7 @@ func SetSessionTypeCookie() echo.MiddlewareFunc {
 	return func(next echo.HandlerFunc) echo.HandlerFunc {
 		return func(c echo.Context) error {
 			x := c.(*BaseContext)
-			x.SessionType = context.Session_cookie
+			x.SessionType = context.Session_Type_cookie
 			return next(x)
 		}
 	}
