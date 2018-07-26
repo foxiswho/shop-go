@@ -72,6 +72,7 @@ func RoutersAdmin() *echo.Echo {
 		{
 			//根据数据库生成 service
 			des.POST("/service", context.Handler(design.ServiceMakeHandler))
+			des.POST("/models", context.Handler(design.ModelsMakeHandler))
 		}
 		admin.Use(jwt.GetJwtMiddlewareAdmin())
 
