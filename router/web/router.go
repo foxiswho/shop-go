@@ -19,7 +19,6 @@ import (
 	web_index "github.com/foxiswho/shop-go/router/web/index"
 	web_test "github.com/foxiswho/shop-go/router/example/test"
 	example_admin "github.com/foxiswho/shop-go/router/example/admin"
-	"github.com/foxiswho/shop-go/router/example/api"
 	"github.com/foxiswho/shop-go/middleware/authadapter"
 	"github.com/casbin/casbin"
 	auth_casbin "github.com/foxiswho/shop-go/middleware/auth"
@@ -88,7 +87,7 @@ func Routers() *echo.Echo {
 		i := j.Group("/restricted")
 		{
 			i.Use(jwt.GetJwtMiddlewareUser())
-			i.GET("/xx", context.Handler(api.JwtApiHandler))
+			i.GET("/xx", context.Handler(web_test.JwtTesterHandler))
 		}
 	}
 	////////////////////////////
