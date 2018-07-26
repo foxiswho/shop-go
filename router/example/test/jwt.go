@@ -2,7 +2,7 @@ package test
 
 import "github.com/foxiswho/shop-go/module/context"
 
-func JwtTesterHandler(c *context.BaseContext) error {
+func JwtTester2Handler(c *context.BaseContext) error {
 	c.Set("tmpl", "example/test/jwt_tester")
 	c.Set("data", map[string]interface{}{
 		"title": "JWT 接口测试",
