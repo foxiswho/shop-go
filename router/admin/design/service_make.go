@@ -2,7 +2,6 @@ package design
 
 import (
 	"github.com/foxiswho/shop-go/module/db"
-	"fmt"
 	"text/template"
 	"os"
 	"strings"
@@ -10,14 +9,13 @@ import (
 	"net/http"
 	"github.com/foxiswho/shop-go/module/context"
 	"github.com/labstack/echo"
+	"github.com/foxiswho/shop-go/module/log"
 )
 
 func ServiceMakeHandler(c *context.BaseContext) error {
 
 	sql := "show tables"
 	result, err := db.Db().Engine.QueryString(sql)
-	fmt.Println("err", err)
-	fmt.Println("result", result)
 	if err != nil {
 		return c.JSON(http.StatusOK, echo.Map{
 			"code":    http.StatusBadRequest,
@@ -25,45 +23,39 @@ func ServiceMakeHandler(c *context.BaseContext) error {
 		})
 	} else {
 		template_file := "./template/design/make/service.go.tpl"
-		service_path := "./models/crud"
+
+		json:=make(map[string]interface{})
+		c.FormJson(json)
+		log.Debugf(" input dir: %v", json)
+		service_path := json["dir"].(string)
+		log.Debugf(" input dir: %v", service_path)
+		if len(service_path) < 1 {
+			service_path = "./models/crud"
+		}
 		field := "Tables_in_" + conf.Conf.DB.Name
-		for i, val := range result {
-			fmt.Println("result index=>", i)
-			fmt.Println("result val=>", val)
-			fmt.Println("result val=>", val[field])
+		for _, val := range result {
 			tmpl, err := template.ParseFiles(template_file)
-			fmt.Println("template err", err)
-			fmt.Println("template err", tmpl)
-			//val[field] = "admin_menu"
 			data := make(map[string]interface{})
 			data["tables"] = val[field]
 			//data["tables_first"] = gonicCasedName(val[field])
 			data["tables_Camel_Case"] = LintGonicMapper.Table2Obj(val[field])
-			fmt.Println("data=>", data)
-
-			//
-			//
-			//
 			err = os.MkdirAll(service_path, os.ModePerm)
 			if err != nil {
-				fmt.Println("%s", err)
-			} else {
-				fmt.Println("Create Directory OK! ", service_path)
+				log.Debugf("Create Directory ERROR! : %v", err)
 			}
+			log.Debugf("Create Directory OK! : %v", service_path)
 			service_file := service_path + "/" + val[field] + ".go"
-			fmt.Println("Create file :", service_file)
-			fmt.Println("Create file :", service_file)
-			fmt.Println("Create file :", service_file)
 			file, err := os.OpenFile(service_file, os.O_CREATE|os.O_WRONLY, os.ModePerm)
 			if err != nil {
-				fmt.Println("open failed err:", err)
 				return c.JSON(http.StatusOK, echo.Map{
 					"code":    http.StatusBadRequest,
-					"message": service_file+" 目录中 不能创建文件或不能创建目录 error:" + err.Error(),
+					"message": service_file + " 目录中 不能创建文件或不能创建目录 error:" + err.Error(),
 				})
 			} else {
 				err = tmpl.Execute(file, data)
-				fmt.Println("tmpl.Execute=>", err)
+				if err != nil {
+					log.Debugf(" Execute: %v", err)
+				}
 			}
 			//break
 		}

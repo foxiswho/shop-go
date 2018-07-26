@@ -11,6 +11,7 @@ import (
 	"net/http"
 	"fmt"
 	context2 "github.com/foxiswho/shop-go/consts/context"
+	"io/ioutil"
 )
 
 type BaseContext struct {
@@ -155,4 +156,12 @@ func (ctx *BaseContext) CookieDel(name string) {
 	cookie.Name = name
 	cookie.MaxAge = -1
 	http.SetCookie(ctx.Response(), cookie)
+}
+
+func (c *BaseContext) FormJson(m map[string]interface{}) error {
+	s, err := ioutil.ReadAll(c.Request().Body)
+	if err != nil {
+		return err
+	}
+	return json.Unmarshal(s, &m)
 }
