@@ -83,7 +83,7 @@ func Routers() *echo.Echo {
 	////////////////////////////
 	j := e.Group("/jwt")
 	{
-		j.Use(context.SetSessionTypeJwt())
+		//j.Use(context.SetSessionTypeJwt())
 		j.POST("/login", context.Handler(api.JwtLoginPostHandler))
 		i := j.Group("/restricted")
 		{

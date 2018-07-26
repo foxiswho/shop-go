@@ -46,12 +46,13 @@ func GetJwtMiddleware(ContextKey string) middleware.JWTConfig {
 
 func GetJwtClaims(token *jwt.Token) map[string]interface{} {
 	myMap := make(map[string]interface{})
-	if token.Claims != nil {
+	//fmt.Println(token.Claims)
+	if token.Claims == nil {
 		return myMap
 	}
-	maps, _ := conv.ObjToMap(token.Claims)
-	for index, value := range maps {
-		myMap[index] = &value
-	}
+	myMap, _ = conv.ObjToMap(token.Claims)
+	//for index, value := range maps {
+	//	myMap[index] = value
+	//}
 	return myMap
 }

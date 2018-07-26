@@ -17,7 +17,8 @@ import (
 func JwtApiHandler(c *context.BaseContext) error {
 	//
 	fmt.Println("id", c.GetUserId())
-	fmt.Println("id", c.SessionType)
+	fmt.Println("SessionType", c.SessionType)
+	fmt.Println("ContextType", c.ContextType)
 	id := c.GetUserId()
 
 	u := &auth.User{}
