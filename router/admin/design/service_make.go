@@ -9,6 +9,7 @@ import (
 	"github.com/foxiswho/shop-go/module/conf"
 	"net/http"
 	"github.com/foxiswho/shop-go/module/context"
+	"github.com/labstack/echo"
 )
 
 func ServiceMakeHandler(c *context.BaseContext) error {
@@ -18,11 +19,14 @@ func ServiceMakeHandler(c *context.BaseContext) error {
 	fmt.Println("err", err)
 	fmt.Println("result", result)
 	if err != nil {
-		fmt.Println("err", err)
+		return c.JSON(http.StatusOK, echo.Map{
+			"code":    http.StatusBadRequest,
+			"message": "数据库错误:" + err.Error(),
+		})
 	} else {
 		template_file := "./template/design/make/service.go.tpl"
 		service_path := "./models/crud"
-		field:="Tables_in_"+conf.Conf.DB.Name
+		field := "Tables_in_" + conf.Conf.DB.Name
 		for i, val := range result {
 			fmt.Println("result index=>", i)
 			fmt.Println("result val=>", val)
@@ -53,13 +57,20 @@ func ServiceMakeHandler(c *context.BaseContext) error {
 			file, err := os.OpenFile(service_file, os.O_CREATE|os.O_WRONLY, os.ModePerm)
 			if err != nil {
 				fmt.Println("open failed err:", err)
+				return c.JSON(http.StatusOK, echo.Map{
+					"code":    http.StatusBadRequest,
+					"message": service_file+" 目录中 不能创建文件或不能创建目录 error:" + err.Error(),
+				})
 			} else {
 				err = tmpl.Execute(file, data)
 				fmt.Println("tmpl.Execute=>", err)
 			}
 			//break
 		}
-		c.HTML(http.StatusOK,"create success")
+		return c.JSON(http.StatusOK, echo.Map{
+			"code":    http.StatusOK,
+			"message": "生成成功",
+		})
 	}
 	return nil
 }
