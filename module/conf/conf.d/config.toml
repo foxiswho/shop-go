@@ -18,6 +18,7 @@ keys = [
     "/server/domain_admin",
     "/server/domain_www",
     "/server/domain_socket",
+    "/server/domain_example",
     "/static/type",
     "/tmpl/type",
     "/tmpl/data",

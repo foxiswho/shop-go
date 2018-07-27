@@ -25,11 +25,13 @@ addr = ":8080"
 #domain_admin = "admin.a.net"
 #domain_api = "api.a.net"
 #domain_socket = "socket.a.net"
+#domain_example = "example.a.net"
 #domain_www = "localhost"
 #
 domain_admin = "echo.admin.localhost.com"
 domain_api = "echo.api.localhost.com"
 domain_socket = "echo.socket.localhost.com"
+domain_example = "echo.example.localhost.com"
 domain_www = "echo.www.localhost.com"
 
 [static]
