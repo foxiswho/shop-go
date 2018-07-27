@@ -6,6 +6,6 @@ type server struct {
 
 	DomainApi    string `toml:"domain_api"`
 	DomainAdmin  string `toml:"domain_admin"`
-	DomainWeb    string `toml:"domain_web"`
+	DomainWww    string `toml:"domain_www"`
 	DomainSocket string `toml:"domain_socket"`
 }

@@ -25,12 +25,12 @@ addr = ":8080"
 #domain_admin = "admin.a.net"
 #domain_api = "api.a.net"
 #domain_socket = "socket.a.net"
-#domain_web = "localhost"
+#domain_www = "localhost"
 #
 domain_admin = "echo.admin.localhost.com"
 domain_api = "echo.api.localhost.com"
 domain_socket = "echo.socket.localhost.com"
-domain_web = "echo.www.localhost.com"
+domain_www = "echo.www.localhost.com"
 
 [static]
 # BINDATA,FILE(FILE Default)
@@ -67,7 +67,7 @@ disable = true
 type = "jaeger"
 
 # jaeger serviceName
-service_name = "echo-web"
+service_name = "shop-go"
 
 # jaeger-agent 127.0.0.1:6831
 # appdash http://localhost:8700

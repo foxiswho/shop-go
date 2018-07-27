@@ -30,7 +30,7 @@ func InitRoutes() map[string]*Host {
 	// Hosts
 	hosts := make(map[string]*Host)
 
-	hosts[Conf.Server.DomainWeb] = &Host{web.Routers()}
+	hosts[Conf.Server.DomainWww] = &Host{web.Routers()}
 	hosts[Conf.Server.DomainSocket] = &Host{socket.Routers()}
 	hosts[Conf.Server.DomainAdmin] = &Host{admin.RoutersAdmin()}
 
@@ -72,7 +72,7 @@ func RunSubdomains(confFilePath string) {
 
 	// CORS
 	e.Use(mw.CORSWithConfig(mw.CORSConfig{
-		AllowOrigins: []string{"http://" + Conf.Server.DomainWeb, "http://" + Conf.Server.DomainApi},
+		AllowOrigins: []string{"http://" + Conf.Server.DomainWww, "http://" + Conf.Server.DomainApi},
 		AllowHeaders: []string{echo.HeaderOrigin, echo.HeaderContentType, echo.HeaderAcceptEncoding, echo.HeaderAuthorization},
 	}))
 	//系统初始化

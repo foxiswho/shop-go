@@ -135,7 +135,7 @@ server = "localhost:11211"
 [server]
 addr = ":8080"
 domain_api = "echo.api.localhost.com"
-domain_web = "echo.www.localhost.com"
+domain_www = "echo.www.localhost.com"
 domain_socket = "echo.socket.localhost.com"
 
 # 改host
