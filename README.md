@@ -165,13 +165,6 @@ server{
 ##### 6.Bindata打包工具，可选(运行可选，打包必选)
 > [Bindata安装](https://github.com/jteeuwen/go-bindata#installation)
 
-##### 用户名和密码
-可以到数据库表中查看，`user` 和`admin` 表
-
-
-> 后台 用户名:`admin` 密码:`admin` SALT:`admin`
-数据库密码字符串：`4aa5d9db91b596af1824ad20478e077e`
-
 ## 运行
 ```shell
 # 首次运行必须带 -a -t，更新assets.go、template.go的资源路径为本地
