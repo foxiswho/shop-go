@@ -24,6 +24,10 @@ RBAC权限,JWT、Socket,session,cookie,缓存,登录,注册,上传,db数据库�
 - go1.8+
 - Echo V3
 
+# 启动
+
+https://github.com/foxiswho/shop-go/wiki/90.run
+
 
 ##### 5.子域名
 ```shell
