@@ -9,4 +9,6 @@ const (
 	System_Cache = "system_cache"
 	//系统缓存二级标志
 	System_Cache_Sync_Level2_Mark = "-2"
+	//系统缓存三级标志
+	System_Cache_Sync_Level3_Mark = "-3"
 )
