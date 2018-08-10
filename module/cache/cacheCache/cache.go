@@ -1,7 +1,7 @@
 package cacheCache
 
 import (
-	"github.com/foxiswho/shop-go/models/setting/siteSetting"
+	"github.com/foxiswho/shop-go/models/setting/site_setting"
 	"github.com/foxiswho/shop-go/module/cache"
 	"time"
 	"github.com/foxiswho/shop-go/consts/cache/cache_consts"
