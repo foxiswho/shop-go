@@ -38,7 +38,7 @@ func LoadOneCache() {
 		log.Debugf("cacheCache.System_Cache cacheMemory.SiteSetting Find")
 	} else {
 		log.Debugf("cacheCache.System_Cache cacheMemory.SiteSetting SET")
-		site := &siteSetting.Site{}
+		site := &site_setting.Site{}
 		site.SiteName = "SHOP"
 		err := redis.HSet(cache_consts.System_Cache, memory_consts.SiteSetting, site, 0)
 		log.Debugf("cacheCache.System_Cache cacheMemory.SiteSetting SET RESULT", err)
