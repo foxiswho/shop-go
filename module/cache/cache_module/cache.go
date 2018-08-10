@@ -53,10 +53,10 @@ func SystemGet(key, field string, value interface{}) (error) {
 //设置 同步缓存
 func SystemSet(key, field string, value interface{}, expire time.Duration) (error) {
 	err := cache.ClientRedisStore().HSet(key, field, value, expire)
+	//传参
+	sys := systemUpdate{Key: key, Field: field}
 	//定时器更新二级缓存
-	timer.NewTimer(func(key, field string) {
-		updateSystemSet2(key, field)
-	}, System_Cache_Sync_Second_2)
+	timer.NewTimer(sys.function, System_Cache_Sync_Second_2)
 	return err
 }
 
@@ -86,4 +86,13 @@ func updateSystemSet2(key, field string) {
 			log.Debugf("updateSystemSet2 success:%v %v value:%v", key, field, value)
 		}
 	}
+}
+
+type systemUpdate struct {
+	Key   string
+	Field string
+}
+
+func (s systemUpdate) function() {
+	updateSystemSet2(s.Key, s.Field)
 }

@@ -5,7 +5,7 @@ import (
 	cache2 "github.com/foxiswho/shop-go/middleware/cache"
 	"time"
 	"github.com/foxiswho/shop-go/consts/cache/cache_consts"
-	"github.com/foxiswho/shop-go/module/cache/cacheMemory"
+	"github.com/foxiswho/shop-go/module/cache/memory_module"
 	"github.com/foxiswho/shop-go/module/log"
 	"strconv"
 )
