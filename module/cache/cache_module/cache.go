@@ -1,4 +1,4 @@
-package cacheCache
+package cache_module
 
 import (
 	"github.com/foxiswho/shop-go/models/setting/site_setting"

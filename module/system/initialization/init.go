@@ -1,7 +1,7 @@
 package initialization
 
 import (
-	"github.com/foxiswho/shop-go/module/cache/cacheCache"
+	"github.com/foxiswho/shop-go/module/cache/cache_module"
 	"github.com/foxiswho/shop-go/module/cache/cacheMemory"
 	"sync"
 	"github.com/foxiswho/shop-go/module/log"
@@ -21,7 +21,7 @@ func InitSystem() {
 func onces() {
 	log.Debugf("sync.Once 只加载一次缓存 cacheCache.LoadOneCache,cacheMemory.LoadOneCache,")
 	//缓存
-	cacheCache.LoadOneCache()
+	cache_module.LoadOneCache()
 	//内存缓存
 	cacheMemory.LoadOneCache()
 	//
