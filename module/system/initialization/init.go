@@ -2,7 +2,7 @@ package initialization
 
 import (
 	"github.com/foxiswho/shop-go/module/cache/cache_module"
-	"github.com/foxiswho/shop-go/module/cache/cacheMemory"
+	"github.com/foxiswho/shop-go/module/cache/memory_module"
 	"sync"
 	"github.com/foxiswho/shop-go/module/log"
 )
