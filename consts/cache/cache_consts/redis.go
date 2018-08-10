@@ -1,4 +1,4 @@
-package cacheCache
+package cache_consts
 
 const (
 	//内存和缓存同步

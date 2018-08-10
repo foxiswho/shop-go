@@ -4,7 +4,7 @@ import (
 	"github.com/foxiswho/shop-go/module/cache"
 	cache2 "github.com/foxiswho/shop-go/middleware/cache"
 	"time"
-	"github.com/foxiswho/shop-go/consts/cache/cacheCache"
+	"github.com/foxiswho/shop-go/consts/cache/cache_consts"
 	"github.com/foxiswho/shop-go/module/cache/cacheMemory"
 	"github.com/foxiswho/shop-go/module/log"
 	"strconv"
@@ -18,7 +18,7 @@ func ListenMemory() {
 	client := cache.ClientRedis()
 	redis := client.(*cache2.RedisStore)
 	//读取缓存，获取要更新的时间戳
-	systemCacheTime, err := redis.HGetAll(cacheCache.System_Cache_Memory_Sync_Time_Stamp)
+	systemCacheTime, err := redis.HGetAll(cache_consts.System_Cache_Memory_Sync_Time_Stamp)
 	if err != nil {
 		log.Debugf("ListenMemory HGetAll error: %v", err)
 		panic(err)
@@ -27,7 +27,7 @@ func ListenMemory() {
 	if systemCacheTime != nil && len(systemCacheTime) > 0 {
 		memoryCacheTime := make(map[string]int)
 		//获取内存中 该键最后更新时间
-		err := cacheMemory.MemoryGet(cacheCache.System_Cache_Memory_Sync, &memoryCacheTime)
+		err := cacheMemory.MemoryGet(cache_consts.System_Cache_Memory_Sync, &memoryCacheTime)
 		if err != nil {
 			log.Debugf("Listen Memory in cacheMemory error: %v", err)
 			memoryCacheTime = make(map[string]int)

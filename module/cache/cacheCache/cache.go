@@ -4,8 +4,8 @@ import (
 	"github.com/foxiswho/shop-go/models/setting/siteSetting"
 	"github.com/foxiswho/shop-go/module/cache"
 	"time"
-	"github.com/foxiswho/shop-go/consts/cache/cacheCache"
-	"github.com/foxiswho/shop-go/consts/cache/cacheMemory"
+	"github.com/foxiswho/shop-go/consts/cache/cache_consts"
+	"github.com/foxiswho/shop-go/consts/cache/memory_consts"
 	"github.com/foxiswho/shop-go/module/log"
 	"github.com/foxiswho/shop-go/module/timer"
 )
@@ -33,14 +33,14 @@ func Del(key string) (error) {
 
 func LoadOneCache() {
 	redis := cache.ClientRedisStore()
-	if redis.HExists(cacheCache.System_Cache, cacheMemory.SiteSetting) {
+	if redis.HExists(cache_consts.System_Cache, memory_consts.SiteSetting) {
 		//
 		log.Debugf("cacheCache.System_Cache cacheMemory.SiteSetting Find")
 	} else {
 		log.Debugf("cacheCache.System_Cache cacheMemory.SiteSetting SET")
 		site := &siteSetting.Site{}
 		site.SiteName = "SHOP"
-		err := redis.HSet(cacheCache.System_Cache, cacheMemory.SiteSetting, site, 0)
+		err := redis.HSet(cache_consts.System_Cache, memory_consts.SiteSetting, site, 0)
 		log.Debugf("cacheCache.System_Cache cacheMemory.SiteSetting SET RESULT", err)
 	}
 }
@@ -62,12 +62,12 @@ func SystemSet(key, field string, value interface{}, expire time.Duration) (erro
 
 //获取 同步二级缓存
 func SystemGet2(key, field string, value interface{}) (error) {
-	return cache.ClientRedisStore().HGet(key+cacheCache.System_Cache_Sync_Level2_Mark, field, value)
+	return cache.ClientRedisStore().HGet(key+cache_consts.System_Cache_Sync_Level2_Mark, field, value)
 }
 
 //设置 同步二级缓存
 func SystemSet2(key, field string, value interface{}, expire time.Duration) (error) {
-	return cache.ClientRedisStore().HSet(key+cacheCache.System_Cache_Sync_Level2_Mark, field, value, expire)
+	return cache.ClientRedisStore().HSet(key+cache_consts.System_Cache_Sync_Level2_Mark, field, value, expire)
 }
 
 //更新二级缓存

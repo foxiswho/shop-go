@@ -3,9 +3,9 @@ package cacheMemory
 import (
 	"github.com/foxiswho/shop-go/module/cache"
 	"time"
-	"github.com/foxiswho/shop-go/consts/cache/cacheMemory"
+	"github.com/foxiswho/shop-go/consts/cache/memory_consts"
 	cache2 "github.com/foxiswho/shop-go/middleware/cache"
-	"github.com/foxiswho/shop-go/consts/cache/cacheCache"
+	"github.com/foxiswho/shop-go/consts/cache/cache_consts"
 	"fmt"
 	"github.com/foxiswho/shop-go/module/log"
 	"github.com/foxiswho/shop-go/util/conv"
@@ -34,13 +34,13 @@ func loadOneCache() error {
 	//获取所有键值
 	fields := MemoryFields()
 	//获取所有系统缓存
-	arr, err := redis.HGetAll(cacheCache.System_Cache)
+	arr, err := redis.HGetAll(cache_consts.System_Cache)
 	if err != nil {
 		return err
 	}
 	fmt.Println("HGetAll System_Cache", arr)
 	//获取系统缓存最后更新时间戳 读取缓存中，同步的时间戳
-	arrSystem, err := redis.HGetAll(cacheCache.System_Cache_Memory_Sync)
+	arrSystem, err := redis.HGetAll(cache_consts.System_Cache_Memory_Sync)
 	if err != nil {
 		return err
 	}
@@ -64,7 +64,7 @@ func loadOneCache() error {
 			log.Debugf("MemoryGet %v => %v |||err=> %v ", key, tmp, err)
 		}
 		// 存储 更新时间戳
-		err = MemorySet(cacheCache.System_Cache_Memory_Sync, memory, Memory_Second)
+		err = MemorySet(cache_consts.System_Cache_Memory_Sync, memory, Memory_Second)
 		if err != nil {
 			log.Debugf("Listen Memory in cacheMemory error: %v", err)
 		}
@@ -77,7 +77,7 @@ func MemoryUpdateByCache(fields []string, memoryCacheTime map[string]int) {
 	redis := cache.ClientRedisStore()
 	find := make(map[string]bool)
 	//获取缓存
-	redisCache, err := redis.HGetAll(cacheCache.System_Cache)
+	redisCache, err := redis.HGetAll(cache_consts.System_Cache)
 	if err != nil {
 		log.Debugf("MemoryUpdateByCache HGetAll error: %v", err)
 	}
@@ -89,7 +89,7 @@ func MemoryUpdateByCache(fields []string, memoryCacheTime map[string]int) {
 				//更新 缓存
 				MemorySet(key, redisCache[key], Memory_Second)
 				// 存储 更新时间戳
-				err = MemorySet(cacheCache.System_Cache_Memory_Sync, memoryCacheTime, Memory_Second)
+				err = MemorySet(cache_consts.System_Cache_Memory_Sync, memoryCacheTime, Memory_Second)
 				if err != nil {
 					log.Debugf("Listen Memory in cacheMemory error: %v", err)
 				}
@@ -100,7 +100,7 @@ func MemoryUpdateByCache(fields []string, memoryCacheTime map[string]int) {
 
 //所有键名
 func MemoryFields() []string {
-	return []string{cacheMemory.SiteSetting}
+	return []string{memory_consts.SiteSetting}
 }
 
 //获取 缓存
