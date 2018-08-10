@@ -1,4 +1,4 @@
-package cacheMemory
+package memory_module
 
 import (
 	"github.com/foxiswho/shop-go/module/cache"

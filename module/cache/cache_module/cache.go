@@ -35,13 +35,13 @@ func LoadOneCache() {
 	redis := cache.ClientRedisStore()
 	if redis.HExists(cache_consts.System_Cache, memory_consts.SiteSetting) {
 		//
-		log.Debugf("cacheCache.System_Cache cacheMemory.SiteSetting Find")
+		log.Debugf("cacheCache.System_Cache memory_module.SiteSetting Find")
 	} else {
-		log.Debugf("cacheCache.System_Cache cacheMemory.SiteSetting SET")
+		log.Debugf("cacheCache.System_Cache memory_module.SiteSetting SET")
 		site := &site_setting.Site{}
 		site.SiteName = "SHOP"
 		err := redis.HSet(cache_consts.System_Cache, memory_consts.SiteSetting, site, 0)
-		log.Debugf("cacheCache.System_Cache cacheMemory.SiteSetting SET RESULT", err)
+		log.Debugf("cacheCache.System_Cache memory_module.SiteSetting SET RESULT", err)
 	}
 }
 

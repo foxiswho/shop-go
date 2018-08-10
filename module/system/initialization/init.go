@@ -23,7 +23,7 @@ func onces() {
 	//缓存
 	cache_module.LoadOneCache()
 	//内存缓存
-	cacheMemory.LoadOneCache()
+	memory_module.LoadOneCache()
 	//
 	log.Debugf("sync.Once 只加载一次缓存 END")
 }

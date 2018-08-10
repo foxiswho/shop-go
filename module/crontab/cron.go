@@ -3,9 +3,9 @@ package crontab
 import (
 	"github.com/robfig/cron"
 	"github.com/foxiswho/shop-go/module/log"
-	"github.com/foxiswho/shop-go/module/cache/cacheMemory"
 	"github.com/foxiswho/shop-go/util/datetime"
 	"github.com/foxiswho/shop-go/module/listen"
+	"github.com/foxiswho/shop-go/module/cache/memory_module"
 )
 
 var c *cron.Cron
@@ -28,7 +28,7 @@ func Task() {
 	spec := "*/5 * * * * ?"
 	c.AddFunc(spec, func() {
 		//只有内存数据加载过了，才执行此任务
-		if cacheMemory.Is_Load_Once {
+		if memory_module.Is_Load_Once {
 			//开始执行定时任务
 			//定时更新内存缓存
 			listen.ListenMemory()

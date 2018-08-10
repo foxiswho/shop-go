@@ -27,7 +27,7 @@ func ListenMemory() {
 	if systemCacheTime != nil && len(systemCacheTime) > 0 {
 		memoryCacheTime := make(map[string]int)
 		//获取内存中 该键最后更新时间
-		err := cacheMemory.MemoryGet(cache_consts.System_Cache_Memory_Sync, &memoryCacheTime)
+		err := memory_module.MemoryGet(cache_consts.System_Cache_Memory_Sync, &memoryCacheTime)
 		if err != nil {
 			log.Debugf("Listen Memory in cacheMemory error: %v", err)
 			memoryCacheTime = make(map[string]int)
@@ -54,7 +54,7 @@ func ListenMemory() {
 		// 更新指定缓存到内存中
 		if len(systemCacheTime) > 0 {
 			log.Debugf("updated cache fields : %v ", updateFields)
-			cacheMemory.MemoryUpdateByCache(updateFields, memoryCacheTime)
+			memory_module.MemoryUpdateByCache(updateFields, memoryCacheTime)
 		}
 	}
 }
