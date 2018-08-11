@@ -5,6 +5,9 @@ type AdminRoleAccess struct {
 	Aid       int `json:"aid" xorm:"not null default 0 comment('管理员ID') unique(aid_role_id) INT(11)"`
 	RoleId    int `json:"role_id" xorm:"not null default 0 comment('角色ID') unique(aid_role_id) INT(11)"`
 	IsDefault int `json:"is_default" xorm:"not null default 0 comment('是否默认') TINYINT(1)"`
+
+	//
+	ExtData interface{} `json:"ExtData" xorm:"- <- ->"`
 }
 
 //初始化

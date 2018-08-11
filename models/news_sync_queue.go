@@ -13,6 +13,9 @@ type NewsSyncQueue struct {
 	GmtCreate   time.Time `json:"gmt_create" xorm:"default 'current_timestamp()' comment('插入时间') TIMESTAMP"`
 	Msg         string    `json:"msg" xorm:"default 'NULL' comment('内容') VARCHAR(255)"`
 	MapId       int       `json:"map_id" xorm:"not null default 0 comment('同步ID') INT(11)"`
+
+	//
+	ExtData interface{} `json:"ExtData" xorm:"- <- ->"`
 }
 
 //初始化

@@ -22,6 +22,9 @@ type Stock struct {
 	Mark         string    `json:"mark" xorm:"default 'NULL' comment('标志') unique CHAR(32)"`
 	GmtCreate    time.Time `json:"gmt_create" xorm:"default 'current_timestamp()' comment('创建时间') TIMESTAMP"`
 	GmtModified  time.Time `json:"gmt_modified" xorm:"default 'current_timestamp()' comment('更新时间') TIMESTAMP"`
+
+	//
+	ExtData interface{} `json:"ExtData" xorm:"- <- ->"`
 }
 
 //初始化

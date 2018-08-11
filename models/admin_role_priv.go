@@ -8,6 +8,9 @@ type AdminRolePriv struct {
 	Aid    int    `json:"aid" xorm:"not null default 0 comment('管理员ID') INT(10)"`
 	MenuId int    `json:"menu_id" xorm:"not null default 0 comment('菜单ID') INT(10)"`
 	Type   string `json:"type" xorm:"not null default ''url'' comment('类别url菜单function独立功能user用户独有') CHAR(32)"`
+
+	//
+	ExtData interface{} `json:"ExtData" xorm:"- <- ->"`
 }
 
 //初始化

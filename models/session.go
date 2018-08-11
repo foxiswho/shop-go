@@ -15,6 +15,9 @@ type Session struct {
 	TypeClient  int       `json:"type_client" xorm:"not null default 0 comment('登录客户端类别;321电脑;322安卓;323IOS;324手机网页;325其他') index(uid) INT(11)"`
 	GmtCreate   time.Time `json:"gmt_create" xorm:"default 'current_timestamp()' comment('登录时间') TIMESTAMP"`
 	GmtModified time.Time `json:"gmt_modified" xorm:"default 'current_timestamp()' comment('更新时间') TIMESTAMP"`
+
+	//
+	ExtData interface{} `json:"ExtData" xorm:"- <- ->"`
 }
 
 //初始化

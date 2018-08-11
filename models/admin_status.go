@@ -13,6 +13,9 @@ type AdminStatus struct {
 	AidUpdate   int       `json:"aid_update" xorm:"not null default 0 comment('更新人') INT(11)"`
 	GmtModified time.Time `json:"gmt_modified" xorm:"default 'NULL' comment('更新时间') TIMESTAMP"`
 	Remark      string    `json:"remark" xorm:"default 'NULL' comment('备注') VARCHAR(255)"`
+
+	//
+	ExtData interface{} `json:"ExtData" xorm:"- <- ->"`
 }
 
 //初始化

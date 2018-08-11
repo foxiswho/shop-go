@@ -13,6 +13,9 @@ type UserProfile struct {
 	Address     string `json:"address" xorm:"default 'NULL' comment('地址') VARCHAR(255)"`
 	Wechat      string `json:"wechat" xorm:"default 'NULL' comment('微信') VARCHAR(20)"`
 	RemarkAdmin string `json:"remark_admin" xorm:"default 'NULL' comment('客服备注') TEXT"`
+
+	//
+	ExtData interface{} `json:"ExtData" xorm:"- <- ->"`
 }
 
 //初始化

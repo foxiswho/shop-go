@@ -15,15 +15,15 @@ type Order struct {
 	TypeId         int       `json:"type_id" xorm:"not null default 0 comment('类别,1普通订单;') index INT(10)"`
 	TypeIdAdmin    int       `json:"type_id_admin" xorm:"not null default 0 comment('类别,1普通订单;后台设置') index INT(10)"`
 	TypeIdSub      int       `json:"type_id_sub" xorm:"not null default 0 comment('其他类别') INT(11)"`
-	VatFee         int64     `json:"vat_fee" xorm:"not null default 0 comment('增值税费') BIGINT(20)"`
-	SalesFee       int64     `json:"sales_fee" xorm:"not null default 0 comment('消费税') BIGINT(20)"`
-	AmountFreight  int64     `json:"amount_freight" xorm:"not null default 0 comment('物流费用') BIGINT(20)"`
-	AmountDiscount int64     `json:"amount_discount" xorm:"not null default 0 comment('折扣金额') BIGINT(20)"`
-	AmountGoods    int64     `json:"amount_goods" xorm:"not null default 0 comment('商品总金额') BIGINT(20)"`
-	AmountOther    int64     `json:"amount_other" xorm:"not null comment('其他价格费用') BIGINT(20)"`
-	AmountTax      int64     `json:"amount_tax" xorm:"not null default 0 comment('税费') BIGINT(20)"`
-	AmountOrder    int64     `json:"amount_order" xorm:"not null default 0 comment('订单总额') BIGINT(20)"`
-	AmountPayment  int64     `json:"amount_payment" xorm:"not null default 0 comment('支付总额,已付款金额(实际付款金额)') BIGINT(20)"`
+	VatFee         float64   `json:"vat_fee" xorm:"not null default 0.0000 comment('增值税费') DECIMAL(28,4)"`
+	SalesFee       float64   `json:"sales_fee" xorm:"not null default 0.0000 comment('消费税') DECIMAL(28,4)"`
+	AmountFreight  float64   `json:"amount_freight" xorm:"not null default 0.0000 comment('物流费用') DECIMAL(28,4)"`
+	AmountDiscount float64   `json:"amount_discount" xorm:"not null default 0.0000 comment('折扣金额') DECIMAL(28,4)"`
+	AmountGoods    float64   `json:"amount_goods" xorm:"not null default 0.0000 comment('商品总金额') DECIMAL(28,4)"`
+	AmountOther    float64   `json:"amount_other" xorm:"not null comment('其他价格费用') DECIMAL(28,4)"`
+	AmountTax      float64   `json:"amount_tax" xorm:"not null default 0.0000 comment('税费') DECIMAL(28,4)"`
+	AmountOrder    float64   `json:"amount_order" xorm:"not null default 0.0000 comment('订单总额') DECIMAL(28,4)"`
+	AmountPayment  float64   `json:"amount_payment" xorm:"not null default 0.0000 comment('支付总额,已付款金额(实际付款金额)') DECIMAL(28,4)"`
 	Total          int       `json:"total" xorm:"not null default 0 comment('总数量') INT(10)"`
 	TotalNoReceipt int       `json:"total_no_receipt" xorm:"not null default 0 comment('未收货数量') INT(10)"`
 	Sid            int       `json:"sid" xorm:"not null default 0 comment('供应商ID') index INT(11)"`
@@ -58,11 +58,14 @@ type Order struct {
 	IsPaid         int       `json:"is_paid" xorm:"not null default 0 comment('是否已支付') TINYINT(1)"`
 	IsPaidSystem   int       `json:"is_paid_system" xorm:"not null default 0 comment('是否已支付(系统自动)') TINYINT(1)"`
 	TimePaidSystem time.Time `json:"time_paid_system" xorm:"default 'NULL' comment('系统支付时间') DATETIME"`
-	ExchangeRate   int64     `json:"exchange_rate" xorm:"not null default 0 comment('汇率') BIGINT(20)"`
+	ExchangeRate   float64   `json:"exchange_rate" xorm:"not null default 0.0000 comment('汇率') DECIMAL(28,4)"`
 	CurrencyMark   string    `json:"currency_mark" xorm:"default 'NULL' comment('币制') CHAR(3)"`
 	GetId          int       `json:"get_id" xorm:"not null default 0 comment('优惠券') INT(11)"`
-	UseWallet      int64     `json:"use_wallet" xorm:"not null default 0 comment('使用钱包') BIGINT(20)"`
-	UseCredit      int64     `json:"use_credit" xorm:"not null default 0 comment('使用积分') BIGINT(20)"`
+	UseWallet      float64   `json:"use_wallet" xorm:"not null default 0.0000 comment('使用钱包') DECIMAL(28,4)"`
+	UseCredit      float64   `json:"use_credit" xorm:"not null default 0.0000 comment('使用积分') DECIMAL(28,4)"`
+
+	//
+	ExtData interface{} `json:"ExtData" xorm:"- <- ->"`
 }
 
 //初始化

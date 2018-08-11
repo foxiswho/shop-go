@@ -10,6 +10,9 @@ type UserGroup struct {
 	IsDel       int    `json:"is_del" xorm:"not null default 0 comment('是否删除1是0否') index TINYINT(1)"`
 	Mark        string `json:"mark" xorm:"default 'NULL' comment('标志') CHAR(15)"`
 	Qq          string `json:"qq" xorm:"default 'NULL' comment('客服') VARCHAR(15)"`
+
+	//
+	ExtData interface{} `json:"ExtData" xorm:"- <- ->"`
 }
 
 //初始化

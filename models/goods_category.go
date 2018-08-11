@@ -16,6 +16,9 @@ type GoodsCategory struct {
 	IsDel       int       `json:"is_del" xorm:"not null default 0 comment('是否删除1是0否') TINYINT(1)"`
 	GmtCreate   time.Time `json:"gmt_create" xorm:"default 'current_timestamp()' comment('添加时间') TIMESTAMP"`
 	GmtModified time.Time `json:"gmt_modified" xorm:"default 'current_timestamp()' comment('更新时间') TIMESTAMP"`
+
+	//
+	ExtData interface{} `json:"ExtData" xorm:"- <- ->"`
 }
 
 //初始化

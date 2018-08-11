@@ -8,6 +8,9 @@ type Area struct {
 	Type            int    `json:"type" xorm:"default 0 comment('类别;0默认;') TINYINT(4)"`
 	NameTraditional string `json:"name_traditional" xorm:"default '''' comment('繁体名称') VARCHAR(50)"`
 	Sort            int    `json:"sort" xorm:"default 0 comment('排序') INT(11)"`
+
+	//
+	ExtData interface{} `json:"ExtData" xorm:"- <- ->"`
 }
 
 //初始化

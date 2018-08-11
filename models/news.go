@@ -33,6 +33,9 @@ type News struct {
 	IsRead      int       `json:"is_read" xorm:"not null default 10014 comment('是否阅读10014未看10015在看10016已看') INT(11)"`
 	Sort        int       `json:"sort" xorm:"not null default 0 comment('排序') index(is_del) INT(11)"`
 	Remark      string    `json:"remark" xorm:"default 'NULL' comment('备注') VARCHAR(255)"`
+
+	//
+	ExtData interface{} `json:"ExtData" xorm:"- <- ->"`
 }
 
 //初始化

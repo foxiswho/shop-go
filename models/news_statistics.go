@@ -8,6 +8,9 @@ type NewsStatistics struct {
 	SeoTitle       string `json:"seo_title" xorm:"default 'NULL' comment('SEO标题') VARCHAR(255)"`
 	SeoDescription string `json:"seo_description" xorm:"default 'NULL' comment('SEO摘要') VARCHAR(255)"`
 	SeoKeyword     string `json:"seo_keyword" xorm:"default 'NULL' comment('SEO关键词') VARCHAR(255)"`
+
+	//
+	ExtData interface{} `json:"ExtData" xorm:"- <- ->"`
 }
 
 //初始化

@@ -19,6 +19,10 @@ type User struct {
 	Name        string    `json:"name" xorm:"default 'NULL' comment('店铺名称') VARCHAR(100)"`
 	GmtCreate   time.Time `json:"gmt_create" xorm:"default 'current_timestamp()' comment('添加时间') TIMESTAMP"`
 	GmtModified time.Time `json:"gmt_modified" xorm:"default 'current_timestamp()' comment('更新时间') TIMESTAMP"`
+	TypePrice   int       `json:"type_price" xorm:"default 0 comment('自定义价格类别') INT(10)"`
+
+	//
+	ExtData interface{} `json:"ExtData" xorm:"- <- ->"`
 }
 
 //初始化

@@ -17,6 +17,9 @@ type Template struct {
 	GmtModified time.Time `json:"gmt_modified" xorm:"default 'current_timestamp()' comment('更新时间') TIMESTAMP"`
 	CodeNum     int       `json:"code_num" xorm:"not null default 0 comment('验证码位数') TINYINT(3)"`
 	Aid         int       `json:"aid" xorm:"not null default 0 comment('添加人') INT(11)"`
+
+	//
+	ExtData interface{} `json:"ExtData" xorm:"- <- ->"`
 }
 
 //初始化

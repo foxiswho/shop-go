@@ -18,6 +18,7 @@ type Attachment struct {
 	IsThumb      int       `json:"is_thumb" xorm:"not null default 0 comment('是否缩略图1是0否') TINYINT(1)"`
 	Downloads    int       `json:"downloads" xorm:"not null default 0 comment('下载次数') INT(8)"`
 	GmtCreate    time.Time `json:"gmt_create" xorm:"not null default 'current_timestamp()' comment('添加时间上传时间') TIMESTAMP"`
+	GmtModified  time.Time `json:"gmt_modified" xorm:"default 'current_timestamp()' comment('更新时间') TIMESTAMP"`
 	Ip           string    `json:"ip" xorm:"default 'NULL' comment('上传IP') CHAR(15)"`
 	Status       int       `json:"status" xorm:"not null default 0 comment('状态99正常;') index TINYINT(2)"`
 	Md5          string    `json:"md5" xorm:"default 'NULL' comment('md5') index CHAR(32)"`
@@ -27,6 +28,9 @@ type Attachment struct {
 	Uid          int       `json:"uid" xorm:"not null default 0 comment('前台用户ID') index INT(10)"`
 	IsShow       int       `json:"is_show" xorm:"not null default 1 comment('是否显示1是0否') index TINYINT(1)"`
 	Http         string    `json:"http" xorm:"default 'NULL' comment('图片http地址') VARCHAR(100)"`
+
+	//
+	ExtData interface{} `json:"ExtData" xorm:"- <- ->"`
 }
 
 //初始化

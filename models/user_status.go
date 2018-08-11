@@ -17,6 +17,9 @@ type UserStatus struct {
 	IsMobile       int       `json:"is_mobile" xorm:"not null default 0 comment('手机号是否已验证1已验证0未验证') TINYINT(1)"`
 	IsEmail        int       `json:"is_email" xorm:"not null default 0 comment('邮箱是否已验证1已验证0未验证') TINYINT(1)"`
 	AidAdd         int       `json:"aid_add" xorm:"not null default 0 comment('客服AID') INT(11)"`
+
+	//
+	ExtData interface{} `json:"ExtData" xorm:"- <- ->"`
 }
 
 //初始化

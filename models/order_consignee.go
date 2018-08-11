@@ -18,6 +18,9 @@ type OrderConsignee struct {
 	CityName     string `json:"city_name" xorm:"default 'NULL' comment('市') CHAR(50)"`
 	DistrictName string `json:"district_name" xorm:"default 'NULL' comment('区') CHAR(50)"`
 	AddressAll   string `json:"address_all" xorm:"default 'NULL' comment('地址') VARCHAR(255)"`
+
+	//
+	ExtData interface{} `json:"ExtData" xorm:"- <- ->"`
 }
 
 //初始化

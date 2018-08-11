@@ -11,6 +11,9 @@ type AreaExt struct {
 	Sort            int    `json:"sort" xorm:"default 0 comment('排序') INT(11)"`
 	TypeName        string `json:"type_name" xorm:"default '''' comment('类别名称') VARCHAR(50)"`
 	OtherName       string `json:"other_name" xorm:"default '''' comment('根据类别名称填写') VARCHAR(50)"`
+
+	//
+	ExtData interface{} `json:"ExtData" xorm:"- <- ->"`
 }
 
 //初始化

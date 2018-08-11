@@ -25,6 +25,9 @@ type Type struct {
 	IsChild   int       `json:"is_child" xorm:"not null default 0 comment('是否有子类1是0否') TINYINT(1)"`
 	IsSystem  int       `json:"is_system" xorm:"not null default 0 comment('系统参数禁止修改') TINYINT(1)"`
 	IsShow    int       `json:"is_show" xorm:"not null default 0 comment('是否显示在配置页面上') TINYINT(1)"`
+
+	//
+	ExtData interface{} `json:"ExtData" xorm:"- <- ->"`
 }
 
 //初始化

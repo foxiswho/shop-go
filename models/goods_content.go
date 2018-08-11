@@ -8,6 +8,9 @@ type GoodsContent struct {
 	Content        string `json:"content" xorm:"default 'NULL' comment('内容') TEXT"`
 	Remark         string `json:"remark" xorm:"default 'NULL' comment('备注紧供自己查看') VARCHAR(255)"`
 	TitleOther     string `json:"title_other" xorm:"default 'NULL' comment('其他名称') VARCHAR(5000)"`
+
+	//
+	ExtData interface{} `json:"ExtData" xorm:"- <- ->"`
 }
 
 //初始化

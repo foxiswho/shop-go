@@ -14,6 +14,9 @@ type NewsSyncMapping struct {
 	Mark        string    `json:"mark" xorm:"default 'NULL' comment('标志') CHAR(32)"`
 	IsSync      int       `json:"is_sync" xorm:"not null default 0 comment('是否同步过') TINYINT(1)"`
 	Extend      string    `json:"extend" xorm:"default 'NULL' comment('扩展参数') VARCHAR(5000)"`
+
+	//
+	ExtData interface{} `json:"ExtData" xorm:"- <- ->"`
 }
 
 //初始化

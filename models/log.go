@@ -17,6 +17,9 @@ type Log struct {
 	TypeClient int       `json:"type_client" xorm:"not null default 0 comment('登录客户端类别;321电脑;322安卓;323IOS;324手机网页;325其他') index INT(11)"`
 	Ip         string    `json:"ip" xorm:"default 'NULL' comment('IP') CHAR(20)"`
 	Msg        string    `json:"msg" xorm:"default 'NULL' comment('自定义说明') VARCHAR(255)"`
+
+	//
+	ExtData interface{} `json:"ExtData" xorm:"- <- ->"`
 }
 
 //初始化

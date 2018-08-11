@@ -14,6 +14,9 @@ type AdminMenu struct {
 	Md5      string `json:"md5" xorm:"default 'NULL' comment('s的md5值') CHAR(32)"`
 	IsShow   int    `json:"is_show" xorm:"not null default 1 comment('显示隐藏;1显示;0隐藏') TINYINT(1)"`
 	IsUnique int    `json:"is_unique" xorm:"not null default 0 comment('用户独有此功能1是0否') TINYINT(1)"`
+
+	//
+	ExtData interface{} `json:"ExtData" xorm:"- <- ->"`
 }
 
 //初始化

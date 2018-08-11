@@ -9,6 +9,9 @@ type CasbinRule struct {
 	V4    string `json:"v4" xorm:"default 'NULL' index VARCHAR(100)"`
 	V5    string `json:"v5" xorm:"default 'NULL' index VARCHAR(100)"`
 	Id    int    `json:"id" xorm:"not null pk autoincr INT(1)"`
+
+	//
+	ExtData interface{} `json:"ExtData" xorm:"- <- ->"`
 }
 
 //初始化

@@ -6,7 +6,7 @@ import (
 
 type Admin struct {
 	Id           int       `json:"id" xorm:"not null pk autoincr INT(11)"`
-	Username     string    `json:"username" xorm:"default 'NULL' comment('用户名') index CHAR(30)"`
+	Username     string    `json:"username" xorm:"default 'NULL' comment('用户名') index CHAR(50)"`
 	Password     string    `json:"password" xorm:"default 'NULL' comment('密码') CHAR(32)"`
 	Mail         string    `json:"mail" xorm:"default 'NULL' comment('邮箱') VARCHAR(80)"`
 	Salt         string    `json:"salt" xorm:"default 'NULL' comment('干扰码') VARCHAR(10)"`
@@ -29,7 +29,7 @@ type Admin struct {
 	RoleId       int       `json:"role_id" xorm:"not null comment('角色id(主)') index INT(11)"`
 
 	//
-	ExtData      interface{} `json:"ExtData" xorm:"- <- ->"`
+	ExtData interface{} `json:"ExtData" xorm:"- <- ->"`
 }
 
 //初始化
