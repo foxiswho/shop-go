@@ -58,11 +58,11 @@ type Order struct {
 	IsPaid         int       `json:"is_paid" xorm:"not null default 0 comment('是否已支付') TINYINT(1)"`
 	IsPaidSystem   int       `json:"is_paid_system" xorm:"not null default 0 comment('是否已支付(系统自动)') TINYINT(1)"`
 	TimePaidSystem time.Time `json:"time_paid_system" xorm:"default 'NULL' comment('系统支付时间') DATETIME"`
-	ExchangeRate   float64   `json:"exchange_rate" xorm:"not null default 0.0000 comment('汇率') DECIMAL(28,4)"`
+	ExchangeRate   float64   `json:"exchange_rate" xorm:"not null default 0.0000 comment('汇率') DECIMAL(28,8)"`
 	CurrencyMark   string    `json:"currency_mark" xorm:"default 'NULL' comment('币制') CHAR(3)"`
 	GetId          int       `json:"get_id" xorm:"not null default 0 comment('优惠券') INT(11)"`
 	UseWallet      float64   `json:"use_wallet" xorm:"not null default 0.0000 comment('使用钱包') DECIMAL(28,4)"`
-	UseCredit      float64   `json:"use_credit" xorm:"not null default 0.0000 comment('使用积分') DECIMAL(28,4)"`
+	UseCredit      int   `json:"use_credit" xorm:"not null default 0.0000 comment('使用积分') INT(11)"`
 
 	//
 	ExtData interface{} `json:"ExtData" xorm:"- <- ->"`

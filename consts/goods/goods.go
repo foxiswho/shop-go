@@ -21,4 +21,10 @@ const (
 	//价格类别
 	Price_Type_Default  = 21001 //默认
 	Price_Type_Discount = 21002 //优惠
+	//
+	Price_Type_Sub_Default     = 21101 //默认
+	Price_Type_Sub_User        = 21111 //指定用户
+	Price_Type_Sub_Group       = 21121 //指定用户组
+	Price_Type_Sub_Custom_Type = 21131 //自定义类别
+	Price_Type_Sub_Activity    = 21141 //活动
 )

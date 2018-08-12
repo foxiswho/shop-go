@@ -28,17 +28,17 @@ type Ext struct {
 type Order struct {
 	PayId          int    //支付方式
 	TypeId         int    //类别
-	OrderStatus    string //订单状态
+	OrderStatus    int //订单状态
 	OrderSn        string //自定义单号
-	Discount       int    //优惠金额
-	UseWalletMoney int    //使用钱包
+	Discount       float64    //优惠金额
+	UseWalletMoney float64    //使用钱包
 	UseCredit      int    //使用积分
 	WarehouseId    int    //仓库
 	Sid            int    //供应商ID
 	IsCustomPrice  bool   //是否使用自定义价格
 	//
 	User           session_models.User
-	GoodsData      []Goods //商品数据
+	Goods      []Goods //商品数据
 	OrderConsignee models.OrderConsignee
 	Ext            Ext
 }

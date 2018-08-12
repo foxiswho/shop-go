@@ -113,3 +113,59 @@ func Time() string {
 func YearMonth() string {
 	return Format(time.Now(), Y_M)
 }
+
+//时间格式化
+func TimeFormatByYmdHms(year int, month time.Month, day, hour, min, sec int) time.Time {
+	return time.Date(year, month, day, hour, min, sec, 0, time.Local)
+}
+
+//当前年月日
+func NowYearMonthDay() (year int, month time.Month, day int) {
+	return time.Now().Date()
+}
+
+//当前时分秒
+func NowHourMinSec() (hour, min, sec int) {
+	return time.Now().Clock()
+}
+
+//输出当前日期是星期几
+func Weekday() string {
+	return time.Now().Weekday().String()
+}
+
+func ISOWeekStart(t time.Time) time.Time {
+	wd := t.Weekday()
+	if wd == time.Monday {
+		return t
+	}
+	offset := int(time.Monday - wd)
+	if offset > 0 {
+		offset -= 7
+	}
+	return t.AddDate(0, 0, offset)
+}
+
+//指定日期是年中的第几天
+func GetDaysInYear(t string) int {
+	now, _ := FormatTimeStruct(t, Y_M_D)
+	total := 0
+	arr := []int{31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31}
+	y, month, d := now.Date()
+	m := int(month)
+	for i := 0; i < m-1; i++ {
+		total = total + arr[i]
+	}
+	if (y%400 == 0 || (y%4 == 0 && y%100 != 0)) && m > 2 {
+		total = total + d + 1
+
+	} else {
+		total = total + d
+	}
+	return total;
+}
+
+//年中的第几天
+func GetDaysInYearByThisYear() int {
+	return GetDaysInYear(Date())
+}

@@ -7,4 +7,5 @@ type User struct {
 	Mail     string `json:"mail" xorm:"default 'NULL' comment('邮箱') index CHAR(32)"`
 	GroupId  int    `json:"group_id" xorm:"not null default 410 comment('用户组ID') index INT(11)"`
 	Name     string `json:"name" xorm:"default 'NULL' comment('店铺名称') VARCHAR(100)"`
+	TypePrice   int       `json:"type_price" xorm:"default 0 comment('自定义价格类别') INT(10)"`
 }
