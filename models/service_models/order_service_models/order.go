@@ -13,9 +13,10 @@ type Coupon struct {
 
 //商品数据
 type Goods struct {
-	PriceId int //价格ID
-	GoodsId int //商品ID
-	Price   int //单价
+	PriceId int     //价格ID
+	GoodsId int     //商品ID
+	Price   float64 //单价
+	Num     int     //数量
 }
 
 //扩展数据
@@ -26,19 +27,19 @@ type Ext struct {
 
 //订单
 type Order struct {
-	PayId          int    //支付方式
-	TypeId         int    //类别
-	OrderStatus    int //订单状态
-	OrderSn        string //自定义单号
-	Discount       float64    //优惠金额
-	UseWalletMoney float64    //使用钱包
-	UseCredit      int    //使用积分
-	WarehouseId    int    //仓库
-	Sid            int    //供应商ID
-	IsCustomPrice  bool   //是否使用自定义价格
+	PayId          int     //支付方式
+	TypeId         int     //类别
+	OrderStatus    int     //订单状态
+	OrderSn        string  //自定义单号
+	Discount       float64 //优惠金额
+	UseWalletMoney float64 //使用钱包
+	UseCredit      int     //使用积分
+	WarehouseId    int     //仓库
+	Sid            int     //供应商ID
+	IsCustomPrice  bool    //是否使用自定义价格
 	//
 	User           session_models.User
-	Goods      []Goods //商品数据
+	Goods          []Goods //商品数据
 	OrderConsignee models.OrderConsignee
 	Ext            Ext
 }

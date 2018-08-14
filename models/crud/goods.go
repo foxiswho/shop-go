@@ -1,4 +1,3 @@
-
 package crud
 
 import (
@@ -9,7 +8,6 @@ import (
 )
 
 type GoodsCrud struct {
-
 }
 
 func NewGoodsCrud() *GoodsCrud {
@@ -56,24 +54,47 @@ func (s *GoodsCrud) GetAll(where []*db.QueryCondition, fields []string, orderBy 
 	return Query, nil
 }
 
-
 // 获取 单条记录
 func (s *GoodsCrud) GetById(id int) (*models.Goods, error) {
-    m:=new(models.Goods)
+	m := new(models.Goods)
 	m.Id = id
 	ok, err := db.Db().Engine.Get(m)
-    if err != nil {
-        return nil, err
-    }
-    if !ok{
-        return nil,util.NewError("数据不存在:"+err.Error())
-    }
-    return m, nil
+	if err != nil {
+		return nil, err
+	}
+	if !ok {
+		return nil, util.NewError("数据不存在:" + err.Error())
+	}
+	return m, nil
+}
+
+// 获取 多条记录
+func (s *GoodsCrud) GetByIds(id []int) ([]models.Goods, error) {
+	data := goodsNewMakeDataArr()
+	err := db.Db().Engine.In("id", id).Find(&data)
+	if err != nil {
+		return nil, err
+	}
+	return data, nil
+}
+
+// 获取 多条记录
+func (s *GoodsCrud) GetByIdsIndex(id []int) (map[int]*models.Goods, error) {
+	data := goodsNewMakeDataArr()
+	err := db.Db().Engine.In("id", id).Find(&data)
+	if err != nil {
+		return nil, err
+	}
+	data_index := make(map[int]*models.Goods)
+	for _, val := range data {
+		data_index[val.Id] = &val
+	}
+	return data_index, nil
 }
 
 // 删除 单条记录
 func (s *GoodsCrud) Delete(id int) (int64, error) {
-	m:=new(models.Goods)
+	m := new(models.Goods)
 	m.Id = id
 	num, err := db.Db().Engine.Delete(m)
 	if err == nil {

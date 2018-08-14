@@ -71,6 +71,32 @@ func (s *GoodsPriceCrud) GetById(id int) (*models.GoodsPrice, error) {
     return m, nil
 }
 
+
+// 获取 多条记录
+func (s *GoodsPriceCrud) GetByIds(id []int) ([]models.GoodsPrice, error) {
+	data := goods_priceNewMakeDataArr()
+	err := db.Db().Engine.In("id", id).Find(&data)
+	if err != nil {
+		return nil, err
+	}
+	return data, nil
+}
+
+// 获取 多条记录
+func (s *GoodsPriceCrud) GetByIdsIndex(id []int) (map[int]*models.GoodsPrice, error) {
+	data := goods_priceNewMakeDataArr()
+	err := db.Db().Engine.In("id", id).Find(&data)
+	if err != nil {
+		return nil, err
+	}
+	data_index := make(map[int]*models.GoodsPrice)
+	for _, val := range data {
+		data_index[val.Id] = &val
+	}
+	return data_index, nil
+}
+
+
 // 删除 单条记录
 func (s *GoodsPriceCrud) Delete(id int) (int64, error) {
 	m:=new(models.GoodsPrice)

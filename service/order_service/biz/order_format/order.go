@@ -5,6 +5,8 @@ import (
 	"github.com/foxiswho/shop-go/models/service_models/order_service_models"
 	"github.com/foxiswho/shop-go/models"
 	"github.com/foxiswho/shop-go/module/number"
+	"github.com/foxiswho/shop-go/models/crud"
+	"github.com/foxiswho/shop-go/util"
 )
 
 //订单
@@ -26,6 +28,8 @@ type Order struct {
 	ext            order_service_models.Ext
 	order          *models.Order
 	orderGoods     []*models.OrderGoods
+	//
+	goodsStructs map[int]*models.GoodsStruct //商品价格数据
 }
 
 func NewOrder() *Order {
@@ -106,15 +110,64 @@ func (c *Order) formatOrder() {
 	order.UseCredit = c.useCredit
 	c.order = order
 }
-func (c *Order) formatGoods() {
-	if c.goods != nil {
-		for key, goods := range c.goods {
-			order_goods := new(models.OrderGoods)
-			order_goods.PriceId=goods.PriceId
-			order_goods.GoodsId=goods.GoodsId
-			c.orderGoods[key] = order_goods
+func (c *Order) formatGoodsPrice() error {
+	if c.goods != nil && len(c.goods) > 0 {
+		ids := []int{}
+		ids_price := []int{}
+		for _, goods := range c.goods {
+			ids = append(ids, goods.GoodsId)
+			ids_price = append(ids_price, goods.PriceId)
 		}
+		//获取商品数据，并按商品ID索引
+		data_goods, err := crud.NewGoodsCrud().GetByIdsIndex(ids)
+		if err != nil {
+			return err
+		}
+		//获取价格数据
+		data_price, err := crud.NewGoodsPriceCrud().GetByIds(ids_price)
+		if err != nil {
+			return err
+		}
+		//整合
+		goods_struct := make(map[int]*models.GoodsStruct)
+		for _, item := range data_price {
+			one := models.NewGoodsStruct()
+			one.Goods = data_goods[item.Id]
+			one.GoodsPrice = &item
+			goods_struct[item.Id] = one
+		}
+		c.goodsStructs = goods_struct
+		return nil
 	}
-
-
+	return util.NewError("商品数据错误")
+}
+func (c *Order) formatOrderGoods() {
+	c.orderGoods = []*models.OrderGoods{}
+	for _, item := range c.goods {
+		goods := c.goodsStructs[item.PriceId]
+		one := &models.OrderGoods{}
+		one.PriceId = item.PriceId
+		//使用自定义价格
+		if c.isCustomPrice {
+			one.Price = item.Price
+		} else {
+			//从商品上获取最新价格
+			one.Price = goods.GoodsPrice.PriceShop
+		}
+		one.PriceShop = goods.GoodsPrice.PriceShop
+		one.GoodsId = goods.Goods.Id
+		one.ProductId = goods.Goods.ProductId
+		one.Num = item.Num
+		one.NumUnit = goods.Goods.NumUnit
+		one.NumTotal = one.Num * one.NumUnit
+		one.Amount = one.Price * float64(one.Num)
+		one.CostPrice = goods.GoodsPrice.PriceShop
+		one.CostAmount = one.CostPrice * float64(one.Num)
+		one.Title = goods.GoodsPrice.Name
+		one.Number = goods.Goods.Number
+		one.WarehouseId = goods.Goods.WarehouseId
+		one.Sid = goods.Goods.Sid
+		one.MarkId = goods.Goods.MarkId
+		c.orderGoods = append(c.orderGoods, one)
+	}
 }

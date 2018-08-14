@@ -71,6 +71,30 @@ func (s *{{.tables_Camel_Case}}Crud) GetById(id int) (*models.{{.tables_Camel_Ca
     return m, nil
 }
 
+// 获取 多条记录
+func (s *{{.tables_Camel_Case}}Crud) GetByIds(id []int) ([]*models.{{.tables_Camel_Case}}, error) {
+    data := {{.tables}}NewMakeDataArr()
+	err := db.Db().Engine.In("id", id).Find(&data)
+    if err != nil {
+        return nil, err
+    }
+    return data, nil
+}
+
+// 获取 多条记录
+func (s *{{.tables_Camel_Case}}Crud) GetByIdsIndex(id []int) (map[int]*models.{{.tables_Camel_Case}}, error) {
+    data := {{.tables}}NewMakeDataArr()
+	err := db.Db().Engine.In("id", id).Find(&data)
+    if err != nil {
+        return nil, err
+    }
+    data_index := make(map[int]*models.{{.tables_Camel_Case}})
+    for _, val := range data {
+        data_index[val.Id] = &val
+    }
+    return data_index, nil
+}
+
 // 删除 单条记录
 func (s *{{.tables_Camel_Case}}Crud) Delete(id int) (int64, error) {
 	m:=new(models.{{.tables_Camel_Case}})
