@@ -7,6 +7,7 @@ import (
 	"github.com/foxiswho/shop-go/module/number"
 	"github.com/foxiswho/shop-go/models/crud"
 	"github.com/foxiswho/shop-go/util"
+	"github.com/foxiswho/shop-go/service/goods_service"
 )
 
 //订单
@@ -26,8 +27,10 @@ type Order struct {
 	goods          []order_service_models.Goods //商品数据
 	orderConsignee models.OrderConsignee
 	ext            order_service_models.Ext
-	order          *models.Order
-	orderGoods     []*models.OrderGoods
+	//
+	order             *models.Order
+	orderGoods        []*models.OrderGoods
+	orderGoodsStructs []*models.OrderGoodsStructure
 	//
 	goodsStructs map[int]*models.GoodsStruct //商品价格数据
 }
@@ -94,7 +97,19 @@ func (c *Order) SetOrderConsignee(orderConsignee models.OrderConsignee) {
 func (c *Order) SetExt(ext order_service_models.Ext) {
 	c.ext = ext
 }
+func (c *Order) Process() (error, *models.Order, []*models.OrderGoods) {
+	//订单数据
+	c.formatOrder()
+	//整合商品价格数据
+	err := c.formatGoodsPrice()
+	if err != nil {
+		return err, nil, nil
+	}
+	c.formatOrderGoods()
+	return nil, c.order, c.orderGoods
+}
 
+//订单数据格式化
 func (c *Order) formatOrder() {
 	order := new(models.Order)
 	order.OrderNo = number.OrderNoMake()
@@ -128,6 +143,8 @@ func (c *Order) formatGoodsPrice() error {
 		if err != nil {
 			return err
 		}
+		warehouse_id := 0
+		sid := 0
 		//整合
 		goods_struct := make(map[int]*models.GoodsStruct)
 		for _, item := range data_price {
@@ -135,8 +152,24 @@ func (c *Order) formatGoodsPrice() error {
 			one.Goods = data_goods[item.Id]
 			one.GoodsPrice = &item
 			goods_struct[item.Id] = one
+			if warehouse_id == 0 {
+				warehouse_id = one.Goods.WarehouseId
+			} else {
+				if warehouse_id != one.Goods.WarehouseId {
+					return util.NewError("商品必须是 同一仓库")
+				}
+			}
+			if sid == 0 {
+				sid = one.Goods.Sid
+			} else {
+				if sid != one.Goods.Sid {
+					return util.NewError("商品必须是 同一供应商")
+				}
+			}
 		}
 		c.goodsStructs = goods_struct
+		c.order.Sid = sid
+		c.order.WarehouseId = warehouse_id
 		return nil
 	}
 	return util.NewError("商品数据错误")
@@ -152,7 +185,7 @@ func (c *Order) formatOrderGoods() {
 			one.Price = item.Price
 		} else {
 			//从商品上获取最新价格
-			one.Price = goods.GoodsPrice.PriceShop
+			one.Price = goods_service.PriceByGoodsPrice(c.user, item.Price)
 		}
 		one.PriceShop = goods.GoodsPrice.PriceShop
 		one.GoodsId = goods.Goods.Id
@@ -169,5 +202,7 @@ func (c *Order) formatOrderGoods() {
 		one.Sid = goods.Goods.Sid
 		one.MarkId = goods.Goods.MarkId
 		c.orderGoods = append(c.orderGoods, one)
+		//订单价格
+		c.order.AmountGoods += one.Amount
 	}
 }

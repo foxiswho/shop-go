@@ -6,6 +6,7 @@ import (
 	"github.com/foxiswho/shop-go/consts/goods"
 	"github.com/foxiswho/shop-go/module/db"
 	"strconv"
+	"fmt"
 )
 
 type GoodsPrice struct {
@@ -30,7 +31,7 @@ func (c *GoodsPrice) SetGoodsPrice(price *models.GoodsPrice) {
 func (c *GoodsPrice) SetPrices(price []*models.GoodsPrice) {
 	c.prices = price
 }
-func (c *GoodsPrice) processPrice() float64 {
+func (c *GoodsPrice) Process() float64 {
 	var price_user float64 = 0
 	//在URL中显示，并且不是默认类别时
 	if 1 == c.goodsPrice.IsUrlShow && goods.Price_Type_Default != c.goodsPrice.PriceTypeSub && c.goodsPrice.IsDel == 0 {
@@ -41,60 +42,8 @@ func (c *GoodsPrice) processPrice() float64 {
 		if len(c.prices) > 0 {
 			//获取优惠属性价格
 			c.getPricesTypeFormat()
-			//是否匹配到优惠价格
-			is_price_find := false
-			if c.pricesTypeFormat != nil && len(c.pricesTypeFormat) > 0 {
-				for _, price := range c.prices {
-					//如果是已删除价格则PASS
-					if price.IsDel {
-						continue
-					}
-					//如果是默认状态则PASS
-					if goods.Price_Type_Default == price.PriceType {
-						continue
-					}
-					//如果是默认优惠状态
-					if goods.Price_Type_Sub_Default == price.PriceTypeSub {
-						price_user = price.PriceShop
-						is_price_find = true
-						break
-					} else if goods.Price_Type_Sub_User == price.PriceTypeSub {
-						//指定用户
-						//是否存在指定用户价格
-						if c.isUserPriceTypeExists(price) {
-							price_user = price.PriceShop
-							is_price_find = true
-							break
-						}
-					} else if goods.Price_Type_Sub_Group == price.PriceTypeSub {
-						//指定用户组
-						//是否存在指定用户组价格
-						if c.isGroupPriceTypeExists(price) {
-							price_user = price.PriceShop
-							is_price_find = true
-							break
-						}
-					} else if goods.Price_Type_Sub_Group == price.PriceTypeSub {
-						//自定义类别
-						//是否存在自定义类别价格
-						if c.isCustomPriceTypeExists(price) {
-							price_user = price.PriceShop
-							is_price_find = true
-							break
-						}
-					}
-				}
-			}
-			//没有匹配到价格，那么使用当前价格
-			if false == is_price_find {
-				//如果是删除的
-				if c.goodsPrice.IsDel == 1 {
-					price_user = 0
-				} else {
-					//使用当前价格
-					price_user = c.goodsPrice.PriceShop
-				}
-			}
+			//匹配价格
+			price_user = c.pricesMatch()
 		} else {
 			//如果是删除的
 			if c.goodsPrice.IsDel == 1 {
@@ -108,7 +57,7 @@ func (c *GoodsPrice) processPrice() float64 {
 }
 
 //优惠价格匹配
-func (c *GoodsPrice) pricesMatch() float64 {
+func (c *GoodsPrice) pricesMatch() (float64) {
 	var price_user float64 = 0
 	is_price_find := false
 	for _, price := range c.prices {
@@ -261,25 +210,13 @@ func (c *GoodsPrice) getPriceTypeByTypeId(price *models.GoodsPrice) bool {
 	return false
 }
 
-func Price(models_price models.GoodsPrice, user session_models.User, prices []*models.GoodsPrice) float64 {
-	goods_price := models_price.PriceShop
-	if len(prices) > 0 {
-		for _, price := range prices {
-			//如果是已删除价格则PASS
-			if price.IsDel {
-				continue
-			}
-
-		}
-	} else {
-		if models_price.IsDel {
-			return 0
-		}
+//取出 当前价格所属商品的 所有优惠价格
+func GetPricesByPrice(price *models.GoodsPrice) []*models.GoodsPrice {
+	//TODO  后期 优化
+	prices := make([]*models.GoodsPrice, 0)
+	err := db.Db().Engine.Where("goods_id =? and is_url_show=0 and is_del=0", price.GoodsId).OrderBy("price_type_sub ASC").Find(&prices)
+	if err != nil {
+		fmt.Errorf(err)
 	}
-	return goods_price
-}
-func priceSwitch(price models.GoodsPrice) {
-	if goods.Price_Type_Sub_User == price.PriceTypeSub {
-
-	}
+	return prices
 }
