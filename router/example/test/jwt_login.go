@@ -2,7 +2,6 @@ package test
 
 import (
 	"github.com/foxiswho/shop-go/module/context"
-	"github.com/foxiswho/echo-go/router/example/test"
 	"fmt"
 	"net/http"
 	"github.com/labstack/echo"
@@ -31,7 +30,7 @@ type JwtCustomClaims struct {
 func JwtLoginPostHandler(c *context.BaseContext) error {
 	c.Response().Header().Del("Access-Control-Allow-Origin")
 	c.Response().Header().Add("Access-Control-Allow-Origin","*")
-	var form test.LoginForm
+	var form LoginForm
 	if err := c.Bind(&form); err == nil {
 		fmt.Println("form",form)
 		u := example_service.GetUserByNicknamePwd(form.Nickname, form.Password)

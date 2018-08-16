@@ -62,7 +62,7 @@ func (c *GoodsPrice) pricesMatch() (float64) {
 	is_price_find := false
 	for _, price := range c.prices {
 		//如果是已删除价格则PASS
-		if price.IsDel {
+		if 1==price.IsDel {
 			continue
 		}
 		//如果是默认状态则PASS
@@ -216,7 +216,7 @@ func GetPricesByPrice(price *models.GoodsPrice) []*models.GoodsPrice {
 	prices := make([]*models.GoodsPrice, 0)
 	err := db.Db().Engine.Where("goods_id =? and is_url_show=0 and is_del=0", price.GoodsId).OrderBy("price_type_sub ASC").Find(&prices)
 	if err != nil {
-		fmt.Errorf(err)
+		fmt.Println(err)
 	}
 	return prices
 }

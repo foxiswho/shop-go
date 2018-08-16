@@ -6,26 +6,26 @@ import (
 )
 
 //订单
-type Order struct {
+type OrderCreate struct {
 	order             *models.Order
 	orderGoods        []*models.OrderGoods
 	orderGoodsStructs []*models.OrderGoodsStructure
 }
 
-func NewOrder() *Order {
-	return new(Order)
+func NewOrderCreate() *OrderCreate {
+	return new(OrderCreate)
 }
 
 //
-func (c *Order) SetOrder(order *models.Order) {
+func (c *OrderCreate) SetOrder(order *models.Order) {
 	c.order = order
 }
 
-func (c *Order) SetOrderGoods(orderGoods []*models.OrderGoods) {
+func (c *OrderCreate) SetOrderGoods(orderGoods []*models.OrderGoods) {
 	c.orderGoods = orderGoods
 }
 
-func (c *Order) process() (error, *models.Order) {
+func (c *OrderCreate) Process() (error, *models.Order) {
 	err := c.saveOrder()
 	if err != nil {
 		return err, nil
@@ -35,7 +35,7 @@ func (c *Order) process() (error, *models.Order) {
 	return nil, c.order
 }
 
-func (c *Order) saveOrder() error {
+func (c *OrderCreate) saveOrder() error {
 	_, err := db.Db().Engine.Insert(c.order)
 	if err != nil {
 		return err
@@ -43,7 +43,7 @@ func (c *Order) saveOrder() error {
 	return nil
 }
 
-func (c *Order) saveOrderGoods() error {
+func (c *OrderCreate) saveOrderGoods() error {
 	for _, item := range c.orderGoods {
 		item.OrderId = c.order.Id
 		_, err := db.Db().Engine.Insert(item)

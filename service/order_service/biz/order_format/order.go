@@ -11,7 +11,7 @@ import (
 )
 
 //订单
-type Order struct {
+type OrderFormat struct {
 	payId          int     //支付方式
 	typeId         int     //类别
 	orderStatus    int     //订单状态
@@ -23,10 +23,10 @@ type Order struct {
 	sid            int     //供应商ID
 	isCustomPrice  bool    //是否使用自定义价格
 	//
-	user           session_models.User
-	goods          []order_service_models.Goods //商品数据
-	orderConsignee models.OrderConsignee
-	ext            order_service_models.Ext
+	user           *session_models.User
+	goods          []*order_service_models.Goods //商品数据
+	orderConsignee *models.OrderConsignee
+	ext            *order_service_models.Ext
 	//
 	order             *models.Order
 	orderGoods        []*models.OrderGoods
@@ -35,69 +35,69 @@ type Order struct {
 	goodsStructs map[int]*models.GoodsStruct //商品价格数据
 }
 
-func NewOrder() *Order {
-	return new(Order)
+func NewOrderFormat() *OrderFormat {
+	return new(OrderFormat)
 }
 
 //支付方式
-func (c *Order) SetPayId(payId int) {
+func (c *OrderFormat) SetPayId(payId int) {
 	c.payId = payId
 }
 
 //类别
-func (c *Order) SetTypeId(typeId int) {
+func (c *OrderFormat) SetTypeId(typeId int) {
 	c.typeId = typeId
 }
 
 //订单状态
-func (c *Order) SetOrderStatus(orderStatus int) {
+func (c *OrderFormat) SetOrderStatus(orderStatus int) {
 	c.orderStatus = orderStatus
 }
 
 //自定义单号
-func (c *Order) SetOrderSn(orderSn string) {
+func (c *OrderFormat) SetOrderSn(orderSn string) {
 	c.orderSn = orderSn
 }
 
-func (c *Order) SetDiscount(discount float64) {
+func (c *OrderFormat) SetDiscount(discount float64) {
 	c.discount = discount
 }
-func (c *Order) SetUseWalletMoney(useWalletMoney float64) {
+func (c *OrderFormat) SetUseWalletMoney(useWalletMoney float64) {
 	c.useWalletMoney = useWalletMoney
 }
 
-func (c *Order) SetUseCredit(useCredit int) {
+func (c *OrderFormat) SetUseCredit(useCredit int) {
 	c.useCredit = useCredit
 }
 
-func (c *Order) SetWarehouseId(warehouseId int) {
+func (c *OrderFormat) SetWarehouseId(warehouseId int) {
 	c.warehouseId = warehouseId
 }
 
-func (c *Order) SetSid(sid int) {
+func (c *OrderFormat) SetSid(sid int) {
 	c.sid = sid
 }
 
-func (c *Order) SetIsCustomPrice(isCustomPrice bool) {
+func (c *OrderFormat) SetIsCustomPrice(isCustomPrice bool) {
 	c.isCustomPrice = isCustomPrice
 }
 
-func (c *Order) SetUser(user session_models.User) {
+func (c *OrderFormat) SetUser(user *session_models.User) {
 	c.user = user
 }
 
-func (c *Order) SetGoods(goods []order_service_models.Goods) {
+func (c *OrderFormat) SetGoods(goods []*order_service_models.Goods) {
 	c.goods = goods
 }
 
-func (c *Order) SetOrderConsignee(orderConsignee models.OrderConsignee) {
+func (c *OrderFormat) SetOrderConsignee(orderConsignee *models.OrderConsignee) {
 	c.orderConsignee = orderConsignee
 }
 
-func (c *Order) SetExt(ext order_service_models.Ext) {
+func (c *OrderFormat) SetExt(ext *order_service_models.Ext) {
 	c.ext = ext
 }
-func (c *Order) Process() (error, *models.Order, []*models.OrderGoods) {
+func (c *OrderFormat) Process() (error, *models.Order, []*models.OrderGoods) {
 	//订单数据
 	c.formatOrder()
 	//整合商品价格数据
@@ -110,7 +110,7 @@ func (c *Order) Process() (error, *models.Order, []*models.OrderGoods) {
 }
 
 //订单数据格式化
-func (c *Order) formatOrder() {
+func (c *OrderFormat) formatOrder() {
 	order := new(models.Order)
 	order.OrderNo = number.OrderNoMake()
 	if len(c.orderSn) > 0 {
@@ -125,7 +125,7 @@ func (c *Order) formatOrder() {
 	order.UseCredit = c.useCredit
 	c.order = order
 }
-func (c *Order) formatGoodsPrice() error {
+func (c *OrderFormat) formatGoodsPrice() error {
 	if c.goods != nil && len(c.goods) > 0 {
 		ids := []int{}
 		ids_price := []int{}
@@ -174,7 +174,7 @@ func (c *Order) formatGoodsPrice() error {
 	}
 	return util.NewError("商品数据错误")
 }
-func (c *Order) formatOrderGoods() {
+func (c *OrderFormat) formatOrderGoods() {
 	c.orderGoods = []*models.OrderGoods{}
 	for _, item := range c.goods {
 		goods := c.goodsStructs[item.PriceId]
@@ -185,7 +185,7 @@ func (c *Order) formatOrderGoods() {
 			one.Price = item.Price
 		} else {
 			//从商品上获取最新价格
-			one.Price = goods_service.PriceByGoodsPrice(c.user, item.Price)
+			one.Price = goods_service.PriceByGoodsPrice(c.user, goods.GoodsPrice)
 		}
 		one.PriceShop = goods.GoodsPrice.PriceShop
 		one.GoodsId = goods.Goods.Id
