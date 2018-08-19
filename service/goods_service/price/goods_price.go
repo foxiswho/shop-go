@@ -4,9 +4,8 @@ import (
 	"github.com/foxiswho/shop-go/models"
 	"github.com/foxiswho/shop-go/models/session_models"
 	"github.com/foxiswho/shop-go/consts/goods"
-	"github.com/foxiswho/shop-go/module/db"
 	"strconv"
-	"fmt"
+	"github.com/foxiswho/shop-go/dao/goods_dao"
 )
 
 type GoodsPrice struct {
@@ -62,7 +61,7 @@ func (c *GoodsPrice) pricesMatch() (float64) {
 	is_price_find := false
 	for _, price := range c.prices {
 		//如果是已删除价格则PASS
-		if 1==price.IsDel {
+		if 1 == price.IsDel {
 			continue
 		}
 		//如果是默认状态则PASS
@@ -199,24 +198,5 @@ func (c *GoodsPrice) getPricesTypeFormat() {
 //在指定价格 是否有指定类别
 func (c *GoodsPrice) getPriceTypeByTypeId(price *models.GoodsPrice) bool {
 	//TODO  后期改成从 缓存取值
-	p := &models.GoodsPriceType{}
-	_, err := db.Db().Engine.Where("price_id=? and type=? and value=?", price.Id, price.PriceTypeSub, c.user.GroupId).Get(&p)
-	if err != nil {
-		return false
-	}
-	if p.Id > 0 {
-		return true
-	}
-	return false
-}
-
-//取出 当前价格所属商品的 所有优惠价格
-func GetPricesByPrice(price *models.GoodsPrice) []*models.GoodsPrice {
-	//TODO  后期 优化
-	prices := make([]*models.GoodsPrice, 0)
-	err := db.Db().Engine.Where("goods_id =? and is_url_show=0 and is_del=0", price.GoodsId).OrderBy("price_type_sub ASC").Find(&prices)
-	if err != nil {
-		fmt.Println(err)
-	}
-	return prices
+	return goods_dao.GetPriceTypeByTypeId(c.user, price)
 }

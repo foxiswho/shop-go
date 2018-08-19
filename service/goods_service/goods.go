@@ -4,6 +4,7 @@ import (
 	"github.com/foxiswho/shop-go/models/session_models"
 	"github.com/foxiswho/shop-go/models"
 	"github.com/foxiswho/shop-go/service/goods_service/price"
+	"github.com/foxiswho/shop-go/dao/goods_dao"
 )
 
 //获取价格 单个商品价格
@@ -17,5 +18,5 @@ func Price(user *session_models.User, goodsPrice *models.GoodsPrice, prices []*m
 
 //获取价格 单个商品价格
 func PriceByGoodsPrice(user *session_models.User, goodsPrice *models.GoodsPrice) float64 {
-	return Price(user, goodsPrice, price.GetPricesByPrice(goodsPrice))
+	return Price(user, goodsPrice, goods_dao.GetPricesByPrice(goodsPrice))
 }
