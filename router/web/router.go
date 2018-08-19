@@ -15,18 +15,9 @@ import (
 	"github.com/foxiswho/shop-go/module/render"
 	"github.com/foxiswho/shop-go/module/session"
 	serviceAuth "github.com/foxiswho/shop-go/service/user_service/auth"
-	serviceAdminAuth "github.com/foxiswho/shop-go/service/admin_service/auth"
 	web_index "github.com/foxiswho/shop-go/router/web/index"
-	web_test "github.com/foxiswho/shop-go/router/example/test"
-	example_admin "github.com/foxiswho/shop-go/router/example/admin"
-	"github.com/foxiswho/shop-go/middleware/authadapter"
-	"github.com/casbin/casbin"
-	auth_casbin "github.com/foxiswho/shop-go/middleware/auth"
-	rbac2 "github.com/foxiswho/shop-go/router/example/admin/rbac"
-	"github.com/foxiswho/shop-go/module/auth/admin_auth"
 	"github.com/foxiswho/shop-go/module/context"
 	"github.com/foxiswho/shop-go/module/auth/auth_middleware"
-	"github.com/foxiswho/shop-go/module/jwt"
 )
 
 //---------
@@ -79,18 +70,6 @@ func Routers() *echo.Echo {
 	if !Conf.Opentracing.Disable {
 		e.Use(opentracing.OpenTracing("web"))
 	}
-	////////////////////////////
-	j := e.Group("/jwt")
-	{
-		//j.Use(context.SetSessionTypeJwt())
-		j.POST("/login", context.Handler(web_test.JwtLoginPostHandler))
-		i := j.Group("/restricted")
-		{
-			i.Use(jwt.GetJwtMiddlewareUser())
-			i.GET("/xx", context.Handler(web_test.JwtTesterHandler))
-		}
-	}
-	////////////////////////////
 	// CSRF
 	e.Use(mw.CSRFWithConfig(mw.CSRFConfig{
 		ContextKey:  "_csrf",
@@ -116,66 +95,6 @@ func Routers() *echo.Echo {
 		about.Use(auth.LoginRequired())
 		{
 			about.GET("", context.Handler(web_index.AboutHandler))
-		}
-		//
-		test := index.Group("/example/test")
-		{
-			test.GET("/jwt/tester", context.Handler(web_test.JwtTesterHandler))
-			test.GET("/jwt/login", context.Handler(web_test.JwtLoginHandler))
-			//test.POST("/jwt/login", context.Handler(web_test.JwtLoginPostHandler))
-			test.GET("/ws", context.Handler(web_test.WsHandler))
-			test.GET("/cache", context.Handler(web_test.CacheHandler))
-			test.GET("/cookie", context.Handler(web_test.NewCookie().IndexHandler))
-			test.GET("/session", context.Handler(web_test.NewSession().IndexHandler))
-			test.GET("/orm", context.Handler(web_test.NewOrm().IndexHandler))
-			test.GET("/login", context.Handler(web_test.LoginHandler))
-			test.POST("/login", context.Handler(web_test.LoginPostHandler))
-			test.GET("/logout", context.Handler(web_test.LogoutHandler))
-			test.GET("/register", context.Handler(web_test.RegisterHandler))
-			test.POST("/register", context.Handler(web_test.RegisterPostHandler))
-			user := test.Group("/user_service")
-			user.Use(auth.LoginRequired())
-			{
-				user.GET("/:id", context.Handler(web_test.UserHandler))
-			}
-			test.GET("/upload", context.Handler(web_test.NewUpload().UploadIndex))
-			test.POST("/upload", context.Handler(web_test.UploadPostIndex))
-			test.POST("/upload-more", context.Handler(web_test.UploadMorePostIndex))
-			test.POST("/upload-db", context.Handler(web_test.UploadDbHandler))
-			test.GET("/jsonp", context.Handler(web_test.JsonpIndexHandler))
-			test.GET("/jsonp-show", context.Handler(web_test.JsonpIndexShowHandler))
-		}
-	}
-	////////////////////////////
-	/////admin
-	admin_login := e.Group("/admin_login")
-	{
-		admin_login.Use(context.SetContextTypeAdmin())
-		admin_login.Use(auth_middleware.NewAdmin(serviceAdminAuth.GenerateAnonymousUser))
-		admin_login.GET("/", context.Handler(example_admin.DefaultHandler))
-		admin_login.GET("/login", context.Handler(example_admin.LoginHandler))
-		admin_login.POST("/login", context.Handler(example_admin.LoginPostHandler))
-		admin_login.GET("/logout", context.Handler(example_admin.LogoutHandler))
-	}
-	admin := e.Group("/admin")
-	{
-		admin.Use(context.SetContextTypeAdmin())
-		admin_login.Use(auth_middleware.NewAdmin(serviceAdminAuth.GenerateAnonymousUser))
-		admin.Use(admin_auth.LoginRequired())
-		{
-			admin.GET("", context.Handler(example_admin.IndexHandler))
-		}
-		rbac := admin.Group("/rbac")
-		{
-			//数据库驱动
-			a := authadapter.NewAdapter("mysql", "")
-			//加载 过滤条件
-			ce := casbin.NewEnforcer("template/casbin/rbac_model.conf", a)
-			//从数据库加载到内存中
-			ce.LoadPolicy()
-			//中间件
-			rbac.Use(auth_casbin.Middleware(ce))
-			rbac.GET("/index", context.Handler(rbac2.IndexHandler))
 		}
 	}
 	return e

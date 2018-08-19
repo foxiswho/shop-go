@@ -3,7 +3,7 @@ package admin_service
 import (
 	"github.com/foxiswho/shop-go/module/db"
 	"github.com/foxiswho/shop-go/models"
-	"github.com/foxiswho/shop-go/models/crud"
+	"github.com/foxiswho/shop-go/dao/crud"
 )
 
 //列表数据

@@ -5,7 +5,7 @@ import (
 	"github.com/foxiswho/shop-go/models/service_models/order_service_models"
 	"github.com/foxiswho/shop-go/models"
 	"github.com/foxiswho/shop-go/module/number"
-	"github.com/foxiswho/shop-go/models/crud"
+	"github.com/foxiswho/shop-go/dao/crud"
 	"github.com/foxiswho/shop-go/util"
 	"github.com/foxiswho/shop-go/service/goods_service"
 )
