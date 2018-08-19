@@ -16,7 +16,7 @@ import (
 	"github.com/foxiswho/shop-go/module/session"
 	serviceAuth "github.com/foxiswho/shop-go/service/user_service/auth"
 	serviceAdminAuth "github.com/foxiswho/shop-go/service/admin_service/auth"
-	web_index "github.com/foxiswho/shop-go/router/web/index"
+	web_index "github.com/foxiswho/shop-go/router/example/index"
 	web_test "github.com/foxiswho/shop-go/router/example/test"
 	example_admin "github.com/foxiswho/shop-go/router/example/admin"
 	"github.com/foxiswho/shop-go/middleware/authadapter"
